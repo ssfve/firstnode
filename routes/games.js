@@ -51,6 +51,7 @@ router.get('/getGameInfo', function(req, res, next) {
             game = results[0]
         }
 
+        res.setHeader("Access-Control-Allow-Origin", "*");
         res.send(JSON.stringify(game));
         //console.log(game)
         //console.log(game.age)
