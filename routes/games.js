@@ -8,11 +8,18 @@ var Game = require('./game');
 var TEST_DATABASE = 'boardgames';
 var TEST_TABLE = 'bggdatacn';
 
-//创建连接
+/*
 var client = mysql.createConnection({
     host: '127.0.0.1',
     user:'root',
     password:'b0@rdg@merule5',
+    port: '3306',
+});
+*/
+var client = mysql.createConnection({
+    host: '127.0.0.1',
+    user:'mysql',
+    password:'MyNewPass4!',
     port: '3306',
 });
 
