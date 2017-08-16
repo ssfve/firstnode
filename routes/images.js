@@ -4,7 +4,6 @@ var URL = require('url')
 var mysql = require('mysql');
 var Game = require('./game');
 var Style = require('./style');
-var Image = require('./image');
 
 /* GET users listing. */
 var TEST_DATABASE = 'boardgames';
@@ -96,29 +95,3 @@ router.get('/getStyleInfo', function(req, res, next) {
 });
 
 
-router.get('/getImageInfo', function(req, res, next) {
-
-    var image = new Image();
-    var params = URL.parse(req.url, true).query;
-
-    //client.connect();
-    client.query("use " + TEST_DATABASE);
-
-    var modSql = 'SELECT * FROM image_table WHERE gameid = ? and pageType = ? and location = ?';
-    var modSqlParams = [params.gameid, params.pageType, params.location];
-
-    client.query(modSql, modSqlParams,
-    function selectCb(err, results, fields) {
-        if (err) {throw err;}
-        //console.log(results)
-        //console.log(results[0].age)
-        if(results){image = results[0]}
-
-        res.setHeader("Access-Control-Allow-Origin", "*");
-        res.send(JSON.stringify(image));
-        //console.log(game)
-        //console.log(game.age)
-        //client.end();
-    });
-
-});
