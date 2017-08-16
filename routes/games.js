@@ -5,6 +5,7 @@ var mysql = require('mysql');
 var Game = require('./game');
 var Style = require('./style');
 var Image = require('./image');
+var Text = require('./text');
 
 /* GET users listing. */
 var TEST_DATABASE = 'boardgames';
@@ -116,6 +117,33 @@ router.get('/getImageInfo', function(req, res, next) {
 
         res.setHeader("Access-Control-Allow-Origin", "*");
         res.send(JSON.stringify(image));
+        //console.log(game)
+        //console.log(game.age)
+        //client.end();
+    });
+
+});
+
+router.get('/getTextInfo', function(req, res, next) {
+
+    var text = new Text();
+    var params = URL.parse(req.url, true).query;
+
+    //client.connect();
+    client.query("use " + TEST_DATABASE);
+
+    var modSql = 'SELECT * FROM text_table WHERE gameid = ? and pageType = ? and location = ?';
+    var modSqlParams = [params.gameid, params.pageType, params.location];
+
+    client.query(modSql, modSqlParams,
+    function selectCb(err, results, fields) {
+        if (err) {throw err;}
+        //console.log(results)
+        //console.log(results[0].age)
+        if(results){text = results[0]}
+
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.send(JSON.stringify(text));
         //console.log(game)
         //console.log(game.age)
         //client.end();
