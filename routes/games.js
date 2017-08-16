@@ -39,7 +39,12 @@ router.get('/getGameInfo', function(req, res, next) {
     //client.connect();
     client.query("use " + TEST_DATABASE);
 
-    var modSql = 'SELECT * FROM bggdatacn WHERE gameid = ?';
+    var lang = [params.lang];
+
+    if lang == 'en':
+        var modSql = 'SELECT * FROM bggdatacn WHERE gameid = ?';
+    if lang == 'cn':
+        var modSql = 'SELECT * FROM bggdata WHERE gameid = ?';
     var modSqlParams = [params.gameid];
 
     client.query(modSql, modSqlParams,
@@ -57,15 +62,7 @@ router.get('/getGameInfo', function(req, res, next) {
         //console.log(game)
         //console.log(game.age)
         //client.end();
-    }
-    );
-    //console.log(game)
-    //res.send(JSON.stringify(game));
-    //console.log(response)
-    //res.send(result);
-    //res.send(field);
-
-
+    });
 });
 
 router.get('/getStyleInfo', function(req, res, next) {
