@@ -39,7 +39,7 @@ router.get('/getGameInfo', function(req, res, next) {
     //client.connect();
     client.query("use " + TEST_DATABASE);
 
-    var modSql = 'SELECT * FROM '+TEST_TABLE+' WHERE gameid = ?';
+    var modSql = 'SELECT * FROM bggdatacn WHERE gameid = ?';
     var modSqlParams = [params.gameid];
 
     client.query(modSql, modSqlParams,
@@ -76,7 +76,7 @@ router.get('/getStyleInfo', function(req, res, next) {
     //client.connect();
     client.query("use " + TEST_DATABASE);
 
-    var modSql = 'SELECT * FROM '+TEST_TABLE+' WHERE gameid = ?';
+    var modSql = 'SELECT * FROM style_table WHERE gameid = ?';
     var modSqlParams = [params.gameid];
 
     client.query(modSql, modSqlParams,
