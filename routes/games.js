@@ -41,10 +41,10 @@ router.get('/getGameInfo', function(req, res, next) {
 
     var lang = [params.lang];
 
-    if (lang == 'en'){
+    if (lang == 'cn'){
         var modSql = 'SELECT * FROM bggdatacn WHERE gameid = ?';
     }
-    if (lang == 'cn'){
+    if (lang == 'en'){
         var modSql = 'SELECT * FROM bggdata WHERE gameid = ?';
     }
     var modSqlParams = [params.gameid];
