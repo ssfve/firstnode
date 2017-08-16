@@ -79,6 +79,7 @@ router.get('/writeTextDB', function(req, res, next) {
     var textID = params.gameid + '_' + params.pageType + '_' + params.location;
     var modSqlParams = [textID, params.text, params.gameid, params.pageType, params.location, params.gameid, params.pageType, params.location];
 
+    console.log(modSql%modSqlParams);
     client.query(modSql, modSqlParams,
     function selectCb(err, results, fields) {
         if (err) {throw err;}
