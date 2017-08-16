@@ -75,7 +75,7 @@ router.get('/writeTextDB', function(req, res, next) {
     //client.connect();
     client.query("use " + TEST_DATABASE);
 
-    var modSql = 'REPLACE INTO (textID,text_content,gameid,pageType,location)values(?,?,?,?,?) text_table WHERE gameid = ? and pageType = ? and location = ?';
+    var modSql = 'REPLACE INTO text_table(textID,text_content,gameid,pageType,location)values(?,?,?,?,?) WHERE gameid = ? and pageType = ? and location = ?';
     var textID = params.gameid + '_' + params.pageType + '_' + params.location;
 
     console.log(textID);
