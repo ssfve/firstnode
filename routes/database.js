@@ -2,8 +2,8 @@ var express = require('express');
 var router = express.Router();
 var URL = require('url')
 var mysql = require('mysql');
-var Game = require('./game');
-var Style = require('./style');
+//var Game = require('./game');
+//var Style = require('./style');
 
 /* GET users listing. */
 var TEST_DATABASE = 'boardgames';
@@ -67,7 +67,7 @@ router.get('/getGameInfo', function(req, res, next) {
     });
 });
 
-router.get('/getStyleInfo', function(req, res, next) {
+router.get('/writeTextDB', function(req, res, next) {
 
     var style = new Style();
     var params = URL.parse(req.url, true).query;
@@ -75,18 +75,19 @@ router.get('/getStyleInfo', function(req, res, next) {
     //client.connect();
     client.query("use " + TEST_DATABASE);
 
-    var modSql = 'SELECT * FROM style_table WHERE gameid = ?';
-    var modSqlParams = [params.gameid];
+    var modSql = 'REPLACE INTO (textID,text_content,gameid,pageType,location)values(?,?,?,?,?) text_table WHERE gameid = ? and pageType = ? and location = ?';
+    var textID = params.gameid + '_' + params.pageType + '_' + params.location;
+    var modSqlParams = [textID, params.text, params.gameid, params.pageType, params.location, params.gameid, params.pageType, params.location];
 
     client.query(modSql, modSqlParams,
     function selectCb(err, results, fields) {
         if (err) {throw err;}
         //console.log(results)
         //console.log(results[0].age)
-        if(results){style = results[0]}
+        //if(results){style = results[0]}
 
         res.setHeader("Access-Control-Allow-Origin", "*");
-        res.send(JSON.stringify(style));
+        res.send("Success");
         //console.log(game)
         //console.log(game.age)
         //client.end();
