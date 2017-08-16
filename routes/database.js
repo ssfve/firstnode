@@ -3,7 +3,7 @@ var router = express.Router();
 var URL = require('url')
 var mysql = require('mysql');
 //var Game = require('./game');
-//var Style = require('./style');
+var Text = require('./text');
 
 /* GET users listing. */
 var TEST_DATABASE = 'boardgames';
@@ -69,7 +69,7 @@ router.get('/getGameInfo', function(req, res, next) {
 
 router.get('/writeTextDB', function(req, res, next) {
 
-    var style = new Style();
+    var text = new Text();
     var params = URL.parse(req.url, true).query;
 
     //client.connect();
