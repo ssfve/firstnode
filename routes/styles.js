@@ -46,24 +46,14 @@ router.get('/getStyleInfo', function(req, res, next) {
         if (err) {throw err;}
         //console.log(results)
         //console.log(results[0].age)
-        if(results)
-        {
-            style = results[0]
-        }
+        if(results){style = results[0]}
 
         res.setHeader("Access-Control-Allow-Origin", "*");
         res.send(JSON.stringify(style));
         //console.log(game)
         //console.log(game.age)
         //client.end();
-    }
-    );
-    //console.log(game)
-    //res.send(JSON.stringify(game));
-    //console.log(response)
-    //res.send(result);
-    //res.send(field);
-
+    });
 
 });
 

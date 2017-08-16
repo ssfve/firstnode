@@ -3,6 +3,7 @@ var router = express.Router();
 var URL = require('url')
 var mysql = require('mysql');
 var Game = require('./game');
+var Style = require('./style');
 
 /* GET users listing. */
 var TEST_DATABASE = 'boardgames';
@@ -67,6 +68,31 @@ router.get('/getGameInfo', function(req, res, next) {
 
 });
 
+router.get('/getStyleInfo', function(req, res, next) {
 
+    var style = new Style();
+    var params = URL.parse(req.url, true).query;
+
+    //client.connect();
+    client.query("use " + TEST_DATABASE);
+
+    var modSql = 'SELECT * FROM '+TEST_TABLE+' WHERE gameid = ?';
+    var modSqlParams = [params.gameid];
+
+    client.query(modSql, modSqlParams,
+    function selectCb(err, results, fields) {
+        if (err) {throw err;}
+        //console.log(results)
+        //console.log(results[0].age)
+        if(results){style = results[0]}
+
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.send(JSON.stringify(style));
+        //console.log(game)
+        //console.log(game.age)
+        //client.end();
+    });
+
+});
 
 
