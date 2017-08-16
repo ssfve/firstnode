@@ -6,7 +6,7 @@ var Style = require('./style');
 
 /* GET users listing. */
 var TEST_DATABASE = 'boardgames';
-var TEST_TABLE = 'bggdatacn';
+var TEST_TABLE = 'style_table';
 
 /*
 var client = mysql.createConnection({
