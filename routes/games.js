@@ -6,6 +6,7 @@ var Game = require('./game');
 var Style = require('./style');
 var Image = require('./image');
 var Text = require('./text');
+var Control = require('./control');
 
 /* GET users listing. */
 var TEST_DATABASE = 'boardgames';
@@ -144,6 +145,33 @@ router.get('/getTextInfo', function(req, res, next) {
 
         res.setHeader("Access-Control-Allow-Origin", "*");
         res.send(JSON.stringify(text));
+        //console.log(game)
+        //console.log(game.age)
+        //client.end();
+    });
+
+});
+
+router.get('/getControlInfo', function(req, res, next) {
+
+    var control = new Control();
+    var params = URL.parse(req.url, true).query;
+
+    //client.connect();
+    client.query("use " + TEST_DATABASE);
+
+    var modSql = 'SELECT * FROM control_table WHERE gameid = ? and pageType = ? and location = ?';
+    var modSqlParams = [params.gameid, params.pageType, params.location];
+
+    client.query(modSql, modSqlParams,
+    function selectCb(err, results, fields) {
+        if (err) {throw err;}
+        //console.log(results)
+        //console.log(results[0].age)
+        if(results){control = results[0]}
+
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.send(JSON.stringify(control));
         //console.log(game)
         //console.log(game.age)
         //client.end();
