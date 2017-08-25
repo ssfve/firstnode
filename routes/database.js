@@ -74,9 +74,11 @@ router.get('/writeTextDB', function(req, res, next) {
 
     //client.connect();
     client.query("use " + TEST_DATABASE);
+    var flag = 'txt'
+    var location = 0
+    var modSql = 'REPLACE INTO text_table (textID, text_content, gameid, pageType, lineNum, location) values (?,?,?,?,?,?)';
 
-    var modSql = 'REPLACE INTO text_table (textID, text_content, gameid, pageType, location) values (?,?,?,?,?)';
-    var textID = params.gameid + '_' + params.pageType + '_' + params.location;
+    var textID = params.gameid + '_' + params.pageType + '_' + flag + '_' + params.lineNum + '_' + location;
 
     //console.log(textID);
     //console.log(params.text);
@@ -84,7 +86,7 @@ router.get('/writeTextDB', function(req, res, next) {
     //console.log(params.pageType);
     //console.log(params.location);
 
-    var modSqlParams = [textID, params.text, params.gameid, params.pageType, params.location];
+    var modSqlParams = [textID, params.text, params.gameid, params.pageType, params.lineNum, location];
 
     //console.log('hello');
     client.query(modSql, modSqlParams,

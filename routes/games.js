@@ -133,8 +133,8 @@ router.get('/getTextInfo', function(req, res, next) {
     //client.connect();
     client.query("use " + TEST_DATABASE);
 
-    var modSql = 'SELECT * FROM text_table WHERE gameid = ? and pageType = ? and location = ?';
-    var modSqlParams = [params.gameid, params.pageType, params.location];
+    var modSql = 'SELECT * FROM text_table WHERE gameid = ? and pageType = ? and lineNum = ?';
+    var modSqlParams = [params.gameid, params.pageType, params.lineNum];
 
     client.query(modSql, modSqlParams,
     function selectCb(err, results, fields) {

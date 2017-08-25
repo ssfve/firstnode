@@ -5,6 +5,7 @@ class Image{
     this.gameid;
     this.pageType;
     this.location;
+    this.lineNum;
     }
 
 }

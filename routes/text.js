@@ -5,6 +5,7 @@ class Text{
     this.gameid
     this.pageType;
     this.location;
+    this.lineNum;
     }
 
 }
