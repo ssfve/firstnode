@@ -152,7 +152,7 @@ router.get('/getTextInfo', function(req, res, next) {
 
 });
 
-router.get('/getControlInfo', function(req, res, next) {
+router.get('/getPageLineNum', function(req, res, next) {
 
     var control = new Control();
     var params = URL.parse(req.url, true).query;
@@ -160,15 +160,15 @@ router.get('/getControlInfo', function(req, res, next) {
     //client.connect();
     client.query("use " + TEST_DATABASE);
 
-    var modSql = 'SELECT * FROM control_table WHERE gameid = ? and pageType = ? and location = ?';
-    var modSqlParams = [params.gameid, params.pageType, params.location];
+    var modSql = 'SELECT lineNum,location,flag FROM control_table WHERE gameid = ? and pageType = ?';
+    var modSqlParams = [params.gameid, params.pageType];
 
     client.query(modSql, modSqlParams,
     function selectCb(err, results, fields) {
         if (err) {throw err;}
         //console.log(results)
         //console.log(results[0].age)
-        if(results){control = results[0]}
+        if(results){control = results}
 
         res.setHeader("Access-Control-Allow-Origin", "*");
         res.send(JSON.stringify(control));

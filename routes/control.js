@@ -5,6 +5,7 @@ class Control{
     this.gameid;
     this.pageType;
     this.location;
+    this.lineNum;
     }
 
 }
