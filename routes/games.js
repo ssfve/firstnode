@@ -106,15 +106,15 @@ router.get('/getImageInfo', function(req, res, next) {
     //client.connect();
     client.query("use " + TEST_DATABASE);
 
-    var modSql = 'SELECT * FROM image_table WHERE gameid = ? and pageType = ? and location = ?';
-    var modSqlParams = [params.gameid, params.pageType, params.location];
+    var modSql = 'SELECT * FROM image_table WHERE gameid = ? and pageType = ? and lineNum = ?';
+    var modSqlParams = [params.gameid, params.pageType, params.lineNum];
 
     client.query(modSql, modSqlParams,
     function selectCb(err, results, fields) {
         if (err) {throw err;}
         //console.log(results)
         //console.log(results[0].age)
-        if(results){image = results[0]}
+        if(results){image = results}
 
         res.setHeader("Access-Control-Allow-Origin", "*");
         res.send(JSON.stringify(image));
