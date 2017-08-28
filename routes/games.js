@@ -160,7 +160,7 @@ router.get('/getPageLineNum', function(req, res, next) {
     //client.connect();
     client.query("use " + TEST_DATABASE);
 
-    var modSql = 'SELECT lineNum,location,flag FROM control_table WHERE gameid = ? and pageType = ?';
+    var modSql = 'SELECT lineNum,location,flag FROM control_table WHERE gameid = ? and pageType = ? order by lineNum';
     var modSqlParams = [params.gameid, params.pageType];
 
     client.query(modSql, modSqlParams,
