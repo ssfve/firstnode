@@ -105,4 +105,117 @@ router.get('/writeTextDB', function(req, res, next) {
 
 });
 
+router.get('/writeImgDB', function(req, res, next) {
 
+    var text = new Text();
+    var params = URL.parse(req.url, true).query;
+
+    //client.connect();
+    client.query("use " + TEST_DATABASE);
+    var flag = 'img'
+    //var location = 0
+    var modSql = 'REPLACE INTO img_table (textID, text_content, gameid, pageType, lineNum, location) values (?,?,?,?,?,?)';
+
+    var textID = params.gameid + '_' + params.pageType + '_' + flag + '_' + params.lineNum + '_' + params.location;
+
+    //console.log(textID);
+    //console.log(params.text);
+    //console.log(params.gameid);
+    //console.log(params.pageType);
+    //console.log(params.location);
+
+    var modSqlParams = [textID, params.text, params.gameid, params.pageType, params.lineNum, location];
+
+    //console.log('hello');
+    client.query(modSql, modSqlParams,
+    function selectCb(err, results, fields) {
+        if (err) {throw err;}
+        //console.log(results)
+        //console.log(results[0].age)
+        //if(results){style = results[0]}
+
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.send("Success");
+        //console.log(game)
+        //console.log(game.age)
+        //client.end();
+    });
+
+});
+
+router.get('/writeControlDB', function(req, res, next) {
+
+    var text = new Text();
+    var params = URL.parse(req.url, true).query;
+
+    //client.connect();
+    client.query("use " + TEST_DATABASE);
+    var flag = 'txt'
+    var location = 0
+    var modSql = 'REPLACE INTO control_table (textID, text_content, gameid, pageType, lineNum, location) values (?,?,?,?,?,?)';
+
+    var textID = params.gameid + '_' + params.pageType + '_' + flag + '_' + params.lineNum + '_' + location;
+
+    //console.log(textID);
+    //console.log(params.text);
+    //console.log(params.gameid);
+    //console.log(params.pageType);
+    //console.log(params.location);
+
+    var modSqlParams = [textID, params.text, params.gameid, params.pageType, params.lineNum, location];
+
+    //console.log('hello');
+    client.query(modSql, modSqlParams,
+    function selectCb(err, results, fields) {
+        if (err) {throw err;}
+        //console.log(results)
+        //console.log(results[0].age)
+        //if(results){style = results[0]}
+
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.send("Success");
+        //console.log(game)
+        //console.log(game.age)
+        //client.end();
+    });
+
+});
+
+router.get('/delControlDB', function(req, res, next) {
+
+    var text = new Text();
+    var params = URL.parse(req.url, true).query;
+
+    //client.connect();
+    client.query("use " + TEST_DATABASE);
+    var flag = 'txt'
+    var location = 0
+    var modSql = 'REPLACE INTO control_table (textID, text_content, gameid, pageType, lineNum, location) values (?,?,?,?,?,?)';
+
+    var textID = params.gameid + '_' + params.pageType + '_' + flag + '_' + params.lineNum + '_' + location;
+
+    //console.log(textID);
+    //console.log(params.text);
+    //console.log(params.gameid);
+    //console.log(params.pageType);
+    //console.log(params.location);
+
+    //var modSqlParams = ['''', params.text, params.gameid, params.pageType, params.lineNum, location];
+    var modSqlParams = ['','','','','',''];
+
+    //console.log('hello');
+    client.query(modSql, modSqlParams,
+    function selectCb(err, results, fields) {
+        if (err) {throw err;}
+        //console.log(results)
+        //console.log(results[0].age)
+        //if(results){style = results[0]}
+
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.send("Success");
+        //console.log(game)
+        //console.log(game.age)
+        //client.end();
+    });
+
+});
