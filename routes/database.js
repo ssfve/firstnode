@@ -190,7 +190,7 @@ router.get('/delControlDB', function(req, res, next) {
     client.query("use " + TEST_DATABASE);
     //var flag = 'txt'
     var location = 0
-    var modSql = 'delete from control_table where segmentID = ? and gameid = ? and pageType = ? lineNum = ? and location = ? and flag = ?';
+    var modSql = 'delete from control_table where segmentID = ? and gameid = ? and pageType = ? and lineNum = ? and location = ? and flag = ?';
 
     var segmentID = params.gameid + '_' + params.pageType + '_' + params.flag + '_' + params.lineNum + '_' + location;
 
