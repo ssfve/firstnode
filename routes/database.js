@@ -114,9 +114,9 @@ router.get('/writeImgDB', function(req, res, next) {
     client.query("use " + TEST_DATABASE);
     var flag = 'img'
     //var location = 0
-    var modSql = 'REPLACE INTO img_table (textID, text_content, gameid, pageType, lineNum, location) values (?,?,?,?,?,?)';
+    var modSql = 'REPLACE INTO img_table (imageID, image_path, gameid, pageType, lineNum, location) values (?,?,?,?,?,?)';
 
-    var textID = params.gameid + '_' + params.pageType + '_' + flag + '_' + params.lineNum + '_' + params.location;
+    var imageID = params.gameid + '_' + params.pageType + '_' + flag + '_' + params.lineNum + '_' + params.location;
 
     //console.log(textID);
     //console.log(params.text);
@@ -124,7 +124,7 @@ router.get('/writeImgDB', function(req, res, next) {
     //console.log(params.pageType);
     //console.log(params.location);
 
-    var modSqlParams = [textID, params.text, params.gameid, params.pageType, params.lineNum, location];
+    var modSqlParams = [imageID, params.path, params.gameid, params.pageType, params.lineNum, location];
 
     //console.log('hello');
     client.query(modSql, modSqlParams,
@@ -150,11 +150,11 @@ router.get('/writeControlDB', function(req, res, next) {
 
     //client.connect();
     client.query("use " + TEST_DATABASE);
-    var flag = 'txt'
+    //var flag = 'txt'
     var location = 0
-    var modSql = 'REPLACE INTO control_table (textID, text_content, gameid, pageType, lineNum, location) values (?,?,?,?,?,?)';
+    var modSql = 'REPLACE INTO control_table (segmentID, gameid, pageType, lineNum, location, flag) values (?,?,?,?,?,?)';
 
-    var textID = params.gameid + '_' + params.pageType + '_' + flag + '_' + params.lineNum + '_' + location;
+    var segmentID = params.gameid + '_' + params.pageType + '_' + params.flag + '_' + params.lineNum + '_' + location;
 
     //console.log(textID);
     //console.log(params.text);
@@ -162,7 +162,7 @@ router.get('/writeControlDB', function(req, res, next) {
     //console.log(params.pageType);
     //console.log(params.location);
 
-    var modSqlParams = [textID, params.text, params.gameid, params.pageType, params.lineNum, location];
+    var modSqlParams = [segmentID, params.gameid, params.pageType, params.lineNum, location, params.flag];
 
     //console.log('hello');
     client.query(modSql, modSqlParams,
@@ -188,11 +188,11 @@ router.get('/delControlDB', function(req, res, next) {
 
     //client.connect();
     client.query("use " + TEST_DATABASE);
-    var flag = 'txt'
+    //var flag = 'txt'
     var location = 0
-    var modSql = 'REPLACE INTO control_table (textID, text_content, gameid, pageType, lineNum, location) values (?,?,?,?,?,?)';
+    var modSql = 'delete from control_table where segmentID = ? and gameid = ? and pageType = ? lineNum = ? and location = ? and flag = ?';
 
-    var textID = params.gameid + '_' + params.pageType + '_' + flag + '_' + params.lineNum + '_' + location;
+    var segmentID = params.gameid + '_' + params.pageType + '_' + params.flag + '_' + params.lineNum + '_' + location;
 
     //console.log(textID);
     //console.log(params.text);
@@ -200,8 +200,8 @@ router.get('/delControlDB', function(req, res, next) {
     //console.log(params.pageType);
     //console.log(params.location);
 
-    //var modSqlParams = ['''', params.text, params.gameid, params.pageType, params.lineNum, location];
-    var modSqlParams = ['','','','','',''];
+    var modSqlParams = [segmentID, params.gameid, params.pageType, params.lineNum, location, params.flag];
+    //var modSqlParams = ['','','','','',''];
 
     //console.log('hello');
     client.query(modSql, modSqlParams,
