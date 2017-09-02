@@ -154,7 +154,7 @@ router.get('/writeControlDB', function(req, res, next) {
     var location = 0
     var modSql = 'REPLACE INTO control_table (segmentID, gameid, pageType, lineNum, location, flag) values (?,?,?,?,?,?)';
 
-    var segmentID = params.gameid + '_' + params.pageType + '_' + params.flag + '_' + params.lineNum + '_' + location;
+    var segmentID = params.gameid + '_' + params.pageType + '_' + params.lineNum + '_' + params.flag
 
     //console.log(textID);
     //console.log(params.text);
