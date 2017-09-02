@@ -114,7 +114,7 @@ router.get('/writeImgDB', function(req, res, next) {
     client.query("use " + TEST_DATABASE);
     var flag = 'img'
     //var location = 0
-    var modSql = 'REPLACE INTO img_table (imageID, image_path, gameid, pageType, lineNum, location) values (?,?,?,?,?,?)';
+    var modSql = 'REPLACE INTO image_table (imageID, image_path, gameid, pageType, lineNum, location) values (?,?,?,?,?,?)';
 
     var imageID = params.gameid + '_' + params.pageType + '_' + flag + '_' + params.lineNum + '_' + params.location;
 
