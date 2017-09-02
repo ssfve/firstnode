@@ -124,7 +124,7 @@ router.get('/writeImgDB', function(req, res, next) {
     //console.log(params.pageType);
     //console.log(params.location);
 
-    var modSqlParams = [imageID, params.path, params.gameid, params.pageType, params.lineNum, location];
+    var modSqlParams = [imageID, params.path, params.gameid, params.pageType, params.lineNum, params.location];
 
     //console.log('hello');
     client.query(modSql, modSqlParams,
