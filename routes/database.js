@@ -219,3 +219,43 @@ router.get('/delControlDB', function(req, res, next) {
     });
 
 });
+
+
+router.get('/delImgDB', function(req, res, next) {
+
+    var text = new Text();
+    var params = URL.parse(req.url, true).query;
+
+    //client.connect();
+    client.query("use " + TEST_DATABASE);
+    //var flag = 'txt'
+    var location = 0
+    var modSql = 'delete from image_table where gameid = ? and pageType = ?';
+
+    var segmentID = params.gameid + '_' + params.pageType + '_' + params.lineNum + '_' + params.flag;
+
+    //console.log(textID);
+    //console.log(params.text);
+    //console.log(params.gameid);
+    //console.log(params.pageType);
+    //console.log(params.location);
+
+    var modSqlParams = [segmentID, params.gameid, params.pageType, params.lineNum, location, params.flag];
+    //var modSqlParams = ['','','','','',''];
+
+    //console.log('hello');
+    client.query(modSql, modSqlParams,
+    function selectCb(err, results, fields) {
+        if (err) {throw err;}
+        //console.log(results)
+        //console.log(results[0].age)
+        //if(results){style = results[0]}
+
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.send("Success");
+        //console.log(game)
+        //console.log(game.age)
+        //client.end();
+    });
+
+});
