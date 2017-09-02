@@ -232,7 +232,7 @@ router.get('/delImgDB', function(req, res, next) {
     var location = 0
     var modSql = 'delete from image_table where gameid = ? and pageType = ?';
 
-    var segmentID = params.gameid + '_' + params.pageType + '_' + params.lineNum + '_' + params.flag;
+    //var segmentID = params.gameid + '_' + params.pageType + '_' + params.lineNum + '_' + params.flag;
 
     //console.log(textID);
     //console.log(params.text);
@@ -240,7 +240,7 @@ router.get('/delImgDB', function(req, res, next) {
     //console.log(params.pageType);
     //console.log(params.location);
 
-    var modSqlParams = [segmentID, params.gameid, params.pageType, params.lineNum, location, params.flag];
+    var modSqlParams = [params.gameid, params.pageType];
     //var modSqlParams = ['','','','','',''];
 
     //console.log('hello');
