@@ -10,12 +10,7 @@ let TEST_DATABASE = 'boardgames';
 let USE_SCHEMA = 'use boardgames';
 let TEST_TABLE = 'bggdatacn';
 
-let log4js = require('log4js');
-
-let app = require('../app');
-console.log(app);
-let log = app.logger('ruleFile');
-
+let log = require('../log4js');
 //let client = mysql.createConnection({
 //    host: '127.0.0.1',
 //    user:'root',
