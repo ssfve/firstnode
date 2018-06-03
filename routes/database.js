@@ -268,6 +268,7 @@ router.get('/getSubPageUrl', function(req, res, next) {
             if(results) {result = results[0]}
             res.setHeader("Access-Control-Allow-Origin", "*");
             res.send(JSON.stringify(result));
+            logger.info(JSON.stringify(result));
         });
 
 });
