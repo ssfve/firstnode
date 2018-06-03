@@ -16,7 +16,7 @@ log4js.configure({
     }
 });
 
-let logger = function(){
-    return log4js.getLogger('ruleFile');
+let logger = function(name){
+    return log4js.getLogger(name);
 };
 module.exports = logger;

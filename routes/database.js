@@ -258,9 +258,10 @@ router.get('/getSubPageUrl', function(req, res, next) {
     let params = URL.parse(req.url, true).query;
     //console.log(params.gameid);
     //console.log(params.pageno);
-    log.level='info';
-    log.INFO(params.pageid);
-    log.info(params.pageno);
+    var logger = log('ruleFile');
+    //log.info
+    logger.info(params.pageid);
+    logger.info(params.pageno);
     let url_id = params.gameid+"_"+params.pageno;
     let modSqlParams = [url_id];
 
