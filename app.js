@@ -63,14 +63,10 @@ log4js.configure({
     }
 });
 
-let logger = log4js.getLogger();
-//app.use(log4js.connectLogger(logger, {level:log4js.levels.INFO}));
-app.use(log4js.connectLogger(logger));
-app.use(app.router);
+let logger = log4js.getLogger('ruleConsole');
 
 exports.logger=function(name){
-    let logger = log4js.getLogger(name);
-    return logger;
+    return log4js.getLogger(name);
 };
 
 module.exports = app;
