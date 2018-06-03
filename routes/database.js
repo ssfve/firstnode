@@ -1,23 +1,22 @@
-var express = require('express');
-var router = express.Router();
-var URL = require('url')
-var mysql = require('mysql');
-//var Game = require('./game');
-var Text = require('./text');
+let express = require('express');
+let router = express.Router();
+let URL = require('url');
+let mysql = require('mysql');
+//let Game = require('./game');
+let Text = require('./text');
 
 /* GET users listing. */
-var TEST_DATABASE = 'boardgames';
-var TEST_TABLE = 'bggdatacn';
+let TEST_DATABASE = 'boardgames';
+let USE_SCHEMA = 'use boardgames';
+let TEST_TABLE = 'bggdatacn';
 
-/*
-var client = mysql.createConnection({
-    host: '127.0.0.1',
-    user:'root',
-    password:'b0@rdg@merule5',
-    port: '3306',
-});
-*/
-var client = mysql.createConnection({
+//let client = mysql.createConnection({
+//    host: '127.0.0.1',
+//    user:'root',
+//    password:'b0@rdg@merule5',
+//    port: '3306',
+//});
+let client = mysql.createConnection({
     host: '127.0.0.1',
     user:'mysql',
     password:'MyNewPass4!',
@@ -33,21 +32,21 @@ module.exports = router;
 
 router.get('/getGameInfo', function(req, res, next) {
 
-    var game = new Game();
-    var params = URL.parse(req.url, true).query;
+    let game = new Game();
+    let params = URL.parse(req.url, true).query;
 
     //client.connect();
     client.query("use " + TEST_DATABASE);
 
-    var lang = [params.lang];
+    let lang = [params.lang];
 
-    if (lang == 'cn'){
-        var modSql = 'SELECT * FROM bggdatacn WHERE gameid = ?';
+    if (lang === 'cn'){
+        let modSql = 'SELECT * FROM bggdatacn WHERE gameid = ?';
     }
-    if (lang == 'en'){
-        var modSql = 'SELECT * FROM bggdata WHERE gameid = ?';
+    if (lang === 'en'){
+        let modSql = 'SELECT * FROM bggdata WHERE gameid = ?';
     }
-    var modSqlParams = [params.gameid];
+    let modSqlParams = [params.gameid];
 
     client.query(modSql, modSqlParams,
     function selectCb(err, results, fields) {
@@ -69,16 +68,16 @@ router.get('/getGameInfo', function(req, res, next) {
 
 router.get('/writeTextDB', function(req, res, next) {
 
-    var text = new Text();
-    var params = URL.parse(req.url, true).query;
+    let text = new Text();
+    let params = URL.parse(req.url, true).query;
 
     //client.connect();
     client.query("use " + TEST_DATABASE);
-    var flag = 'txt'
-    var location = 0
-    var modSql = 'REPLACE INTO text_table (textID, text_content, gameid, pageType, lineNum, location) values (?,?,?,?,?,?)';
+    let flag = 'txt';
+    let location = 0;
+    let modSql = 'REPLACE INTO text_table (textID, text_content, gameid, pageType, lineNum, location) values (?,?,?,?,?,?)';
 
-    var textID = params.gameid + '_' + params.pageType + '_' + flag + '_' + params.lineNum + '_' + location;
+    let textID = params.gameid + '_' + params.pageType + '_' + flag + '_' + params.lineNum + '_' + location;
 
     //console.log(textID);
     //console.log(params.text);
@@ -86,7 +85,7 @@ router.get('/writeTextDB', function(req, res, next) {
     //console.log(params.pageType);
     //console.log(params.location);
 
-    var modSqlParams = [textID, params.text, params.gameid, params.pageType, params.lineNum, location];
+    let modSqlParams = [textID, params.text, params.gameid, params.pageType, params.lineNum, location];
 
     //console.log('hello');
     client.query(modSql, modSqlParams,
@@ -107,16 +106,16 @@ router.get('/writeTextDB', function(req, res, next) {
 
 router.get('/writeImgDB', function(req, res, next) {
 
-    var text = new Text();
-    var params = URL.parse(req.url, true).query;
+    let text = new Text();
+    let params = URL.parse(req.url, true).query;
 
     //client.connect();
     client.query("use " + TEST_DATABASE);
-    var flag = 'img'
-    //var location = 0
-    var modSql = 'REPLACE INTO image_table (imageID, image_path, gameid, pageType, lineNum, location) values (?,?,?,?,?,?)';
+    let flag = 'img';
+    //let location = 0
+    let modSql = 'REPLACE INTO image_table (imageID, image_path, gameid, pageType, lineNum, location) values (?,?,?,?,?,?)';
 
-    var imageID = params.gameid + '_' + params.pageType + '_' + flag + '_' + params.lineNum + '_' + params.location;
+    let imageID = params.gameid + '_' + params.pageType + '_' + flag + '_' + params.lineNum + '_' + params.location;
 
     //console.log(textID);
     //console.log(params.text);
@@ -124,7 +123,7 @@ router.get('/writeImgDB', function(req, res, next) {
     //console.log(params.pageType);
     //console.log(params.location);
 
-    var modSqlParams = [imageID, params.path, params.gameid, params.pageType, params.lineNum, params.location];
+    let modSqlParams = [imageID, params.path, params.gameid, params.pageType, params.lineNum, params.location];
 
     //console.log('hello');
     client.query(modSql, modSqlParams,
@@ -145,16 +144,16 @@ router.get('/writeImgDB', function(req, res, next) {
 
 router.get('/writeControlDB', function(req, res, next) {
 
-    var text = new Text();
-    var params = URL.parse(req.url, true).query;
+    let text = new Text();
+    let params = URL.parse(req.url, true).query;
 
     //client.connect();
     client.query("use " + TEST_DATABASE);
-    //var flag = 'txt'
-    var location = 0
-    var modSql = 'REPLACE INTO control_table (segmentID, gameid, pageType, lineNum, location, flag) values (?,?,?,?,?,?)';
+    //let flag = 'txt'
+    let location = 0;
+    let modSql = 'REPLACE INTO control_table (segmentID, gameid, pageType, lineNum, location, flag) values (?,?,?,?,?,?)';
 
-    var segmentID = params.gameid + '_' + params.pageType + '_' + params.lineNum + '_' + params.flag
+    let segmentID = params.gameid + '_' + params.pageType + '_' + params.lineNum + '_' + params.flag
 
     //console.log(textID);
     //console.log(params.text);
@@ -162,7 +161,7 @@ router.get('/writeControlDB', function(req, res, next) {
     //console.log(params.pageType);
     //console.log(params.location);
 
-    var modSqlParams = [segmentID, params.gameid, params.pageType, params.lineNum, location, params.flag];
+    let modSqlParams = [segmentID, params.gameid, params.pageType, params.lineNum, location, params.flag];
 
     //console.log('hello');
     client.query(modSql, modSqlParams,
@@ -183,16 +182,16 @@ router.get('/writeControlDB', function(req, res, next) {
 
 router.get('/delControlDB', function(req, res, next) {
 
-    var text = new Text();
-    var params = URL.parse(req.url, true).query;
+    let text = new Text();
+    let params = URL.parse(req.url, true).query;
 
     //client.connect();
     client.query("use " + TEST_DATABASE);
-    //var flag = 'txt'
-    var location = 0
-    var modSql = 'delete from control_table where segmentID = ? and gameid = ? and pageType = ? and lineNum = ? and location = ? and flag = ?';
+    //let flag = 'txt'
+    let location = 0;
+    let modSql = 'delete from control_table where segmentID = ? and gameid = ? and pageType = ? and lineNum = ? and location = ? and flag = ?';
 
-    var segmentID = params.gameid + '_' + params.pageType + '_' + params.lineNum + '_' + params.flag;
+    let segmentID = params.gameid + '_' + params.pageType + '_' + params.lineNum + '_' + params.flag;
 
     //console.log(textID);
     //console.log(params.text);
@@ -200,8 +199,8 @@ router.get('/delControlDB', function(req, res, next) {
     //console.log(params.pageType);
     //console.log(params.location);
 
-    var modSqlParams = [segmentID, params.gameid, params.pageType, params.lineNum, location, params.flag];
-    //var modSqlParams = ['','','','','',''];
+    let modSqlParams = [segmentID, params.gameid, params.pageType, params.lineNum, location, params.flag];
+    //let modSqlParams = ['','','','','',''];
 
     //console.log('hello');
     client.query(modSql, modSqlParams,
@@ -223,26 +222,18 @@ router.get('/delControlDB', function(req, res, next) {
 
 router.get('/delImgDB', function(req, res, next) {
 
-    var text = new Text();
-    var params = URL.parse(req.url, true).query;
+    let text = new Text();
+    let params = URL.parse(req.url, true).query;
 
     //client.connect();
     client.query("use " + TEST_DATABASE);
-    //var flag = 'txt'
-    var location = 0
-    var modSql = 'delete from image_table where gameid = ? and pageType = ?';
+    //let flag = 'txt'
+    let location = 0;
+    let modSql = 'delete from image_table where gameid = ? and pageType = ?';
 
-    //var segmentID = params.gameid + '_' + params.pageType + '_' + params.lineNum + '_' + params.flag;
-
-    //console.log(textID);
-    //console.log(params.text);
-    //console.log(params.gameid);
-    //console.log(params.pageType);
-    //console.log(params.location);
-
-    var modSqlParams = [params.gameid, params.pageType];
-    //var modSqlParams = ['','','','','',''];
-
+    //let segmentID = params.gameid + '_' + params.pageType + '_' + params.lineNum + '_' + params.flag;
+    let modSqlParams = [params.gameid, params.pageType];
+    //let modSqlParams = ['','','','','',''];
     //console.log('hello');
     client.query(modSql, modSqlParams,
     function selectCb(err, results, fields) {
@@ -250,12 +241,29 @@ router.get('/delImgDB', function(req, res, next) {
         //console.log(results)
         //console.log(results[0].age)
         //if(results){style = results[0]}
-
         res.setHeader("Access-Control-Allow-Origin", "*");
         res.send("Success");
         //console.log(game)
         //console.log(game.age)
         //client.end();
     });
+
+});
+
+router.get('/getSubPageUrl', function(req, res, next) {
+    let modSql = 'select url from mapping_gameid_jingyan where url_id = ?';
+
+    let params = URL.parse(req.url, true).query;
+    let url_id = params.gameid+"_"+params.pageno;
+    let modSqlParams = [url_id];
+
+    client.query(USE_SCHEMA);
+    client.query(modSql, modSqlParams,
+        function selectCb(err, results, fields) {
+            if (err) {throw err;}
+            if(results) {result = results[0]}
+            res.setHeader("Access-Control-Allow-Origin", "*");
+            res.send(JSON.stringify(result));
+        });
 
 });
