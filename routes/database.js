@@ -270,5 +270,29 @@ router.get('/getSubPageUrl', function(req, res, next) {
             res.send(JSON.stringify(result));
             logger.info(JSON.stringify(result));
         });
+});
+
+router.get('/getIfHasSubPage', function(req, res, next) {
+    let modSql = 'select count(*) from mapping_gameid_jingyan where gameid = ?';
+    logger.info("in getIfHasSubPage");
+    let params = URL.parse(req.url, true).query;
+    logger.info(params.gameid);
+    let modSqlParams = [gameid];
+
+    client.query(USE_SCHEMA);
+    client.query(modSql, modSqlParams,
+        function selectCb(err, results, fields) {
+            if (err) {throw err;}
+            res.setHeader("Access-Control-Allow-Origin", "*");
+            if(results) {
+                result = results[0];
+                logger.info(result);
+                if(result.value>0){
+                    res.send(JSON.stringify(result));
+                }else{
+                    res.send("fail");
+                }
+            }
+        });
 
 });
