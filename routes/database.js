@@ -9,7 +9,7 @@ let Text = require('./text');
 let TEST_DATABASE = 'boardgames';
 let USE_SCHEMA = 'use boardgames';
 let TEST_TABLE = 'bggdatacn';
-let logger = require('../app').logger('ruleFile');
+let log = require('../app').logger('ruleFile');
 
 //let client = mysql.createConnection({
 //    host: '127.0.0.1',
@@ -257,8 +257,8 @@ router.get('/getSubPageUrl', function(req, res, next) {
     let params = URL.parse(req.url, true).query;
     //console.log(params.gameid);
     //console.log(params.pageno);
-    logger.info(params.pageid);
-    logger.info(params.pageno);
+    log.info(params.pageid);
+    log.info(params.pageno);
     let url_id = params.gameid+"_"+params.pageno;
     let modSqlParams = [url_id];
 
