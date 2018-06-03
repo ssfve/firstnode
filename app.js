@@ -63,6 +63,8 @@ log4js.configure({
     }
 });
 
+//app.use(router);
+
 module.exports = {
     app,
     logger: function(name){
