@@ -63,8 +63,6 @@ log4js.configure({
     }
 });
 
-let logger = log4js.getLogger('ruleFile');
-
 module.exports = {
     app,
     logger: function(name){
