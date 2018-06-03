@@ -10,7 +10,9 @@ let TEST_DATABASE = 'boardgames';
 let USE_SCHEMA = 'use boardgames';
 let TEST_TABLE = 'bggdatacn';
 
-let app = require('app');
+let log4js = require('log4js');
+
+let app = require('../app');
 console.log(app);
 let log = app.logger('ruleFile');
 
