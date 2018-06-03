@@ -277,19 +277,20 @@ router.get('/getIfHasSubPage', function(req, res, next) {
     logger.info("in getIfHasSubPage");
     let params = URL.parse(req.url, true).query;
     logger.info(params.gameid);
-    let modSqlParams = [gameid];
+    let modSqlParams = [params.gameid];
 
     client.query(USE_SCHEMA);
     client.query(modSql, modSqlParams,
         function selectCb(err, results, fields) {
             if (err) {throw err;}
-            res.setHeader("Access-Control-Allow-Origin", "*");
             if(results) {
                 result = results[0];
                 logger.info(result);
                 if(result.value>0){
+                    res.setHeader("Access-Control-Allow-Origin", "*");
                     res.send(JSON.stringify(result));
                 }else{
+                    res.setHeader("Access-Control-Allow-Origin", "*");
                     res.send("fail");
                 }
             }
