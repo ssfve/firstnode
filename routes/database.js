@@ -286,9 +286,10 @@ router.get('/getIfHasSubPage', function(req, res, next) {
             if(results) {
                 result = results[0];
                 logger.info(result);
-                if(result.value>0){
+                logger.info(result["count(*)"]);
+                if(result["count(*)"]>0){
                     res.setHeader("Access-Control-Allow-Origin", "*");
-                    res.send(JSON.stringify(result));
+                    res.send(JSON.stringify(result["count(*)"]));
                 }else{
                     res.setHeader("Access-Control-Allow-Origin", "*");
                     res.send("fail");
