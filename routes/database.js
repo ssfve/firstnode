@@ -9,7 +9,8 @@ let Text = require('./text');
 let TEST_DATABASE = 'boardgames';
 let USE_SCHEMA = 'use boardgames';
 let TEST_TABLE = 'bggdatacn';
-let log = require('../app').logger('ruleFile');
+let log = require('../app');
+console.log(typeof log.logger('ruleFile'));
 
 //let client = mysql.createConnection({
 //    host: '127.0.0.1',
