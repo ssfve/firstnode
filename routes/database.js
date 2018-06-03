@@ -252,8 +252,11 @@ router.get('/delImgDB', function(req, res, next) {
 
 router.get('/getSubPageUrl', function(req, res, next) {
     let modSql = 'select url from mapping_gameid_jingyan where url_id = ?';
-
+    console.log("in getSubPageUrl");
+    
     let params = URL.parse(req.url, true).query;
+    console.log(params.gameid);
+    console.log(params.pageno);
     let url_id = params.gameid+"_"+params.pageno;
     let modSqlParams = [url_id];
 
