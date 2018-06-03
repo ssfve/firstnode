@@ -10,7 +10,8 @@ let TEST_DATABASE = 'boardgames';
 let USE_SCHEMA = 'use boardgames';
 let TEST_TABLE = 'bggdatacn';
 
-let log = require('../log4js');
+let log = require('../log4js.js');
+console.log(typeof log);
 //let client = mysql.createConnection({
 //    host: '127.0.0.1',
 //    user:'root',
@@ -257,7 +258,8 @@ router.get('/getSubPageUrl', function(req, res, next) {
     let params = URL.parse(req.url, true).query;
     //console.log(params.gameid);
     //console.log(params.pageno);
-    log.info(params.pageid);
+    log.level='info';
+    log.INFO(params.pageid);
     log.info(params.pageno);
     let url_id = params.gameid+"_"+params.pageno;
     let modSqlParams = [url_id];
