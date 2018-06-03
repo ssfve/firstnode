@@ -63,7 +63,7 @@ log4js.configure({
     }
 });
 
-let logger = log4js.getLogger('ruleConsole');
+let logger = log4js.getLogger('ruleFile');
 
 exports.logger=function(name){
     return log4js.getLogger(name);
