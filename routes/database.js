@@ -9,6 +9,7 @@ let Text = require('./text');
 let TEST_DATABASE = 'boardgames';
 let USE_SCHEMA = 'use boardgames';
 let TEST_TABLE = 'bggdatacn';
+let logger = require('../app').logger('ruleFile');
 
 //let client = mysql.createConnection({
 //    host: '127.0.0.1',
@@ -253,10 +254,11 @@ router.get('/delImgDB', function(req, res, next) {
 router.get('/getSubPageUrl', function(req, res, next) {
     let modSql = 'select url from mapping_gameid_jingyan where url_id = ?';
     console.log("in getSubPageUrl");
-
     let params = URL.parse(req.url, true).query;
-    console.log(params.gameid);
-    console.log(params.pageno);
+    //console.log(params.gameid);
+    //console.log(params.pageno);
+    logger.info(params.pageid);
+    logger.info(params.pageno);
     let url_id = params.gameid+"_"+params.pageno;
     let modSqlParams = [url_id];
 
