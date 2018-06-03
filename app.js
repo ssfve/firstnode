@@ -56,8 +56,7 @@ log4js.configure({
             backups:3,
             category: 'normal'
         }
-    ],
-    replaceConsole: true
+    ]
 });
 
 let logger = log4js.getLogger('normal');
