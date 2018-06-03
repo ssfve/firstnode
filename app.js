@@ -1,17 +1,17 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-//var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
+let express = require('express');
+let path = require('path');
+let favicon = require('serve-favicon');
+//let logger = require('morgan');
+let cookieParser = require('cookie-parser');
+let bodyParser = require('body-parser');
 
-var index = require('./routes/index');
-var users = require('./routes/users');
-var games = require('./routes/games');
-var database = require('./routes/database');
-var log4js = require('log4js');
+let index = require('./routes/index');
+let users = require('./routes/users');
+let games = require('./routes/games');
+let database = require('./routes/database');
+let log4js = require('log4js');
 
-var app = express();
+let app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -47,12 +47,19 @@ app.use(function(err, req, res, next) {
 });
 
 log4js.configure({
-    appenders:{
-        type: 'file', //文件输出
-        filename:'logs/access.log',
-        maxLogSize:1024,
-        backups:3,
-        category:'normal'
+    appenders: {
+        ruleConsole: {type: 'console'},
+        ruleFile: {
+            type: 'dateFile',
+            filename: 'logs/server-',
+            pattern: 'yyyy-MM-dd.log',
+            maxLogSize: 10 * 1000 * 1000,
+            numBackups: 3,
+            alwaysIncludePattern: true
+        }
+    },
+    categories: {
+        default: {appenders: ['ruleConsole', 'ruleFile'], level: 'info'}
     }
 });
 
@@ -63,9 +70,9 @@ app.use(log4js.connectLogger(logger, {level:log4js.levels.INFO, format:':method 
 app.use(app.router);
 
 exports.logger=function(name){
-    var logger = log4js.getLogger(name);
+    let logger = log4js.getLogger(name);
     logger.setLevel('INFO');
     return logger;
-}
+};
 
 module.exports = app;
