@@ -214,8 +214,10 @@ router.get('/savePDF', {encoding: 'binary'}, function (req, res) {
 
 router.get('/loadPDF', function (req, res) {
 
+    console.log('hello');
     let params = URL.parse(req.url, true).query;
     res.download(params.name);
+    console.log('in');
     res.end("END")
 
 });
