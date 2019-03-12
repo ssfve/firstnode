@@ -214,10 +214,11 @@ router.get('/savePDF', function (req, res, next) {
 
 router.get('/loadPDF', function (req, res, next) {
 
-    console.log('hello');
+    //console.log('hello');
     let params = URL.parse(req.url, true).query;
+    console.log(params.name);
     res.download(params.name);
-    console.log('in');
+    //console.log('in');
     res.end("END")
 
 });
