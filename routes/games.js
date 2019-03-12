@@ -198,7 +198,7 @@ router.get('/getPageLineNum', function (req, res, next) {
 
 });
 
-router.get('/savePDF', {encoding: 'binary'}, function (req, res, next) {
+router.get('/savePDF', function (req, res, next) {
 
     let form = new formidable.IncomingForm();
     form.uploadDir = "/var/tmp/pdf";
