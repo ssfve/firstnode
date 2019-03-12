@@ -216,6 +216,7 @@ router.get('/loadPDF', function (req, res) {
 
     let params = URL.parse(req.url, true).query;
     res.download(params.name);
+    res.end("END")
 
 });
 
