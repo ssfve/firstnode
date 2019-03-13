@@ -181,8 +181,8 @@ router.get('/selectPDFInfo', function (req, res) {
         });
 });
 
-router.get('/savePDF', function (req, res) {
-
+router.post('/savePDF', function (req, res) {
+    console.log("request to upload " + params.name);
     let form = new formidable.IncomingForm();
     form.uploadDir = "/var/tmp/pdf";
     form.keepExtensions = true;
