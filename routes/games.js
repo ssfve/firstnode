@@ -9,6 +9,7 @@ let Text = require('./text');
 let Control = require('./control');
 let formidable = require('formidable');
 let util = require('util');
+let fs = require('fs');
 
 /* GET users listing. */
 let TEST_DATABASE = 'boardgames';
@@ -213,11 +214,17 @@ router.get('/savePDF', function (req, res, next) {
 });
 
 router.get('/loadPDF', function (req, res, next) {
-
     let params = URL.parse(req.url, true).query;
-    console.log(params.name);
-    res.download("/var/tmp/pdf/"+params.name);
+    console.log("request to download " + params.name);
+    res.download("/var/tmp/pdf/" + params.name);
+});
 
+router.delete('/deletePDF', function (req, res, next) {
+    let params = URL.parse(req.url, true).query;
+    console.log("request to delete " + params.name);
+    fs.unlink("/var/tmp/pdf/" + params.name, function () {
+        res.send({status: "200", responseType: "String", response: "success"})
+    })
 });
 
 router.get('/savePDFinfo', function (req, res, next) {
