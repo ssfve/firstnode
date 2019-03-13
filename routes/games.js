@@ -188,10 +188,11 @@ router.post('/savePDF', function (req, res) {
     form.keepExtensions = true;
     form.maxFileSize = 100 * 1024 * 1024;
     form.parse(req, function (err, fields, files) {
-        //console.log("request to upload " + files.pdf_file);
+        console.log("uploadDir is " + form.uploadDir);
         //res.writeHead(200, {'content-type': 'text/plain'});
         //res.write('received upload:\n\n');
-        res.send(util.inspect({fields: fields, files: files}));
+        //res.end(util.inspect({fields: fields, files: files}));
+        res.send("well done")
     });
 
     form.on('progress',function(bytesReceived, bytesExpected){
