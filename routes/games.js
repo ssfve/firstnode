@@ -42,13 +42,9 @@ router.get('/getGameInfo', function (req, res) {
     let params = URL.parse(req.url, true).query;
     client.query("use " + TEST_DATABASE);
 
-    let lang = [params.lang];
-
-    if (lang === 'cn') {
-        let modSql = 'SELECT * FROM bggdatacn WHERE gameid = ?';
-    }
-    if (lang === 'en') {
-        let modSql = 'SELECT * FROM bggdata WHERE gameid = ?';
+    let modSql = 'SELECT * FROM bggdatacn WHERE gameid = ?';
+    if (params.lang === 'en') {
+        modSql = 'SELECT * FROM bggdata WHERE gameid = ?';
     }
     let modSqlParams = [params.gameid];
 
@@ -190,11 +186,11 @@ router.post('/savePDF', function (req, res) {
         res.send("WELL DONE");
     });
 
-    form.on('file', function(field, file){
+    form.on('file', function (field, file) {
         fs.rename(file.path, form.uploadDir + "/" + file.name)
     });
 
-    form.on('progress',function(bytesReceived, bytesExpected){
+    form.on('progress', function (bytesReceived, bytesExpected) {
         //console.log(bytesReceived + '/' + bytesExpected + ' bytes')
     });
 });
