@@ -187,11 +187,7 @@ router.post('/savePDF', function (req, res) {
     form.uploadDir = "/var/tmp/pdf";
     form.keepExtensions = true;
     form.parse(req, function (err, fields, files) {
-        //console.log("uploadDir is " + form.uploadDir);
-        //res.writeHead(200, {'content-type': 'text/plain'});
-        //res.write('received upload:\n\n');
-        res.send(util.inspect({fields: fields, files: files}));
-        //res.send("well done")
+        res.send("WELL DONE");
     });
 
     form.on('file', function(field, file){
