@@ -194,6 +194,10 @@ router.post('/savePDF', function (req, res) {
         res.send(util.inspect({fields: fields, files: files}));
     });
 
+    form.on('progress',function(bytesReceived, bytesExpected){
+        console.log(bytesReceived + '/' + bytesExpected + ' bytes')
+    });
+
 });
 
 router.get('/loadPDF', function (req, res) {
