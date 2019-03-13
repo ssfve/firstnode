@@ -182,12 +182,12 @@ router.get('/selectPDFInfo', function (req, res) {
 });
 
 router.post('/savePDF', function (req, res) {
-    console.log("request to upload " + params.name);
     let form = new formidable.IncomingForm();
     form.uploadDir = "/var/tmp/pdf";
     form.keepExtensions = true;
     form.maxFileSize = 100 * 1024 * 1024;
     form.parse(req, function (err, fields, files) {
+        //console.log("request to upload " + files.pdf_file);
         res.writeHead(200, {'content-type': 'text/plain'});
         res.write('received upload:\n\n');
         res.end(util.inspect({fields: fields, files: files}));
