@@ -191,12 +191,13 @@ router.post('/savePDF', function (req, res) {
         //console.log("request to upload " + files.pdf_file);
         //res.writeHead(200, {'content-type': 'text/plain'});
         //res.write('received upload:\n\n');
-        res.send(util.inspect({fields: fields, files: files}));
     });
 
     form.on('progress',function(bytesReceived, bytesExpected){
         console.log(bytesReceived + '/' + bytesExpected + ' bytes')
     });
+
+    res.send(util.inspect({fields: fields, files: files}));
 
 });
 
