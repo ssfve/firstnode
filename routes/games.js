@@ -199,7 +199,7 @@ router.post('/savePDF', function (req, res) {
     });
 
     form.on('progress',function(bytesReceived, bytesExpected){
-        console.log(bytesReceived + '/' + bytesExpected + ' bytes')
+        //console.log(bytesReceived + '/' + bytesExpected + ' bytes')
     });
 });
 
