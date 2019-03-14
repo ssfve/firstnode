@@ -216,7 +216,7 @@ router.get('/savePDFInfo', function (req, res) {
 
     let modSql = 'INSERT INTO upload_data (approve_bit,uploaded_bit,pdf_name,crop_len,rulebook_name,search_name,lang_name,source_name,source_detail)' +
         ' values (?,?,?,?,?,?,?,?,?)';
-    let modSqlParams = [0, 0, params.pdf_name, params.crop_len, params.rulebook_name, params.search_name, params.lang_name, params.source_name, params.source_detail];
+    let modSqlParams = [1, 0, params.pdf_name, params.crop_len, params.rulebook_name, params.search_name, params.lang_name, params.source_name, params.source_detail];
 
     client.query(modSql, modSqlParams,
         function selectCb(err, results) {
