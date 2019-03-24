@@ -257,9 +257,9 @@ router.get('/saveTranslateInfo', function (req, res) {
     let params = URL.parse(req.url, true).query;
     client.query("use " + TEST_DATABASE);
 
-    let modSql = 'INSERT INTO translate_data (translated_bit,pdf_name)' +
-        ' values (?,?)';
-    let modSqlParams = [0, params.pdf_name];
+    let modSql = 'INSERT INTO translate_data (translated_bit,pdf_name,receiver_email)' +
+        ' values (?,?,?)';
+    let modSqlParams = [0, params.pdf_name, params.receiver_email];
 
     client.query(modSql, modSqlParams,
         function selectCb(err, results) {
