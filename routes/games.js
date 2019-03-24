@@ -251,3 +251,25 @@ router.get('/approvePDFInfo', function (req, res) {
             res.send(JSON.stringify(control));
         });
 });
+
+router.get('/saveTranslateInfo', function (req, res) {
+    let control = new Control();
+    let params = URL.parse(req.url, true).query;
+    client.query("use " + TEST_DATABASE);
+
+    let modSql = 'INSERT INTO translate_data (translated_bit,pdf_name)' +
+        ' values (?,?)';
+    let modSqlParams = [0, params.pdf_name];
+
+    client.query(modSql, modSqlParams,
+        function selectCb(err, results) {
+            if (err) {
+                throw err;
+            }
+            if (results) {
+                control = results
+            }
+            res.setHeader("Access-Control-Allow-Origin", "*");
+            res.send(JSON.stringify(control));
+        });
+});
