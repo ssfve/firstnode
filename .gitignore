@@ -1,3 +1,4 @@
+logs/*
 nodejs.nohup.out
 npm-debug.log
 node_modules/*
