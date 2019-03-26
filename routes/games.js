@@ -1,180 +1,275 @@
-var express = require('express');
-var router = express.Router();
-var URL = require('url')
-var mysql = require('mysql');
-var Game = require('./game');
-var Style = require('./style');
-var Image = require('./image');
-var Text = require('./text');
-var Control = require('./control');
+let express = require('express');
+let router = express();
+let URL = require('url');
+let mysql = require('mysql');
+let Game = require('./game');
+let Style = require('./style');
+let Image = require('./image');
+let Text = require('./text');
+let Control = require('./control');
+let formidable = require('formidable');
+let util = require('util');
+let fs = require('fs');
 
 /* GET users listing. */
-var TEST_DATABASE = 'boardgames';
-var TEST_TABLE = 'bggdatacn';
+let TEST_DATABASE = 'boardgames';
+let TEST_TABLE = 'bggdatacn';
 
 /*
-var client = mysql.createConnection({
+let client = mysql.createConnection({
     host: '127.0.0.1',
     user:'root',
     password:'b0@rdg@merule5',
     port: '3306',
 });
 */
-var client = mysql.createConnection({
+let client = mysql.createConnection({
     host: '127.0.0.1',
-    user:'mysql',
-    password:'MyNewPass4!',
+    user: 'mysql',
+    password: 'MyNewPass4!',
     port: '3306',
 });
 
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+router.get('/', function (req, res, next) {
+    res.send('respond with games resource');
 });
 
 module.exports = router;
 
+router.get('/getGameInfo', function (req, res) {
 
-router.get('/getGameInfo', function(req, res, next) {
-
-    var game = new Game();
-    var params = URL.parse(req.url, true).query;
-
-    //client.connect();
+    let game = new Game();
+    let params = URL.parse(req.url, true).query;
     client.query("use " + TEST_DATABASE);
 
-    var lang = [params.lang];
-
-    if (lang == 'cn'){
-        var modSql = 'SELECT * FROM bggdatacn WHERE gameid = ?';
+    let modSql = 'SELECT * FROM bggdatacn WHERE gameid = ?';
+    if (params.lang === 'en') {
+        modSql = 'SELECT * FROM bggdata WHERE gameid = ?';
     }
-    if (lang == 'en'){
-        var modSql = 'SELECT * FROM bggdata WHERE gameid = ?';
-    }
-    var modSqlParams = [params.gameid];
+    let modSqlParams = [params.gameid];
 
     client.query(modSql, modSqlParams,
-    function selectCb(err, results, fields) {
-        if (err) {throw err;}
-        //console.log(results)
-        //console.log(results[0].age)
-        if(results)
-        {
-            game = results[0]
-        }
-
-        res.setHeader("Access-Control-Allow-Origin", "*");
-        res.send(JSON.stringify(game));
-        //console.log(game)
-        //console.log(game.age)
-        //client.end();
-    });
+        function selectCb(err, results) {
+            if (err) {
+                throw err;
+            }
+            if (results) {
+                game = results[0]
+            }
+            res.setHeader("Access-Control-Allow-Origin", "*");
+            res.send(JSON.stringify(game));
+        });
 });
 
-router.get('/getStyleInfo', function(req, res, next) {
+router.get('/getStyleInfo', function (req, res, next) {
 
-    var style = new Style();
-    var params = URL.parse(req.url, true).query;
-
-    //client.connect();
+    let style = new Style();
+    let params = URL.parse(req.url, true).query;
     client.query("use " + TEST_DATABASE);
 
-    var modSql = 'SELECT * FROM style_table WHERE gameid = ?';
-    var modSqlParams = [params.gameid];
+    let modSql = 'SELECT * FROM style_table WHERE gameid = ?';
+    let modSqlParams = [params.gameid];
 
     client.query(modSql, modSqlParams,
-    function selectCb(err, results, fields) {
-        if (err) {throw err;}
-        //console.log(results)
-        //console.log(results[0].age)
-        if(results){style = results[0]}
-
-        res.setHeader("Access-Control-Allow-Origin", "*");
-        res.send(JSON.stringify(style));
-        //console.log(game)
-        //console.log(game.age)
-        //client.end();
-    });
-
+        function selectCb(err, results, fields) {
+            if (err) {
+                throw err;
+            }
+            if (results) {
+                style = results[0]
+            }
+            res.setHeader("Access-Control-Allow-Origin", "*");
+            res.send(JSON.stringify(style));
+        });
 });
 
 
-router.get('/getImageInfo', function(req, res, next) {
+router.get('/getImageInfo', function (req, res) {
 
-    var image = new Image();
-    var params = URL.parse(req.url, true).query;
+    let image = new Image();
+    let params = URL.parse(req.url, true).query;
 
-    //client.connect();
     client.query("use " + TEST_DATABASE);
 
-    var modSql = 'SELECT * FROM image_table WHERE gameid = ? and pageType = ? and lineNum = ?';
-    var modSqlParams = [params.gameid, params.pageType, params.lineNum];
+    let modSql = 'SELECT * FROM image_table WHERE gameid = ? and pageType = ? and lineNum = ?';
+    let modSqlParams = [params.gameid, params.pageType, params.lineNum];
 
     client.query(modSql, modSqlParams,
-    function selectCb(err, results, fields) {
-        if (err) {throw err;}
-        //console.log(results)
-        //console.log(results[0].age)
-        if(results){image = results}
-
-        res.setHeader("Access-Control-Allow-Origin", "*");
-        res.send(JSON.stringify(image));
-        //console.log(game)
-        //console.log(game.age)
-        //client.end();
-    });
+        function selectCb(err, results) {
+            if (err) {
+                throw err;
+            }
+            if (results) {
+                image = results
+            }
+            res.setHeader("Access-Control-Allow-Origin", "*");
+            res.send(JSON.stringify(image));
+        });
 
 });
 
-router.get('/getTextInfo', function(req, res, next) {
+router.get('/getTextInfo', function (req, res) {
 
-    var text = new Text();
-    var params = URL.parse(req.url, true).query;
+    let text = new Text();
+    let params = URL.parse(req.url, true).query;
 
-    //client.connect();
     client.query("use " + TEST_DATABASE);
 
-    var modSql = 'SELECT * FROM text_table WHERE gameid = ? and pageType = ? and lineNum = ?';
-    var modSqlParams = [params.gameid, params.pageType, params.lineNum];
+    let modSql = 'SELECT * FROM text_table WHERE gameid = ? and pageType = ? and lineNum = ?';
+    let modSqlParams = [params.gameid, params.pageType, params.lineNum];
 
     client.query(modSql, modSqlParams,
-    function selectCb(err, results, fields) {
-        if (err) {throw err;}
-        //console.log(results)
-        //console.log(results[0].age)
-        if(results){text = results[0]}
-
-        res.setHeader("Access-Control-Allow-Origin", "*");
-        res.send(JSON.stringify(text));
-        //console.log(game)
-        //console.log(game.age)
-        //client.end();
-    });
+        function selectCb(err, results) {
+            if (err) {
+                throw err;
+            }
+            if (results) {
+                text = results[0]
+            }
+            res.setHeader("Access-Control-Allow-Origin", "*");
+            res.send(JSON.stringify(text));
+        });
 
 });
 
-router.get('/getPageLineNum', function(req, res, next) {
+router.get('/getPageLineNum', function (req, res) {
 
-    var control = new Control();
-    var params = URL.parse(req.url, true).query;
-
-    //client.connect();
+    let control = new Control();
+    let params = URL.parse(req.url, true).query;
     client.query("use " + TEST_DATABASE);
 
-    var modSql = 'SELECT lineNum,location,flag FROM control_table WHERE gameid = ? and pageType = ? order by lineNum';
-    var modSqlParams = [params.gameid, params.pageType];
+    let modSql = 'SELECT lineNum,location,flag FROM control_table WHERE gameid = ? and pageType = ? order by lineNum';
+    let modSqlParams = [params.gameid, params.pageType];
 
     client.query(modSql, modSqlParams,
-    function selectCb(err, results, fields) {
-        if (err) {throw err;}
-        //console.log(results)
-        //console.log(results[0].age)
-        if(results){control = results}
+        function selectCb(err, results) {
+            if (err) {
+                throw err;
+            }
+            if (results) {
+                control = results
+            }
+            res.setHeader("Access-Control-Allow-Origin", "*");
+            res.send(JSON.stringify(control));
+        });
 
-        res.setHeader("Access-Control-Allow-Origin", "*");
-        res.send(JSON.stringify(control));
-        //console.log(game)
-        //console.log(game.age)
-        //client.end();
+});
+
+router.get('/selectPDFInfo', function (req, res) {
+
+    let control = new Control();
+    let params = URL.parse(req.url, true).query;
+    client.query("use " + TEST_DATABASE);
+
+    let modSql = 'SELECT id_upload_data,search_name FROM upload_data WHERE approve_bit = 1 and uploaded_bit = 0 order by id_upload_data';
+    let modSqlParams = [];
+
+    client.query(modSql, modSqlParams,
+        function selectCb(err, results) {
+            if (err) {
+                throw err;
+            }
+            if (results) {
+                control = results
+            }
+            res.setHeader("Access-Control-Allow-Origin", "*");
+            res.send(JSON.stringify(control));
+        });
+});
+
+router.post('/savePDF', function (req, res) {
+    console.log("upload started");
+    let form = new formidable.IncomingForm();
+    form.uploadDir = "/var/tmp/pdf";
+    form.keepExtensions = true;
+    form.parse(req, function (err, fields, files) {
+        res.send("WELL DONE");
     });
 
+    form.on('file', function (field, file) {
+        fs.rename(file.path, form.uploadDir + "/" + file.name)
+    });
+
+    form.on('progress', function (bytesReceived, bytesExpected) {
+        //console.log(bytesReceived + '/' + bytesExpected + ' bytes')
+    });
+});
+
+router.get('/loadPDF', function (req, res) {
+    let params = URL.parse(req.url, true).query;
+    console.log("request to download " + params.name);
+    res.download("/var/tmp/pdf/" + params.name);
+});
+
+router.delete('/deletePDF', function (req, res) {
+    let params = URL.parse(req.url, true).query;
+    console.log("request to delete " + params.name);
+    fs.unlink("/var/tmp/pdf/" + params.name, function () {
+        res.send({status: "200", responseType: "String", response: "success"})
+    })
+});
+
+router.get('/savePDFInfo', function (req, res) {
+    let control = new Control();
+    let params = URL.parse(req.url, true).query;
+    client.query("use " + TEST_DATABASE);
+
+    let modSql = 'INSERT INTO upload_data (approve_bit,uploaded_bit,pdf_name,crop_len,rulebook_name,search_name,lang_name,source_name,source_detail)' +
+        ' values (?,?,?,?,?,?,?,?,?)';
+    let modSqlParams = [1, 0, params.pdf_name, params.crop_len, params.rulebook_name, params.search_name, params.lang_name, params.source_name, params.source_detail];
+
+    client.query(modSql, modSqlParams,
+        function selectCb(err, results) {
+            if (err) {
+                throw err;
+            }
+            if (results) {
+                control = results
+            }
+            res.setHeader("Access-Control-Allow-Origin", "*");
+            res.send(JSON.stringify(control));
+        });
+});
+
+router.get('/approvePDFInfo', function (req, res) {
+    let control = new Control();
+    let params = URL.parse(req.url, true).query;
+    client.query("use " + TEST_DATABASE);
+    let modSql = 'REPLACE INTO upload_data (id_upload_data,approve_bit,uploaded_bit,pdf_name,crop_len,rulebook_name,search_name,lang_name,source_name,source_detail)' +
+        ' values (?,?,?,?,?,?,?,?,?,?)';
+    let modSqlParams = [params.id, 1, 0, params.pdf_name, params.crop_len, params.rulebook_name, params.search_name, params.lang_name, params.source_name, params.source_detail];
+
+    client.query(modSql, modSqlParams,
+        function selectCb(err, results) {
+            if (err) {
+                throw err;
+            }
+            if (results) {
+                control = results
+            }
+            res.setHeader("Access-Control-Allow-Origin", "*");
+            res.send(JSON.stringify(control));
+        });
+});
+
+router.get('/saveTranslateInfo', function (req, res) {
+    let control = new Control();
+    let params = URL.parse(req.url, true).query;
+    client.query("use " + TEST_DATABASE);
+
+    let modSql = 'INSERT INTO translate_data (translated_bit,pdf_name,receiver_email)' +
+        ' values (?,?,?)';
+    let modSqlParams = [0, params.pdf_name, params.receiver_email];
+
+    client.query(modSql, modSqlParams,
+        function selectCb(err, results) {
+            if (err) {
+                throw err;
+            }
+            if (results) {
+                control = results
+            }
+            res.setHeader("Access-Control-Allow-Origin", "*");
+            res.send(JSON.stringify(control));
+        });
 });
