@@ -9,6 +9,7 @@ let index = require('./routes/index');
 let users = require('./routes/users');
 let games = require('./routes/games');
 let database = require('./routes/database');
+const PORT = process.env.PORT || 3000;
 
 let app = express();
 
@@ -45,5 +46,6 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 //app.use(router);
+app.listen(PORT, () => console.log(`Listening on ${ PORT }`));
 
 module.exports = app;
