@@ -12,7 +12,7 @@ let games = require('./routes/games');
 let database = require('./routes/database');
 
 // 3000 is default for nodejs
-const PORT = process.env.PORT || 5000;
+//const PORT = process.env.PORT || 5000;
 
 
 let app = express();
@@ -50,6 +50,6 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 //app.use(router);
-app.listen(PORT, () => console.log(`Listening on ${ PORT }`));
+//app.listen(PORT, () => console.log(`Listening on ${ PORT }`));
 
 module.exports = app;
