@@ -10,7 +10,9 @@ let index = require('./routes/index');
 let users = require('./routes/users');
 let games = require('./routes/games');
 let database = require('./routes/database');
-const PORT = process.env.PORT || 3000;
+
+// 3000 is default for nodejs
+const PORT = process.env.PORT || 5000;
 
 
 let app = express();
