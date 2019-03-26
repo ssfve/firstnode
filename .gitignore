@@ -1,2 +1,5 @@
-
+nodejs.nohup.out
+npm-debug.log
+node_modules/*
+.idea/*
 .idea/workspace.xml
