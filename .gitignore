@@ -1,15 +1,4 @@
 nodejs.nohup.out
 npm-debug.log
-node_modules/*
 logs/*
-nodejs.nohup.out
-npm-debug.log
-node_modules/*
 .idea/*
-.idea/workspace.xml
-.idea/jsLibraryMappings.xml
-.idea/encodings.xml
-.idea/misc.xml
-.idea/firstnode.iml
-.idea/modules.xml
-.idea/vcs.xml
