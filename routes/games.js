@@ -183,7 +183,7 @@ router.post('/savePDF', function (req, res) {
     form.uploadDir = "/var/tmp/pdf";
     form.keepExtensions = true;
     form.parse(req, function (err, fields, files) {
-        res.send("WELL DONE");
+        res.send("英文规则上传成功，返回开始钓鱼");
     });
 
     form.on('file', function (field, file) {
@@ -257,9 +257,9 @@ router.get('/saveTranslateInfo', function (req, res) {
     let params = URL.parse(req.url, true).query;
     client.query("use " + TEST_DATABASE);
 
-    let modSql = 'INSERT INTO translate_data (translated_bit,pdf_name,receiver_email)' +
-        ' values (?,?,?)';
-    let modSqlParams = [0, params.pdf_name, params.receiver_email];
+    let modSql = 'INSERT INTO translate_data (translated_bit,pdf_name,receiver_email,upload_time)' +
+        ' values (?,?,?,?)';
+    let modSqlParams = [0, params.pdf_name, params.receiver_email, params.upload_time];
 
     client.query(modSql, modSqlParams,
         function selectCb(err, results) {
