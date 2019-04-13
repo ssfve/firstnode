@@ -184,7 +184,7 @@ router.post('/savePDF', function (req, res) {
     form.keepExtensions = true;
     form.parse(req, function (err, fields, files) {
         res.setHeader("Access-Control-Allow-Origin", "*");
-        res.send(true);
+        res.send({status: "200", responseType: "String", response: "success"})
     });
 
     form.on('file', function (field, file) {
