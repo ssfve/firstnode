@@ -183,7 +183,8 @@ router.post('/savePDF', function (req, res) {
     form.uploadDir = "/var/tmp/pdf";
     form.keepExtensions = true;
     form.parse(req, function (err, fields, files) {
-        res.send("英文规则上传成功，返回开始钓鱼");
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.send(true);
     });
 
     form.on('file', function (field, file) {
