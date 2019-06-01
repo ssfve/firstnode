@@ -215,7 +215,7 @@ router.get('/savePDFInfo', function (req, res) {
     let params = URL.parse(req.url, true).query;
     client.query("use " + TEST_DATABASE);
     console.log(params.gstone_id);
-    let modSql = 'INSERT INTO upload_pdf_table (mod_no,source_detail,gstone_id)' +
+    let modSql = 'INSERT INTO upload_pdf_table (mode_no,source_detail,gstone_id)' +
         ' values (?,?,?)';
     let modSqlParams = [params.mod_name, params.source_detail, params.gstone_id];
 
