@@ -180,7 +180,7 @@ router.get('/selectPDFInfo', function (req, res) {
 router.post('/savePDF', function (req, res) {
     console.log("upload started");
     let form = new formidable.IncomingForm();
-    form.uploadDir = "/var/tmp/pdf";
+    form.uploadDir = "/var/tmp/pdf0";
     form.keepExtensions = true;
     form.parse(req, function (err, fields, files) {
         res.setHeader("Access-Control-Allow-Origin", "*");
