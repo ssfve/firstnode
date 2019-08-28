@@ -185,7 +185,7 @@ router.get('/getEntryInProgress', function(req, res, next) {
     client.query(modSql, modSqlParams,
         function selectCb(err, results, fields) {
             if (err) {throw err;}
-            //if(results) {result = results[0]}
+            if(results) {result = results}
             res.setHeader("Access-Control-Allow-Origin", "*");
             res.send(JSON.stringify(result));
             logger.info(JSON.stringify(result));
