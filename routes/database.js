@@ -53,18 +53,9 @@ router.get('/getGameInfo', function(req, res, next) {
     client.query(modSql, modSqlParams,
     function selectCb(err, results, fields) {
         if (err) {throw err;}
-        //console.log(results)
-        //console.log(results[0].age)
-        if(results)
-        {
-            game = results[0]
-        }
-
+        if(results) {game = results[0]}
         res.setHeader("Access-Control-Allow-Origin", "*");
         res.send(JSON.stringify(game));
-        //console.log(game)
-        //console.log(game.age)
-        //client.end();
     });
 });
 
@@ -78,30 +69,14 @@ router.get('/writeTextDB', function(req, res, next) {
     let flag = 'txt';
     let location = 0;
     let modSql = 'REPLACE INTO text_table (textID, text_content, gameid, pageType, lineNum, location) values (?,?,?,?,?,?)';
-
     let textID = params.gameid + '_' + params.pageType + '_' + flag + '_' + params.lineNum + '_' + location;
-
-    //console.log(textID);
-    //console.log(params.text);
-    //console.log(params.gameid);
-    //console.log(params.pageType);
-    //console.log(params.location);
-
     let modSqlParams = [textID, params.text, params.gameid, params.pageType, params.lineNum, location];
 
-    //console.log('hello');
     client.query(modSql, modSqlParams,
     function selectCb(err, results, fields) {
         if (err) {throw err;}
-        //console.log(results)
-        //console.log(results[0].age)
-        //if(results){style = results[0]}
-
         res.setHeader("Access-Control-Allow-Origin", "*");
         res.send("Success");
-        //console.log(game)
-        //console.log(game.age)
-        //client.end();
     });
 
 });
@@ -116,36 +91,20 @@ router.get('/writeImgDB', function(req, res, next) {
     let flag = 'img';
     //let location = 0
     let modSql = 'REPLACE INTO image_table (imageID, image_path, gameid, pageType, lineNum, location) values (?,?,?,?,?,?)';
-
     let imageID = params.gameid + '_' + params.pageType + '_' + flag + '_' + params.lineNum + '_' + params.location;
-
-    //console.log(textID);
-    //console.log(params.text);
-    //console.log(params.gameid);
-    //console.log(params.pageType);
-    //console.log(params.location);
-
     let modSqlParams = [imageID, params.path, params.gameid, params.pageType, params.lineNum, params.location];
 
     //console.log('hello');
     client.query(modSql, modSqlParams,
     function selectCb(err, results, fields) {
         if (err) {throw err;}
-        //console.log(results)
-        //console.log(results[0].age)
-        //if(results){style = results[0]}
-
         res.setHeader("Access-Control-Allow-Origin", "*");
         res.send("Success");
-        //console.log(game)
-        //console.log(game.age)
-        //client.end();
     });
 
 });
 
 router.get('/writeControlDB', function(req, res, next) {
-
     let text = new Text();
     let params = URL.parse(req.url, true).query;
 
@@ -154,30 +113,15 @@ router.get('/writeControlDB', function(req, res, next) {
     //let flag = 'txt'
     let location = 0;
     let modSql = 'REPLACE INTO control_table (segmentID, gameid, pageType, lineNum, location, flag) values (?,?,?,?,?,?)';
-
-    let segmentID = params.gameid + '_' + params.pageType + '_' + params.lineNum + '_' + params.flag
-
-    //console.log(textID);
-    //console.log(params.text);
-    //console.log(params.gameid);
-    //console.log(params.pageType);
-    //console.log(params.location);
-
+    let segmentID = params.gameid + '_' + params.pageType + '_' + params.lineNum + '_' + params.flag;
     let modSqlParams = [segmentID, params.gameid, params.pageType, params.lineNum, location, params.flag];
 
     //console.log('hello');
     client.query(modSql, modSqlParams,
     function selectCb(err, results, fields) {
         if (err) {throw err;}
-        //console.log(results)
-        //console.log(results[0].age)
-        //if(results){style = results[0]}
-
         res.setHeader("Access-Control-Allow-Origin", "*");
         res.send("Success");
-        //console.log(game)
-        //console.log(game.age)
-        //client.end();
     });
 
 });
@@ -194,13 +138,6 @@ router.get('/delControlDB', function(req, res, next) {
     let modSql = 'delete from control_table where segmentID = ? and gameid = ? and pageType = ? and lineNum = ? and location = ? and flag = ?';
 
     let segmentID = params.gameid + '_' + params.pageType + '_' + params.lineNum + '_' + params.flag;
-
-    //console.log(textID);
-    //console.log(params.text);
-    //console.log(params.gameid);
-    //console.log(params.pageType);
-    //console.log(params.location);
-
     let modSqlParams = [segmentID, params.gameid, params.pageType, params.lineNum, location, params.flag];
     //let modSqlParams = ['','','','','',''];
 
@@ -208,15 +145,8 @@ router.get('/delControlDB', function(req, res, next) {
     client.query(modSql, modSqlParams,
     function selectCb(err, results, fields) {
         if (err) {throw err;}
-        //console.log(results)
-        //console.log(results[0].age)
-        //if(results){style = results[0]}
-
         res.setHeader("Access-Control-Allow-Origin", "*");
         res.send("Success");
-        //console.log(game)
-        //console.log(game.age)
-        //client.end();
     });
 
 });
@@ -240,16 +170,26 @@ router.get('/delImgDB', function(req, res, next) {
     client.query(modSql, modSqlParams,
     function selectCb(err, results, fields) {
         if (err) {throw err;}
-        //console.log(results)
-        //console.log(results[0].age)
-        //if(results){style = results[0]}
         res.setHeader("Access-Control-Allow-Origin", "*");
         res.send("Success");
-        //console.log(game)
-        //console.log(game.age)
-        //client.end();
     });
 
+});
+
+router.get('/getEntryInProgress', function(req, res, next) {
+    let modSql = 'select gstone_id from upload_pdf_table where uploaded_bit = 0';
+    logger.info("in getEntryInProgress");
+    let modSqlParams = [];
+
+    client.query(USE_SCHEMA);
+    client.query(modSql, modSqlParams,
+        function selectCb(err, results, fields) {
+            if (err) {throw err;}
+            if(results) {result = results[0]}
+            res.setHeader("Access-Control-Allow-Origin", "*");
+            res.send(JSON.stringify(result));
+            logger.info(JSON.stringify(result));
+        });
 });
 
 router.get('/getSubPageUrl', function(req, res, next) {
