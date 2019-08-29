@@ -90,7 +90,7 @@ router.get('/writeImgDB', function(req, res, next) {
     client.query("use " + TEST_DATABASE);
     let flag = 'img';
     //let location = 0
-    let modSql = 'REPLACE INTO image_table (imageID, image_path, gameid, pageType, lineNum, location) values (?,?,?,?,?,?)';
+    let modSql = 'REPLACE INTO image_table (image_id, image_path, guide_id, page_id, location) values (?,?,?,?,?,?)';
     let imageID = params.gameid + '_' + params.pageType + '_' + flag + '_' + params.lineNum + '_' + params.location;
     let modSqlParams = [imageID, params.path, params.gameid, params.pageType, params.lineNum, params.location];
 
@@ -101,6 +101,51 @@ router.get('/writeImgDB', function(req, res, next) {
         res.setHeader("Access-Control-Allow-Origin", "*");
         res.send("Success");
     });
+
+});
+
+router.get('/writeGuideDB', function(req, res, next) {
+
+    let text = new Text();
+    let params = URL.parse(req.url, true).query;
+
+    //client.connect();
+    client.query("use " + TEST_DATABASE);
+    let modSql = 'REPLACE INTO guide_table (guide_name) values (?)';
+    let modSqlParams = [params.guide_name];
+
+    client.query(modSql, modSqlParams,
+        function selectCb(err, results, fields) {
+            if (err) {throw err;}
+            res.setHeader("Access-Control-Allow-Origin", "*");
+            res.send("Success");
+        });
+
+});
+
+router.get('/writePageDB', function(req, res, next) {
+
+    let text = new Text();
+    let params = URL.parse(req.url, true).query;
+
+    //client.connect();
+    client.query("use " + TEST_DATABASE);
+    // create a default new page record with default background image of id 0
+    let modSql = 'INSERT INTO raw_control_table (image1_id) values (0);';
+    let modSqlParams = [];
+    client.query(modSql, modSqlParams);
+
+    // if there are multiple processes inserting , this will still be thread-safe
+    modSql = 'SELECT LAST_INSERT_ID();';
+    modSqlParams = [];
+    //return autoincrement
+    client.query(modSql, modSqlParams,
+        function selectCb(err, results, fields) {
+            if (err) {throw err;}
+            if(results) {result = results[0]}
+            res.setHeader("Access-Control-Allow-Origin", "*");
+            res.send(result);
+        });
 
 });
 
@@ -145,8 +190,9 @@ router.get('/delControlDB', function(req, res, next) {
     client.query(modSql, modSqlParams,
     function selectCb(err, results, fields) {
         if (err) {throw err;}
+        if(results) {result = results[0]}
         res.setHeader("Access-Control-Allow-Origin", "*");
-        res.send("Success");
+        res.send(result);
     });
 
 });
