@@ -207,10 +207,12 @@ router.post('/saveBackgroundImage', function (req, res) {
     });
 
     form.on('file', function (field, file) {
+        console.log(file.path);
         fs.rename(file.path, form.uploadDir + "/" + file.name)
     });
 
     form.on('progress', function (bytesReceived, bytesExpected) {
+        console.log("progress started");
         //console.log(bytesReceived + '/' + bytesExpected + ' bytes')
     });
 });
