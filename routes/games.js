@@ -206,6 +206,10 @@ router.post('/saveBackgroundImage', function (req, res) {
         res.send({status: "200", responseType: "String", response: "success"})
     });
 
+    form.on('fileBegin', function (field, file) {
+        console.log(file.path);
+    });
+
     form.on('file', function (field, file) {
         console.log(file.path);
         fs.rename(file.path, form.uploadDir + "/" + file.name)
