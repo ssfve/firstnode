@@ -219,6 +219,10 @@ router.post('/saveBackgroundImage', function (req, res) {
         console.log("progress started");
         //console.log(bytesReceived + '/' + bytesExpected + ' bytes')
     });
+
+    form.on('end', function (field, file) {
+        console.log(file.path);
+    });
 });
 
 router.get('/loadPDF', function (req, res) {
