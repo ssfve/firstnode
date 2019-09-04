@@ -133,7 +133,36 @@ router.get('/writeGuideDB', function(req, res, next) {
 
 });
 
-router.get('/writePageDB', function(req, res, next) {
+router.get('/checkRootPage', function(req, res, next) {
+
+    let text = new Text();
+    let params = URL.parse(req.url, true).query;
+
+    //client.connect();
+    client.query("use " + TEST_DATABASE);
+    // create a default new page record with default background image of id 0
+    let modSql = 'Select root_page_id from guide_table where guide_id=?';
+    let modSqlParams = [params.guide_id];
+    let result = null;
+    client.query(modSql, modSqlParams,
+        function selectCb(err, results, fields) {
+            if (err) {throw err;}
+            if(results) {
+                result = results[0]['root_page_id'];
+                console.log('root_page_id is '+result);
+            }
+            if(result != null){
+                res.setHeader("Access-Control-Allow-Origin", "*");
+                res.send(result.toString());
+            }else{
+                writePageDB(req, res, next);
+            }
+        });
+});
+
+router.get('/writePageDB', writePageDB(req, res, next));
+
+let writePageDB = function(req, res, next) {
 
     let text = new Text();
     let params = URL.parse(req.url, true).query;
@@ -159,9 +188,9 @@ router.get('/writePageDB', function(req, res, next) {
             res.send(result.toString());
         });
 
-});
+};
 
-router.get('/writeControlDB', function(req, res, next) {
+    router.get('/writeControlDB', function(req, res, next) {
     let text = new Text();
     let params = URL.parse(req.url, true).query;
 
