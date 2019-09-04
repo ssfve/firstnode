@@ -128,7 +128,7 @@ router.get('/writeGuideDB', function(req, res, next) {
                 console.log(result);
             }
             res.setHeader("Access-Control-Allow-Origin", "*");
-            res.send(result);
+            res.send(result.toString());
         });
 
 });
