@@ -143,8 +143,7 @@ router.get('/writeGuideDB', function (req, res, next) {
 
 });
 
-router.get('/checkRootPage', function (req, res, next) {
-
+let checkRootPage=function (req, res, next) {
     let text = new Text();
     let params = URL.parse(req.url, true).query;
 
@@ -167,12 +166,12 @@ router.get('/checkRootPage', function (req, res, next) {
                 res.setHeader("Access-Control-Allow-Origin", "*");
                 res.send(result.toString());
             } else {
-                writePageDB(req, res, next);
+                next();
             }
         });
-});
+};
 
-let writePageDB = function (req, res, next) {
+let writePageDB=function(req, res, next){
     let text = new Text();
     let params = URL.parse(req.url, true).query;
     //client.connect();
@@ -198,7 +197,9 @@ let writePageDB = function (req, res, next) {
             res.send(result.toString());
         });
 };
-router.get('/writePageDB', writePageDB(req, res, next));
+
+router.get('/checkRootPage', [checkRootPage, writePageDB]);
+router.get('/writePageDB', [writePageDB]);
 
 router.get('/writeControlDB', function (req, res, next) {
     let text = new Text();
