@@ -143,7 +143,7 @@ router.get('/writeGuideDB', function (req, res, next) {
 
 });
 
-let checkRootPage=function (req, res, next) {
+let checkRootPage=function(req, res, next) {
     let text = new Text();
     let params = URL.parse(req.url, true).query;
 
