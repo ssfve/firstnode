@@ -198,8 +198,78 @@ let writePageDB=function(req, res, next){
         });
 };
 
+let saveRootPageId=function (req, res, next) {
+    let text = new Text();
+    let params = URL.parse(req.url, true).query;
+
+    //client.connect();
+    client.query("use " + TEST_DATABASE);
+    let modSql = 'REPLACE INTO guide_table (guide_id, root_page_id) values (?,?)';
+    let modSqlParams = [params.guide_id, params.root_page_id];
+
+    client.query(modSql, modSqlParams,
+        function selectCb(err, results, fields) {
+            if (err) {
+                throw err;
+            }
+            res.setHeader("Access-Control-Allow-Origin", "*");
+            res.send("Success");
+        });
+
+};
+
+let getPageList=function(req, res, next) {
+    let text = new Text();
+    let params = URL.parse(req.url, true).query;
+
+    //client.connect();
+    client.query("use " + TEST_DATABASE);
+    let modSql = 'Select page_list from guide_table where guide_id = ?)';
+    let modSqlParams = [params.guide_id];
+
+    client.query(modSql, modSqlParams,
+        function selectCb(err, results, fields) {
+            if (err) {
+                throw err;
+            }
+            res.locals.pageList = results[0]['page_list'];
+            console.log(res.locals.pageList);
+            next();
+        });
+
+};
+
+let appendPageId=function(req, res, next) {
+    res.locals.pageList = res.locals.pageList+','+params.page_id;
+    console.log('page list is now '+res.locals.pageList);
+    next();
+};
+
+let savePageList=function (req, res, next) {
+    let text = new Text();
+    let params = URL.parse(req.url, true).query;
+
+    //client.connect();
+    client.query("use " + TEST_DATABASE);
+    let modSql = 'REPLACE INTO guide_table (guide_id, page_list) values (?,?)';
+    let modSqlParams = [params.guide_id, res.locals.pageList];
+
+    client.query(modSql, modSqlParams,
+        function selectCb(err, results, fields) {
+            if (err) {
+                throw err;
+            }
+            res.setHeader("Access-Control-Allow-Origin", "*");
+            res.send("Success");
+        });
+
+};
+
 router.get('/checkRootPage', [checkRootPage, writePageDB]);
 router.get('/writePageDB', [writePageDB]);
+
+router.get('/saveRootPageId', [saveRootPageId]);
+router.get('/savePageId', [getPageList, appendPageId, savePageList]);
 
 router.get('/writeControlDB', function (req, res, next) {
     let text = new Text();
