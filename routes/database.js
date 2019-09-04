@@ -124,7 +124,7 @@ router.get('/writeGuideDB', function(req, res, next) {
         function selectCb(err, results, fields) {
             if (err) {throw err;}
             if(results) {
-                result = results[0].value;
+                result = results[0]['LAST_INSERT_ID()'];
                 console.log(result);
             }
             res.setHeader("Access-Control-Allow-Origin", "*");
