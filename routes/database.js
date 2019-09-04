@@ -123,7 +123,7 @@ router.get('/writeGuideDB', function(req, res, next) {
     client.query(modSql, modSqlParams,
         function selectCb(err, results, fields) {
             if (err) {throw err;}
-            if(results) {result = results[0]}
+            if(results) {result = results[0].value}
             res.setHeader("Access-Control-Allow-Origin", "*");
             res.send(result);
         });
