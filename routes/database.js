@@ -112,7 +112,9 @@ router.get('/writeGuideDB', function(req, res, next) {
     //client.connect();
     client.query("use " + TEST_DATABASE);
     let modSql = 'REPLACE INTO guide_table (guide_name) values (?)';
-    let modSqlParams = [params.guide_name];
+    // TODO: get guide name from user
+    let guide_name = Date.now();
+    let modSqlParams = [guide_name];
 
     client.query(modSql, modSqlParams,
         function selectCb(err, results, fields) {
