@@ -204,8 +204,8 @@ let saveRootPageId=function (req, res, next) {
 
     //client.connect();
     client.query("use " + TEST_DATABASE);
-    let modSql = 'REPLACE INTO guide_table (guide_id, root_page_id) values (?,?)';
-    let modSqlParams = [params.guide_id, params.page_id];
+    let modSql = 'Update guide_table set root_page_id=? where guide_id =?';
+    let modSqlParams = [params.page_id, params.guide_id];
 
     client.query(modSql, modSqlParams,
         function selectCb(err, results, fields) {
@@ -234,7 +234,7 @@ let getPageList=function(req, res, next) {
             }
             res.setHeader("Access-Control-Allow-Origin", "*");
             res.locals.pageList = results[0]['page_list'];
-            console.log(res.locals.pageList);
+            console.log('page_list is '+res.locals.pageList.toString());
             next();
         });
 
@@ -257,8 +257,8 @@ let savePageList=function (req, res, next) {
 
     //client.connect();
     client.query("use " + TEST_DATABASE);
-    let modSql = 'REPLACE INTO guide_table (guide_id, page_list) values (?,?)';
-    let modSqlParams = [params.guide_id, res.locals.pageList];
+    let modSql = 'Update guide_table set page_list=? where guide_id =?';
+    let modSqlParams = [res.locals.pageList, params.guide_id];
 
     client.query(modSql, modSqlParams,
         function selectCb(err, results, fields) {
