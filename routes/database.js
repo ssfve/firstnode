@@ -111,16 +111,21 @@ router.get('/writeGuideDB', function(req, res, next) {
 
     //client.connect();
     client.query("use " + TEST_DATABASE);
-    let modSql = 'REPLACE INTO guide_table (guide_name) values (?)';
+    let modSql = 'INSERT INTO guide_table (guide_name) values (?)';
     // TODO: get guide name from user
     let guide_name = Date.now();
     let modSqlParams = [guide_name];
+    client.query(modSql, modSqlParams);
 
+    modSql = 'SELECT LAST_INSERT_ID();';
+    modSqlParams = [];
+    //return autoincrement
     client.query(modSql, modSqlParams,
         function selectCb(err, results, fields) {
             if (err) {throw err;}
+            if(results) {result = results[0]}
             res.setHeader("Access-Control-Allow-Origin", "*");
-            res.send("Success");
+            res.send(result);
         });
 
 });
