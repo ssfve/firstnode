@@ -205,7 +205,7 @@ let saveRootPageId=function (req, res, next) {
     //client.connect();
     client.query("use " + TEST_DATABASE);
     let modSql = 'REPLACE INTO guide_table (guide_id, root_page_id) values (?,?)';
-    let modSqlParams = [params.guide_id, params.root_page_id];
+    let modSqlParams = [params.guide_id, params.page_id];
 
     client.query(modSql, modSqlParams,
         function selectCb(err, results, fields) {
