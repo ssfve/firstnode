@@ -224,7 +224,7 @@ let getPageList=function(req, res, next) {
 
     //client.connect();
     client.query("use " + TEST_DATABASE);
-    let modSql = 'Select page_list from guide_table where guide_id = ?)';
+    let modSql = 'Select page_list from guide_table where guide_id = ?';
     let modSqlParams = [params.guide_id];
 
     client.query(modSql, modSqlParams,
