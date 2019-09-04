@@ -234,7 +234,7 @@ let getPageList=function(req, res, next) {
             }
             res.setHeader("Access-Control-Allow-Origin", "*");
             res.locals.pageList = results[0]['page_list'];
-            console.log('page_list is '+res.locals.pageList.toString());
+            //console.log('page_list is '+res.locals.pageList);
             next();
         });
 
