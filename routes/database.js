@@ -232,6 +232,7 @@ let getPageList=function(req, res, next) {
             if (err) {
                 throw err;
             }
+            res.setHeader("Access-Control-Allow-Origin", "*");
             res.locals.pageList = results[0]['page_list'];
             console.log(res.locals.pageList);
             next();
@@ -240,7 +241,12 @@ let getPageList=function(req, res, next) {
 };
 
 let appendPageId=function(req, res, next) {
-    res.locals.pageList = res.locals.pageList+','+params.page_id;
+    let params = URL.parse(req.url, true).query;
+    if (res.locals.pageList != null){
+        res.locals.pageList += ','+params.page_id;
+    }else{
+        res.locals.pageList = params.page_id.toString();
+    }
     console.log('page list is now '+res.locals.pageList);
     next();
 };
