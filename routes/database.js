@@ -20,19 +20,19 @@ let logger = getlogger('ruleFile');
 //});
 let client = mysql.createConnection({
     host: '127.0.0.1',
-    user:'mysql',
-    password:'MyNewPass4!',
+    user: 'mysql',
+    password: 'MyNewPass4!',
     port: '3306',
 });
 
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+router.get('/', function (req, res, next) {
+    res.send('respond with a resource');
 });
 
 module.exports = router;
 
 
-router.get('/getGameInfo', function(req, res, next) {
+router.get('/getGameInfo', function (req, res, next) {
 
     let game = new Game();
     let params = URL.parse(req.url, true).query;
@@ -42,24 +42,28 @@ router.get('/getGameInfo', function(req, res, next) {
 
     let lang = [params.lang];
 
-    if (lang === 'cn'){
+    if (lang === 'cn') {
         let modSql = 'SELECT * FROM bggdatacn WHERE gameid = ?';
     }
-    if (lang === 'en'){
+    if (lang === 'en') {
         let modSql = 'SELECT * FROM bggdata WHERE gameid = ?';
     }
     let modSqlParams = [params.gameid];
 
     client.query(modSql, modSqlParams,
-    function selectCb(err, results, fields) {
-        if (err) {throw err;}
-        if(results) {game = results[0]}
-        res.setHeader("Access-Control-Allow-Origin", "*");
-        res.send(JSON.stringify(game));
-    });
+        function selectCb(err, results, fields) {
+            if (err) {
+                throw err;
+            }
+            if (results) {
+                game = results[0]
+            }
+            res.setHeader("Access-Control-Allow-Origin", "*");
+            res.send(JSON.stringify(game));
+        });
 });
 
-router.get('/writeTextDB', function(req, res, next) {
+router.get('/writeTextDB', function (req, res, next) {
 
     let text = new Text();
     let params = URL.parse(req.url, true).query;
@@ -73,15 +77,17 @@ router.get('/writeTextDB', function(req, res, next) {
     let modSqlParams = [textID, params.text, params.gameid, params.pageType, params.lineNum, location];
 
     client.query(modSql, modSqlParams,
-    function selectCb(err, results, fields) {
-        if (err) {throw err;}
-        res.setHeader("Access-Control-Allow-Origin", "*");
-        res.send("Success");
-    });
+        function selectCb(err, results, fields) {
+            if (err) {
+                throw err;
+            }
+            res.setHeader("Access-Control-Allow-Origin", "*");
+            res.send("Success");
+        });
 
 });
 
-router.get('/writeImgDB', function(req, res, next) {
+router.get('/writeImgDB', function (req, res, next) {
 
     let text = new Text();
     let params = URL.parse(req.url, true).query;
@@ -96,15 +102,17 @@ router.get('/writeImgDB', function(req, res, next) {
 
     //console.log('hello');
     client.query(modSql, modSqlParams,
-    function selectCb(err, results, fields) {
-        if (err) {throw err;}
-        res.setHeader("Access-Control-Allow-Origin", "*");
-        res.send("Success");
-    });
+        function selectCb(err, results, fields) {
+            if (err) {
+                throw err;
+            }
+            res.setHeader("Access-Control-Allow-Origin", "*");
+            res.send("Success");
+        });
 
 });
 
-router.get('/writeGuideDB', function(req, res, next) {
+router.get('/writeGuideDB', function (req, res, next) {
 
     let text = new Text();
     let params = URL.parse(req.url, true).query;
@@ -122,8 +130,10 @@ router.get('/writeGuideDB', function(req, res, next) {
     //return autoincrement
     client.query(modSql, modSqlParams,
         function selectCb(err, results, fields) {
-            if (err) {throw err;}
-            if(results) {
+            if (err) {
+                throw err;
+            }
+            if (results) {
                 result = results[0]['LAST_INSERT_ID()'];
                 console.log(result);
             }
@@ -133,7 +143,7 @@ router.get('/writeGuideDB', function(req, res, next) {
 
 });
 
-router.get('/checkRootPage', function(req, res, next) {
+router.get('/checkRootPage', function (req, res, next) {
 
     let text = new Text();
     let params = URL.parse(req.url, true).query;
@@ -146,27 +156,25 @@ router.get('/checkRootPage', function(req, res, next) {
     let result = null;
     client.query(modSql, modSqlParams,
         function selectCb(err, results, fields) {
-            if (err) {throw err;}
-            if(results) {
-                result = results[0]['root_page_id'];
-                console.log('root_page_id is '+result);
+            if (err) {
+                throw err;
             }
-            if(result != null){
+            if (results) {
+                result = results[0]['root_page_id'];
+                console.log('root_page_id is ' + result);
+            }
+            if (result != null) {
                 res.setHeader("Access-Control-Allow-Origin", "*");
                 res.send(result.toString());
-            }else{
+            } else {
                 writePageDB(req, res, next);
             }
         });
 });
 
-router.get('/writePageDB', writePageDB(req, res, next));
-
-let writePageDB = function(req, res, next) {
-
+let writePageDB = function (req, res, next) {
     let text = new Text();
     let params = URL.parse(req.url, true).query;
-
     //client.connect();
     client.query("use " + TEST_DATABASE);
     // create a default new page record with default background image of id 0
@@ -180,17 +188,19 @@ let writePageDB = function(req, res, next) {
     //return autoincrement
     client.query(modSql, modSqlParams,
         function selectCb(err, results, fields) {
-            if (err) {throw err;}
-            if(results) {
+            if (err) {
+                throw err;
+            }
+            if (results) {
                 result = results[0]['LAST_INSERT_ID()']
             }
             res.setHeader("Access-Control-Allow-Origin", "*");
             res.send(result.toString());
         });
-
 };
+router.get('/writePageDB', writePageDB(req, res, next));
 
-    router.get('/writeControlDB', function(req, res, next) {
+router.get('/writeControlDB', function (req, res, next) {
     let text = new Text();
     let params = URL.parse(req.url, true).query;
 
@@ -204,15 +214,17 @@ let writePageDB = function(req, res, next) {
 
     //console.log('hello');
     client.query(modSql, modSqlParams,
-    function selectCb(err, results, fields) {
-        if (err) {throw err;}
-        res.setHeader("Access-Control-Allow-Origin", "*");
-        res.send("Success");
-    });
+        function selectCb(err, results, fields) {
+            if (err) {
+                throw err;
+            }
+            res.setHeader("Access-Control-Allow-Origin", "*");
+            res.send("Success");
+        });
 
 });
 
-router.get('/delControlDB', function(req, res, next) {
+router.get('/delControlDB', function (req, res, next) {
 
     let text = new Text();
     let params = URL.parse(req.url, true).query;
@@ -229,17 +241,21 @@ router.get('/delControlDB', function(req, res, next) {
 
     //console.log('hello');
     client.query(modSql, modSqlParams,
-    function selectCb(err, results, fields) {
-        if (err) {throw err;}
-        if(results) {result = results[0]}
-        res.setHeader("Access-Control-Allow-Origin", "*");
-        res.send(result);
-    });
+        function selectCb(err, results, fields) {
+            if (err) {
+                throw err;
+            }
+            if (results) {
+                result = results[0]
+            }
+            res.setHeader("Access-Control-Allow-Origin", "*");
+            res.send(result);
+        });
 
 });
 
 
-router.get('/delImgDB', function(req, res, next) {
+router.get('/delImgDB', function (req, res, next) {
 
     let text = new Text();
     let params = URL.parse(req.url, true).query;
@@ -255,15 +271,17 @@ router.get('/delImgDB', function(req, res, next) {
     //let modSqlParams = ['','','','','',''];
     //console.log('hello');
     client.query(modSql, modSqlParams,
-    function selectCb(err, results, fields) {
-        if (err) {throw err;}
-        res.setHeader("Access-Control-Allow-Origin", "*");
-        res.send("Success");
-    });
+        function selectCb(err, results, fields) {
+            if (err) {
+                throw err;
+            }
+            res.setHeader("Access-Control-Allow-Origin", "*");
+            res.send("Success");
+        });
 
 });
 
-router.get('/getEntryInProgress', function(req, res, next) {
+router.get('/getEntryInProgress', function (req, res, next) {
     let modSql = 'select gstone_id from upload_pdf_table where uploaded_bit = 0';
     logger.info("in getEntryInProgress");
     let modSqlParams = [];
@@ -271,35 +289,43 @@ router.get('/getEntryInProgress', function(req, res, next) {
     client.query(USE_SCHEMA);
     client.query(modSql, modSqlParams,
         function selectCb(err, results, fields) {
-            if (err) {throw err;}
-            if(results) {result = results}
+            if (err) {
+                throw err;
+            }
+            if (results) {
+                result = results
+            }
             res.setHeader("Access-Control-Allow-Origin", "*");
             res.send(result);
             logger.info(JSON.stringify(result));
         });
 });
 
-router.get('/getSubPageUrl', function(req, res, next) {
+router.get('/getSubPageUrl', function (req, res, next) {
     let modSql = 'select url from mapping_gameid_jingyan where url_id = ?';
     logger.info("in getSubPageUrl");
     let params = URL.parse(req.url, true).query;
     logger.info(params.gameid);
     logger.info(params.pageno);
-    let url_id = params.gameid+"_"+params.pageno;
+    let url_id = params.gameid + "_" + params.pageno;
     let modSqlParams = [url_id];
 
     client.query(USE_SCHEMA);
     client.query(modSql, modSqlParams,
         function selectCb(err, results, fields) {
-            if (err) {throw err;}
-            if(results) {result = results[0]}
+            if (err) {
+                throw err;
+            }
+            if (results) {
+                result = results[0]
+            }
             res.setHeader("Access-Control-Allow-Origin", "*");
             res.send(JSON.stringify(result));
             logger.info(JSON.stringify(result));
         });
 });
 
-router.get('/getIfHasSubPage', function(req, res, next) {
+router.get('/getIfHasSubPage', function (req, res, next) {
     let modSql = 'select count(*) from mapping_gameid_jingyan where gameid = ?';
     logger.info("in getIfHasSubPage");
     let params = URL.parse(req.url, true).query;
@@ -309,8 +335,10 @@ router.get('/getIfHasSubPage', function(req, res, next) {
     client.query(USE_SCHEMA);
     client.query(modSql, modSqlParams,
         function selectCb(err, results, fields) {
-            if (err) {throw err;}
-            if(results) {
+            if (err) {
+                throw err;
+            }
+            if (results) {
                 result = results[0];
                 logger.info(result["count(*)"]);
                 res.setHeader("Access-Control-Allow-Origin", "*");
