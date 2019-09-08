@@ -1,15 +1,16 @@
+import Game from "./game";
+import Style from "./style";
+import Control from "./control";
+
 let express = require('express');
 let router = express();
 let URL = require('url');
 let mysql = require('mysql');
-let Game = require('./game');
-let Style = require('./style');
 let Image = require('./image');
 let Text = require('./text');
-let Control = require('./control');
 let formidable = require('formidable');
 let util = require('util');
-const { fs } = require('fs');
+let fs = require('fs');
 const { exec } = require('child_process');
 
 /* GET users listing. */
