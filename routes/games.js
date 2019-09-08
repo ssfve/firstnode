@@ -216,7 +216,7 @@ router.post('/saveBackgroundImage', function (req, res) {
         fs.rename(file.path, form.uploadDir + "/" + file.name);
         let command = 'python3 /home/ssfve/upload-linux/autoBlur.py ' + file.name;
         console.log(command);
-        let child = exec(command,
+        exec(command,
             function (error, stdout, stderr) {
                 console.log('stdout: ' + stdout);
                 console.log('stderr: ' + stderr);
@@ -224,7 +224,6 @@ router.post('/saveBackgroundImage', function (req, res) {
                     console.log('exec error: ' + error);
                 }
             });
-        child();
     });
 
     form.on('progress', function (bytesReceived, bytesExpected) {
