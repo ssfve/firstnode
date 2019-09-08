@@ -227,7 +227,7 @@ router.post('/saveBackgroundImage', function (req, res) {
     });
 
     form.on('progress', function (bytesReceived, bytesExpected) {
-        console.log("progress started");
+        //console.log("progress started");
         //console.log(bytesReceived + '/' + bytesExpected + ' bytes')
     });
 
