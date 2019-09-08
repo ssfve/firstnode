@@ -9,8 +9,8 @@ let Text = require('./text');
 let Control = require('./control');
 let formidable = require('formidable');
 let util = require('util');
-let fs = require('fs');
-let exec = require('child_process').exec;
+const { fs } = require('fs');
+const { exec } = require('child_process');
 
 /* GET users listing. */
 let TEST_DATABASE = 'boardgames';
