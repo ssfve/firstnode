@@ -213,16 +213,8 @@ router.post('/saveBackgroundImage', function (req, res) {
 
     form.on('file', function (field, file) {
         console.log(file.path);
-        fs.rename(file.path, form.uploadDir + "/" + file.name)
-    });
-
-    form.on('progress', function (bytesReceived, bytesExpected) {
-        console.log("progress started");
-        //console.log(bytesReceived + '/' + bytesExpected + ' bytes')
-    });
-
-    form.on('end',function(field, file) {
-        let command = 'python /home/ssfve/upload-linux/autoBlur.py '+file.name;
+        fs.rename(file.path, form.uploadDir + "/" + file.name);
+        let command = 'python3 /home/ssfve/upload-linux/autoBlur.py ' + file.name;
         console.log(command);
         let child = exec(command,
             function (error, stdout, stderr) {
@@ -234,6 +226,13 @@ router.post('/saveBackgroundImage', function (req, res) {
             });
         child();
     });
+
+    form.on('progress', function (bytesReceived, bytesExpected) {
+        console.log("progress started");
+        //console.log(bytesReceived + '/' + bytesExpected + ' bytes')
+    });
+
+    form.on('end',function() {});
 
 });
 
