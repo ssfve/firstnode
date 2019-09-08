@@ -10,6 +10,7 @@ let Control = require('./control');
 let formidable = require('formidable');
 let util = require('util');
 let fs = require('fs');
+let exec = require('child_process').exec;
 
 /* GET users listing. */
 let TEST_DATABASE = 'boardgames';
@@ -218,6 +219,20 @@ router.post('/saveBackgroundImage', function (req, res) {
     form.on('progress', function (bytesReceived, bytesExpected) {
         console.log("progress started");
         //console.log(bytesReceived + '/' + bytesExpected + ' bytes')
+    });
+
+    form.on('end',function(field, file) {
+        let command = 'python /home/ssfve/upload-linux/autoBlur.py '+file.name;
+        console.log(command);
+        let child = exec(command,
+            function (error, stdout, stderr) {
+                console.log('stdout: ' + stdout);
+                console.log('stderr: ' + stderr);
+                if (error !== null) {
+                    console.log('exec error: ' + error);
+                }
+            });
+        child();
     });
 
 });
