@@ -51,4 +51,6 @@ let writePageDB=function(req, res, next){
         });
 };
 
-module.exports = writePageDB;
+module.exports = {
+    writePageDB: writePageDB
+};
