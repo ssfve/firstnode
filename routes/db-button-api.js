@@ -81,5 +81,52 @@ let createButton=function(req, res, next) {
         });
 };
 
+let createButton=function(req, res, next) {
+    let text = new Text();
+    let params = URL.parse(req.url, true).query;
+
+    client.query("use " + TEST_DATABASE);
+    let modSql = 'INSERT INTO raw_button_table (button_text) values ("DFLT_BTTN")';
+    let modSqlParams = [];
+    client.query(modSql, modSqlParams);
+
+    modSql = 'SELECT LAST_INSERT_ID();';
+    modSqlParams = [];
+    //return autoincrement
+    client.query(modSql, modSqlParams,
+        function selectCb(err, results, fields) {
+            if (err) {
+                throw err;
+            }
+            if (results) {
+                result = results[0]['LAST_INSERT_ID()'];
+                console.log(result);
+            }
+            //res.setHeader("Access-Control-Allow-Origin", "*");
+            res.locals.buttonid = result;
+            next();
+        });
+};
+
+let saveButtonToPage=function (req, res, next) {
+    let text = new Text();
+    let params = URL.parse(req.url, true).query;
+
+    //client.connect();
+    client.query("use " + TEST_DATABASE);
+    let modSql = 'Update raw_control_table set ?=? where page_id =?';
+    let modSqlParams = [params.button_db_name, res.locals.buttonid, params.page_id];
+
+    client.query(modSql, modSqlParams,
+        function selectCb(err, results, fields) {
+            if (err) {
+                throw err;
+            }
+            res.setHeader("Access-Control-Allow-Origin", "*");
+            res.send(res.locals.buttonid.toString());
+        });
+
+};
+
 router.get('/getButtonInfo', [getButtonInfo]);
-router.get('/writeButtonDB', [createButton]);
+router.get('/writeButtonDB', [createButton, saveButtonToPage]);
