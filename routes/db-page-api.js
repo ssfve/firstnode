@@ -2,8 +2,6 @@ let express = require('express');
 let router = express.Router();
 let URL = require('url');
 let mysql = require('mysql');
-//let Game = require('./game');
-let Text = require('./text');
 
 /* GET users listing. */
 let TEST_DATABASE = 'boardgames';
@@ -18,19 +16,16 @@ let logger = getlogger('ruleFile');
 //    password:'b0@rdg@merule5',
 //    port: '3306',
 //});
+/*
 let client = mysql.createConnection({
     host: '127.0.0.1',
     user: 'mysql',
     password: 'MyNewPass4!',
     port: '3306',
 });
-
-router.get('/', function (req, res, next) {
-    res.send('respond with a resource');
-});
+*/
 
 let writePageDB=function(req, res, next){
-    let text = new Text();
     let params = URL.parse(req.url, true).query;
     //client.connect();
     client.query("use " + TEST_DATABASE);
@@ -56,7 +51,4 @@ let writePageDB=function(req, res, next){
         });
 };
 
-module.exports = {
-    writePageDB,
-    router
-};
+module.exports = writePageDB;
