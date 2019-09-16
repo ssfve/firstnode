@@ -75,7 +75,7 @@ let getGuideId=function(req, res, next) {
                 console.log(results);
                 result = results[0]['guide_id']
             } else {
-                console.log(results);
+                console.log('there is no record of this page_id');
                 result = '';
             }
             res.setHeader("Access-Control-Allow-Origin", "*");
