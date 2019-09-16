@@ -74,6 +74,7 @@ let getGuideId=function(req, res, next) {
                 console.log(results);
                 result = results[0]['guide_id']
             }else{
+                console.log(results);
                 result = '';
             }
             res.setHeader("Access-Control-Allow-Origin", "*");
