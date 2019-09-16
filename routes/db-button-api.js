@@ -88,8 +88,8 @@ let saveButtonToPage=function (req, res, next) {
 
     //client.connect();
     client.query("use " + TEST_DATABASE);
-    let modSql = 'Update raw_control_table set ?=? where page_id =?';
-    let modSqlParams = [params.button_db_name, res.locals.buttonid, params.page_id];
+    let modSql = 'Update raw_control_table set '+params.button_db_name+'=? where page_id =?';
+    let modSqlParams = [res.locals.buttonid, params.page_id];
 
     client.query(modSql, modSqlParams,
         function selectCb(err, results, fields) {
