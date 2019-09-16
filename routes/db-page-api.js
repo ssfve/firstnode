@@ -29,8 +29,6 @@ router.get('/', function (req, res, next) {
     res.send('respond with a resource');
 });
 
-module.exports = router;
-
 let writePageDB=function(req, res, next){
     let text = new Text();
     let params = URL.parse(req.url, true).query;
@@ -56,4 +54,9 @@ let writePageDB=function(req, res, next){
             res.setHeader("Access-Control-Allow-Origin", "*");
             res.send(result.toString());
         });
+};
+
+module.exports = {
+    writePageDB,
+    router
 };

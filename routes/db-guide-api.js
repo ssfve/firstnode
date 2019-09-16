@@ -30,8 +30,6 @@ router.get('/', function (req, res, next) {
     res.send('respond with a resource');
 });
 
-module.exports = router;
-
 let checkRootPage=function(req, res, next) {
     let text = new Text();
     let params = URL.parse(req.url, true).query;
@@ -133,6 +131,8 @@ let savePageListToGuide=function (req, res, next) {
 
 };
 
-router.get('/checkRootPage', [checkRootPage, page_utils.writePageDB]);
+router.get('/checkRootPage', [checkRootPage, writePageDB]);
 router.get('/saveRootPageId', [saveRootPageId]);
 router.get('/savePageId', [getPageList, appendPageId, savePageListToGuide]);
+
+module.exports = router;
