@@ -300,6 +300,8 @@ router.get('/writePageDB', [writePageDB]);
 
 router.get('/saveRootPageId', [saveRootPageId]);
 router.get('/savePageId', [getPageList, appendPageId, savePageList]);
+router.get('/getButtonInfo', [getButtonInfo]);
+
 
 router.get('/writeControlDB', function (req, res, next) {
     let text = new Text();
