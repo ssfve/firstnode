@@ -1,8 +1,4 @@
-let express = require('express');
-let router = express.Router();
 let URL = require('url');
-let mysql = require('mysql');
-
 /* GET users listing. */
 let TEST_DATABASE = 'boardgames';
 let USE_SCHEMA = 'use boardgames';
