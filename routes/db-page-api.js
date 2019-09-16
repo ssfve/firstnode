@@ -64,19 +64,17 @@ let getGuideId=function(req, res, next) {
     client.query("use " + TEST_DATABASE);
     let modSql = 'Select guide_id from raw_control_table where page_id = ?';
     let modSqlParams = [params.page_id];
-
+    let result = '';
     client.query(modSql, modSqlParams,
         function selectCb(err, results, fields) {
             if (err) {
                 throw err;
             }
-            let result;
             if (results[0] !== undefined) {
                 console.log(results);
                 result = results[0]['guide_id']
             } else {
                 console.log('there is no record of this page_id');
-                result = '';
             }
             res.setHeader("Access-Control-Allow-Origin", "*");
             res.send(result.toString());
