@@ -76,32 +76,6 @@ let createButton=function(req, res, next) {
                 result = results[0]['LAST_INSERT_ID()'];
                 console.log(result);
             }
-            res.setHeader("Access-Control-Allow-Origin", "*");
-            res.send(result.toString());
-        });
-};
-
-let createButton=function(req, res, next) {
-    let text = new Text();
-    let params = URL.parse(req.url, true).query;
-
-    client.query("use " + TEST_DATABASE);
-    let modSql = 'INSERT INTO raw_button_table (button_text) values ("DFLT_BTTN")';
-    let modSqlParams = [];
-    client.query(modSql, modSqlParams);
-
-    modSql = 'SELECT LAST_INSERT_ID();';
-    modSqlParams = [];
-    //return autoincrement
-    client.query(modSql, modSqlParams,
-        function selectCb(err, results, fields) {
-            if (err) {
-                throw err;
-            }
-            if (results) {
-                result = results[0]['LAST_INSERT_ID()'];
-                console.log(result);
-            }
             //res.setHeader("Access-Control-Allow-Origin", "*");
             res.locals.buttonid = result;
             next();
