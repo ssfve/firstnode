@@ -56,7 +56,4 @@ let writePageDB=function(req, res, next){
         });
 };
 
-module.exports = {
-    router,
-    writePageDB: writePageDB
-};
+module.exports = router;
