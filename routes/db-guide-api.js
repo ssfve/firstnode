@@ -4,7 +4,7 @@ let URL = require('url');
 let mysql = require('mysql');
 //let Game = require('./game');
 let Text = require('./text');
-let db_page_api = require('./routes/db-page-api');
+let db_page_api = require('./db-page-api');
 
 /* GET users listing. */
 let TEST_DATABASE = 'boardgames';
