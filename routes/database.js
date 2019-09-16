@@ -163,7 +163,7 @@ let getButtonInfo=function(req, res, next) {
                 console.log(result);
             }
             res.setHeader("Access-Control-Allow-Origin", "*");
-            res.send(result.toString());
+            res.send(JSON.stringify(result));
         });
 };
 
