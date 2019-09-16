@@ -131,7 +131,7 @@ let savePageListToGuide=function (req, res, next) {
 
 };
 
-router.get('/checkRootPage', [checkRootPage, writePageDB]);
+router.get('/checkRootPage', [checkRootPage, page_utils.writePageDB]);
 router.get('/saveRootPageId', [saveRootPageId]);
 router.get('/savePageId', [getPageList, appendPageId, savePageListToGuide]);
 
