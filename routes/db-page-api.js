@@ -57,7 +57,3 @@ let writePageDB=function(req, res, next){
             res.send(result.toString());
         });
 };
-
-router.get('/checkRootPage', [checkRootPage, writePageDB]);
-router.get('/saveRootPageId', [saveRootPageId]);
-router.get('/savePageId', [getPageList, appendPageId, savePageListToGuide]);
