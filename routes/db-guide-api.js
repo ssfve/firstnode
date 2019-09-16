@@ -4,7 +4,7 @@ let URL = require('url');
 let mysql = require('mysql');
 //let Game = require('./game');
 let Text = require('./text');
-let page_utils = require('./db-page-api');
+let db_page_api = require('./routes/db-page-api');
 
 /* GET users listing. */
 let TEST_DATABASE = 'boardgames';
@@ -131,8 +131,10 @@ let savePageListToGuide=function (req, res, next) {
 
 };
 
-router.get('/checkRootPage', [checkRootPage, page_utils.writePageDB]);
+router.get('/checkRootPage', [checkRootPage, db_page_api.writePageDB]);
 router.get('/saveRootPageId', [saveRootPageId]);
 router.get('/savePageId', [getPageList, appendPageId, savePageListToGuide]);
 
-module.exports = router;
+module.exports = {
+    router
+};

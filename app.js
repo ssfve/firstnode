@@ -38,7 +38,7 @@ app.use('/games', games);
 app.use('/database', database);
 app.use('/button', db_button_api);
 app.use('/guide', db_guide_api);
-app.use('/page', db_page_api);
+app.use('/page', db_page_api.router);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
