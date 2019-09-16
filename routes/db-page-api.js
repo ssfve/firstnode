@@ -70,10 +70,11 @@ let getGuideId=function(req, res, next) {
             if (err) {
                 throw err;
             }
+            let result;
             if (results[0] !== undefined) {
                 console.log(results);
                 result = results[0]['guide_id']
-            }else{
+            } else {
                 console.log(results);
                 result = '';
             }
