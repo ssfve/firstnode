@@ -56,6 +56,31 @@ let writePageDB=function(req, res, next){
         });
 };
 
+let getGuideId=function(req, res, next) {
+    let text = new Text();
+    let params = URL.parse(req.url, true).query;
+
+    //client.connect();
+    client.query("use " + TEST_DATABASE);
+    let modSql = 'Select guide_id from raw_control_table where page_id = ?';
+    let modSqlParams = [params.page_id];
+
+    client.query(modSql, modSqlParams,
+        function selectCb(err, results, fields) {
+            if (err) {
+                throw err;
+            }
+            if (results) {
+                result = results[0]['guide_id']
+            }
+            res.setHeader("Access-Control-Allow-Origin", "*");
+            res.send(result.toString());
+        });
+
+};
+
+router.get('/getGuideId', [getGuideId]);
+
 module.exports = {
     router,
     writePageDB
