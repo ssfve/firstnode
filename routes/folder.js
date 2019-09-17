@@ -43,6 +43,7 @@ router.get('/getFolderFileList', function (req, res) {
     let params = URL.parse(req.url, true).query;
 
     //joining path of directory
+    console.log(params.uploadFolder);
     const directoryPath = path.join(params.uploadFolder);
     //passsing directoryPath and callback function
     fs.readdir(directoryPath, function (err, files) {
