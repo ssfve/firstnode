@@ -198,6 +198,25 @@ router.post('/savePDF', function (req, res) {
     });
 });
 
+router.post('/saveTranslatePDF', function (req, res) {
+    console.log("translate pdf upload started");
+    let form = new formidable.IncomingForm();
+    form.uploadDir = config.translateDir;
+    form.keepExtensions = true;
+    form.parse(req, function (err, fields, files) {
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.send({status: "200", responseType: "String", response: "success"})
+    });
+
+    form.on('file', function (field, file) {
+        fs.rename(file.path, form.uploadDir + "/" + file.name)
+    });
+
+    form.on('progress', function (bytesReceived, bytesExpected) {
+        //console.log(bytesReceived + '/' + bytesExpected + ' bytes')
+    });
+});
+
 router.post('/saveBackgroundImage', function (req, res) {
     console.log("upload started");
     let form = new formidable.IncomingForm();
