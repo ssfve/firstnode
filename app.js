@@ -13,6 +13,7 @@ let database = require('./routes/database');
 let db_button_api = require('./routes/db-button-api');
 let db_guide_api = require('./routes/db-guide-api');
 let db_page_api = require('./routes/db-page-api');
+let folder = require('./routes/folder');
 
 // 3000 is default for nodejs
 //const PORT = process.env.PORT || 5000;
@@ -35,6 +36,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 app.use('/users', users);
 app.use('/games', games);
+app.use('/folder', folder);
 app.use('/database', database);
 app.use('/button', db_button_api);
 app.use('/guide', db_guide_api.router);
