@@ -12,6 +12,7 @@ let util = require('util');
 let fs = require('fs');
 const { exec } = require('child_process');
 
+const config = require('../config.json');
 /* GET users listing. */
 let TEST_DATABASE = 'boardgames';
 let TEST_TABLE = 'bggdatacn';
@@ -181,7 +182,7 @@ router.get('/selectPDFInfo', function (req, res) {
 router.post('/savePDF', function (req, res) {
     console.log("upload started");
     let form = new formidable.IncomingForm();
-    form.uploadDir = "/var/tmp/pdf0";
+    form.uploadDir = config.uploadDir;
     form.keepExtensions = true;
     form.parse(req, function (err, fields, files) {
         res.setHeader("Access-Control-Allow-Origin", "*");
