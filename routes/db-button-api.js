@@ -102,7 +102,6 @@ let saveButtonToPage=function (req, res, next) {
 };
 
 let getGuideId=function(req, res, next) {
-    let text = new Text();
     let params = URL.parse(req.url, true).query;
 
     //client.connect();
@@ -119,7 +118,7 @@ let getGuideId=function(req, res, next) {
                 console.log(results);
                 result = results[0]['guide_id']
             } else {
-                console.log('there is no record of this page_id');
+                console.log('there is no record of this guide_id');
             }
             res.setHeader("Access-Control-Allow-Origin", "*");
             res.send(result.toString());

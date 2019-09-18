@@ -135,7 +135,7 @@ let savePageListToGuide = function (req, res, next) {
 let returnAnyResult = function (req, res, next) {
     result = res.locals.result;
     res.setHeader("Access-Control-Allow-Origin", "*");
-    res.send(JSOJN.stringify(result));
+    res.send(JSON.stringify(result));
 };
 
 router.get('/checkRootPage', [checkRootPage, db_page_api.writePageDB]);
