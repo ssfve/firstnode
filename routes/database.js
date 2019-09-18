@@ -143,15 +143,12 @@ router.get('/writeGuideDB', function (req, res, next) {
 
 });
 
-let getButtonInfo=function(req, res, next) {
-    let text = new Text();
+let getAttribute=function(req, res, next) {
     let params = URL.parse(req.url, true).query;
-
-    //client.connect();
     client.query("use " + TEST_DATABASE);
     // create a default new page record with default background image of id 0
-    let modSql = 'Select button1_id,button2_id,button3_id,button4_id from raw_control_table where page_id=?';
-    let modSqlParams = [params.page_id];
+    let modSql = 'select '+params.attribute_name+' from '+params.table_name+' where '+params.key_name+'=?';
+    let modSqlParams = [params.key_value];
     let result = null;
     client.query(modSql, modSqlParams,
         function selectCb(err, results, fields) {
@@ -159,11 +156,28 @@ let getButtonInfo=function(req, res, next) {
                 throw err;
             }
             if (results) {
-                result = results[0];
+                result = results[0][params.attribute_name];
                 console.log(result);
             }
             res.setHeader("Access-Control-Allow-Origin", "*");
-            res.send(JSON.stringify(result));
+            res.send(result.toString());
+        });
+};
+
+let updateAttribute=function(req, res, next) {
+    let params = URL.parse(req.url, true).query;
+    client.query("use " + TEST_DATABASE);
+    // create a default new page record with default background image of id 0
+    let modSql = 'update '+params.table_name+' set '+params.attribute_name+'=? where '+params.key_name+'=?';
+    let modSqlParams = [params.attribute_value, params.key_value];
+    let result = null;
+    client.query(modSql, modSqlParams,
+        function selectCb(err, results, fields) {
+            if (err) {
+                throw err;
+            }
+            res.setHeader("Access-Control-Allow-Origin", "*");
+            res.send("Success");
         });
 };
 
@@ -449,3 +463,6 @@ router.get('/getIfHasSubPage', function (req, res, next) {
             }
         });
 });
+
+router.get('/getAttribute', [getAttribute]);
+router.get('/updateAttribute', [updateAttribute]);
