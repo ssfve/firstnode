@@ -99,8 +99,98 @@ let saveButtonToPage=function (req, res, next) {
             res.setHeader("Access-Control-Allow-Origin", "*");
             res.send(res.locals.buttonid.toString());
         });
+};
+
+let getGuideId=function(req, res, next) {
+    let text = new Text();
+    let params = URL.parse(req.url, true).query;
+
+    //client.connect();
+    client.query("use " + TEST_DATABASE);
+    let modSql = 'Select guide_id from raw_button_table where button_id = ?';
+    let modSqlParams = [params.button_id];
+    let result = '';
+    client.query(modSql, modSqlParams,
+        function selectCb(err, results, fields) {
+            if (err) {
+                throw err;
+            }
+            if (results[0] !== undefined) {
+                console.log(results);
+                result = results[0]['guide_id']
+            } else {
+                console.log('there is no record of this page_id');
+            }
+            res.setHeader("Access-Control-Allow-Origin", "*");
+            res.send(result.toString());
+        });
 
 };
 
+let getPreviousPageId=function(req, res, next) {
+    let text = new Text();
+    let params = URL.parse(req.url, true).query;
+
+    //client.connect();
+    client.query("use " + TEST_DATABASE);
+    let modSql = 'Select button_from_page_id from raw_button_table where button_id = ?';
+    let modSqlParams = [params.button_id];
+    let result = '';
+    client.query(modSql, modSqlParams,
+        function selectCb(err, results, fields) {
+            if (err) {
+                throw err;
+            }
+            if (results[0] !== undefined) {
+                console.log(results);
+                result = results[0]['button_from_page_id']
+            } else {
+                console.log('there is no record of this page_id');
+            }
+            res.setHeader("Access-Control-Allow-Origin", "*");
+            res.send(result.toString());
+        });
+
+};
+
+let saveButtonAttribute=function (req, res, next) {
+    let params = URL.parse(req.url, true).query;
+    //client.connect();
+    client.query("use " + TEST_DATABASE);
+    let modSql = 'Update raw_button_table set '+params.attribute_name+'=? where button_id =?';
+    let modSqlParams = [params.button_id, params.attribute_value];
+
+    client.query(modSql, modSqlParams,
+        function selectCb(err, results, fields) {
+            if (err) {
+                throw err;
+            }
+            res.setHeader("Access-Control-Allow-Origin", "*");
+            res.send("Success");
+        });
+};
+
+let saveButtonInfo=function (req, res, next) {
+    let text = new Text();
+    let params = URL.parse(req.url, true).query;
+
+    //client.connect();
+    client.query("use " + TEST_DATABASE);
+    let modSql = 'Update raw_control_table set '+params.button_db_name+'=? where page_id =?';
+    let modSqlParams = [res.locals.buttonid, params.page_id];
+
+    client.query(modSql, modSqlParams,
+        function selectCb(err, results, fields) {
+            if (err) {
+                throw err;
+            }
+            res.setHeader("Access-Control-Allow-Origin", "*");
+            res.send(res.locals.buttonid.toString());
+        });
+};
+
+router.get('/saveButtonAttribute', [saveButtonAttribute]);
+router.get('/getPreviousPageId', [getPreviousPageId]);
+router.get('/getGuideId', [getGuideId]);
 router.get('/getButtonInfo', [getButtonInfo]);
 router.get('/writeButtonDB', [createButton, saveButtonToPage]);

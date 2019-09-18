@@ -83,6 +83,7 @@ let getGuideId=function(req, res, next) {
 };
 
 router.get('/getGuideId', [getGuideId]);
+router.get('/createBranchPage', [writePageDB]);
 
 module.exports = {
     router,

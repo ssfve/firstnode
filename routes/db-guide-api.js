@@ -30,7 +30,7 @@ router.get('/', function (req, res, next) {
     res.send('respond with a resource');
 });
 
-let checkRootPage=function(req, res, next) {
+let checkRootPage = function (req, res, next) {
     let text = new Text();
     let params = URL.parse(req.url, true).query;
 
@@ -58,7 +58,7 @@ let checkRootPage=function(req, res, next) {
         });
 };
 
-let saveRootPageId=function (req, res, next) {
+let saveRootPageId = function (req, res, next) {
     let text = new Text();
     let params = URL.parse(req.url, true).query;
 
@@ -78,7 +78,7 @@ let saveRootPageId=function (req, res, next) {
 
 };
 
-let getPageList=function(req, res, next) {
+let getPageList = function (req, res, next) {
     let text = new Text();
     let params = URL.parse(req.url, true).query;
 
@@ -94,24 +94,25 @@ let getPageList=function(req, res, next) {
             }
             res.setHeader("Access-Control-Allow-Origin", "*");
             res.locals.pageList = results[0]['page_list'];
+            res.locals.result = results[0]['page_list'];
             //console.log('page_list is '+res.locals.pageList);
             next();
         });
 
 };
 
-let appendPageId=function(req, res, next) {
+let appendPageId = function (req, res, next) {
     let params = URL.parse(req.url, true).query;
-    if (res.locals.pageList != null){
-        res.locals.pageList += ','+params.page_id;
-    }else{
+    if (res.locals.pageList != null) {
+        res.locals.pageList += ',' + params.page_id;
+    } else {
         res.locals.pageList = params.page_id.toString();
     }
-    console.log('page list is now '+res.locals.pageList);
+    console.log('page list is now ' + res.locals.pageList);
     next();
 };
 
-let savePageListToGuide=function (req, res, next) {
+let savePageListToGuide = function (req, res, next) {
     let text = new Text();
     let params = URL.parse(req.url, true).query;
 
@@ -131,9 +132,16 @@ let savePageListToGuide=function (req, res, next) {
 
 };
 
+let returnAnyResult = function (req, res, next) {
+    result = res.locals.result;
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.send(JSOJN.stringify(result));
+};
+
 router.get('/checkRootPage', [checkRootPage, db_page_api.writePageDB]);
 router.get('/saveRootPageId', [saveRootPageId]);
 router.get('/savePageId', [getPageList, appendPageId, savePageListToGuide]);
+router.get('/getPageList', [getPageList, returnAnyResult]);
 
 module.exports = {
     router
