@@ -99,7 +99,31 @@ let savePageAttribute=function (req, res, next) {
         });
 };
 
-router.get('/getGuideId', [getGuideId]);
+let getPageAttribute=function(req, res, next) {
+    let params = URL.parse(req.url, true).query;
+
+    //client.connect();
+    client.query("use " + TEST_DATABASE);
+    let modSql = 'select '+params.attribute_name+' from raw_control_table where page_id = ?';
+    let modSqlParams = [params.page_id];
+    let result = '';
+    client.query(modSql, modSqlParams,
+        function selectCb(err, results, fields) {
+            if (err) {
+                throw err;
+            }
+            if (results[0] !== undefined) {
+                console.log(results);
+                result = results[0][params.attribute_name]
+            } else {
+                console.log('there is no record of '+params.attribute_name);
+            }
+            res.setHeader("Access-Control-Allow-Origin", "*");
+            res.send(result.toString());
+        });
+};
+
+router.get('/getPageAttribute', [getPageAttribute]);
 router.get('/createBranchPage', [writePageDB]);
 
 module.exports = {

@@ -82,6 +82,28 @@ let createText=function(req, res, next) {
         });
 };
 
+let getTextAttribute=function(req, res, next) {
+    let params = URL.parse(req.url, true).query;
+
+    client.query("use " + TEST_DATABASE);
+    // create a default new page record with default background image of id 0
+    let modSql = 'select '+params.attribute_name+' from raw_text_table where text_id=?';
+    let modSqlParams = [params.text_id];
+    let result = null;
+    client.query(modSql, modSqlParams,
+        function selectCb(err, results, fields) {
+            if (err) {
+                throw err;
+            }
+            if (results) {
+                result = results[0][params.attribute_name];
+                console.log(result);
+            }
+            res.setHeader("Access-Control-Allow-Origin", "*");
+            res.send(result.toString());
+        });
+};
+
 let saveTextToPage=function (req, res, next) {
     let text = new Text();
     let params = URL.parse(req.url, true).query;
@@ -101,5 +123,5 @@ let saveTextToPage=function (req, res, next) {
         });
 };
 
-router.get('/getButtonInfo', [getButtonInfo]);
+router.get('/getTextAttribute', [getTextAttribute]);
 router.get('/writeTextDB', [createText, saveTextToPage]);
