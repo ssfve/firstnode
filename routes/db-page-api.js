@@ -119,7 +119,7 @@ let getPageAttribute=function(req, res, next) {
                 console.log('there is no record of '+params.attribute_name);
             }
             if(result === null){
-                res.send('PG-DFLT-TXT');
+                res.send(null);
             }else{
                 res.send(result.toString());
             }
