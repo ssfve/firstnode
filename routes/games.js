@@ -111,8 +111,6 @@ router.get('/getImageInfo', function (req, res) {
 });
 
 router.get('/getTextInfo', function (req, res) {
-
-    let text = new Text();
     let params = URL.parse(req.url, true).query;
 
     client.query("use " + TEST_DATABASE);
@@ -158,7 +156,6 @@ router.get('/getPageLineNum', function (req, res) {
 });
 
 router.get('/selectPDFInfo', function (req, res) {
-
     let control = new Control();
     let params = URL.parse(req.url, true).query;
     client.query("use " + TEST_DATABASE);
