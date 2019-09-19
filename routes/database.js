@@ -309,14 +309,6 @@ let savePageList=function (req, res, next) {
 
 };
 
-router.get('/checkRootPage', [checkRootPage, writePageDB]);
-router.get('/writePageDB', [writePageDB]);
-
-router.get('/saveRootPageId', [saveRootPageId]);
-router.get('/savePageId', [getPageList, appendPageId, savePageList]);
-router.get('/getButtonInfo', [getButtonInfo]);
-
-
 router.get('/writeControlDB', function (req, res, next) {
     let text = new Text();
     let params = URL.parse(req.url, true).query;
@@ -466,3 +458,7 @@ router.get('/getIfHasSubPage', function (req, res, next) {
 
 router.get('/getAttribute', [getAttribute]);
 router.get('/updateAttribute', [updateAttribute]);
+router.get('/checkRootPage', [checkRootPage, writePageDB]);
+router.get('/writePageDB', [writePageDB]);
+router.get('/saveRootPageId', [saveRootPageId]);
+router.get('/savePageId', [getPageList, appendPageId, savePageList]);

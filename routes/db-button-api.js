@@ -31,29 +31,7 @@ router.get('/', function (req, res, next) {
 
 module.exports = router;
 
-let getButtonInfo=function(req, res, next) {
-    let text = new Text();
-    let params = URL.parse(req.url, true).query;
 
-    //client.connect();
-    client.query("use " + TEST_DATABASE);
-    // create a default new page record with default background image of id 0
-    let modSql = 'Select button1_id,button2_id,button3_id,button4_id from raw_control_table where page_id=?';
-    let modSqlParams = [params.page_id];
-    let result = null;
-    client.query(modSql, modSqlParams,
-        function selectCb(err, results, fields) {
-            if (err) {
-                throw err;
-            }
-            if (results) {
-                result = results[0];
-                console.log(result);
-            }
-            res.setHeader("Access-Control-Allow-Origin", "*");
-            res.send(JSON.stringify(result));
-        });
-};
 
 let createButton=function(req, res, next) {
     let text = new Text();
@@ -191,5 +169,4 @@ let saveButtonInfo=function (req, res, next) {
 router.get('/saveButtonAttribute', [saveButtonAttribute]);
 router.get('/getPreviousPageId', [getPreviousPageId]);
 router.get('/getGuideId', [getGuideId]);
-router.get('/getButtonInfo', [getButtonInfo]);
 router.get('/writeButtonDB', [createButton, saveButtonToPage]);
