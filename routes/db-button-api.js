@@ -98,7 +98,6 @@ let getGuideId=function(req, res, next) {
             } else {
                 console.log('there is no record of this guide_id');
             }
-            res.setHeader("Access-Control-Allow-Origin", "*");
             res.send(result.toString());
         });
 
@@ -132,17 +131,15 @@ let getPreviousPageId=function(req, res, next) {
 
 let saveButtonAttribute=function (req, res, next) {
     let params = URL.parse(req.url, true).query;
-    //client.connect();
     client.query("use " + TEST_DATABASE);
     let modSql = 'Update raw_button_table set '+params.attribute_name+'=? where button_id =?';
-    let modSqlParams = [params.button_id, params.attribute_value];
+    let modSqlParams = [params.attribute_value, params.button_id];
 
     client.query(modSql, modSqlParams,
         function selectCb(err, results, fields) {
             if (err) {
                 throw err;
             }
-            res.setHeader("Access-Control-Allow-Origin", "*");
             res.send("Success");
         });
 };
