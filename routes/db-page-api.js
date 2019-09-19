@@ -118,8 +118,11 @@ let getPageAttribute=function(req, res, next) {
             } else {
                 console.log('there is no record of '+params.attribute_name);
             }
-            res.setHeader("Access-Control-Allow-Origin", "*");
-            res.send(result.toString());
+            if(result === null){
+                res.send('PG-DFLT-TXT');
+            }else{
+                res.send(result.toString());
+            }
         });
 };
 
