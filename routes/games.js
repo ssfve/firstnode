@@ -174,7 +174,6 @@ router.get('/selectPDFInfo', function (req, res) {
             if (results) {
                 control = results
             }
-            res.setHeader("Access-Control-Allow-Origin", "*");
             res.send(JSON.stringify(control));
         });
 });
@@ -204,7 +203,6 @@ router.post('/saveTranslatePDF', function (req, res) {
     form.uploadDir = config.translateDir;
     form.keepExtensions = true;
     form.parse(req, function (err, fields, files) {
-        res.setHeader("Access-Control-Allow-Origin", "*");
         res.send({status: "200", responseType: "String", response: "success"})
     });
 
@@ -286,7 +284,6 @@ router.get('/savePDFInfo', function (req, res) {
             if (results) {
                 control = results
             }
-            res.setHeader("Access-Control-Allow-Origin", "*");
             res.send(JSON.stringify(control));
         });
 });
@@ -329,7 +326,6 @@ router.get('/saveTranslateInfo', function (req, res) {
             if (results) {
                 control = results
             }
-            res.setHeader("Access-Control-Allow-Origin", "*");
             res.send(JSON.stringify(control));
         });
 });
