@@ -4,6 +4,7 @@ let URL = require('url');
 let mysql = require('mysql');
 //let Game = require('./game');
 let Text = require('./text');
+let db_text_api = require('./db-text-api');
 
 /* GET users listing. */
 let TEST_DATABASE = 'boardgames';

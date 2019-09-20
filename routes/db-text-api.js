@@ -96,4 +96,7 @@ let saveTextToPage=function (req, res, next) {
 router.get('/getTextAttribute', [getTextAttribute]);
 router.get('/writeTextDB', [createText, saveTextToPage]);
 
-module.exports = router;
+module.exports = {
+    router,
+    getTextAttribute
+};

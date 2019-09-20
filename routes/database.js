@@ -174,7 +174,11 @@ let updateAttribute=function(req, res, next) {
     // create a default new page record with default background image of id 0
     let modSql = 'update '+params.table_name+' set '+params.attribute_name+'=? where '+params.key_name+'=?';
     let modSqlParams = [params.attribute_value, params.key_value];
-    let result = null;
+    if(params.attribute_value === ''){
+        modSql = 'update '+params.table_name+' set '+params.attribute_name+'=NULL where '+params.key_name+'=?';
+        modSqlParams = [params.key_value];
+    }
+    
     client.query(modSql, modSqlParams,
         function selectCb(err, results, fields) {
             if (err) {
