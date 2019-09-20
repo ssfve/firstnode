@@ -132,7 +132,7 @@ let getPreviousPageId=function(req, res, next) {
 let saveButtonAttribute=function (req, res, next) {
     let params = URL.parse(req.url, true).query;
     client.query("use " + TEST_DATABASE);
-    let modSql = 'Update raw_button_table set '+params.attribute_name+'=? where button_id =?';
+    let modSql = 'update raw_button_table set '+params.attribute_name+'=? where button_id =?';
     let modSqlParams = [params.attribute_value, params.button_id];
 
     client.query(modSql, modSqlParams,
