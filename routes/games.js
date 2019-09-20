@@ -218,7 +218,6 @@ router.post('/saveBackgroundImage', function (req, res) {
     form.uploadDir = "/var/tmp/img";
     form.keepExtensions = true;
     form.parse(req, function (err, fields, files) {
-        res.setHeader("Access-Control-Allow-Origin", "*");
         res.send({status: "200", responseType: "String", response: "success"})
     });
 

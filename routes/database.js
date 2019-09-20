@@ -178,7 +178,7 @@ let updateAttribute=function(req, res, next) {
         modSql = 'update '+params.table_name+' set '+params.attribute_name+'=NULL where '+params.key_name+'=?';
         modSqlParams = [params.key_value];
     }
-    
+
     client.query(modSql, modSqlParams,
         function selectCb(err, results, fields) {
             if (err) {
