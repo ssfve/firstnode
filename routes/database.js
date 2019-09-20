@@ -160,7 +160,11 @@ let getAttribute=function(req, res, next) {
                 console.log(result);
             }
             res.setHeader("Access-Control-Allow-Origin", "*");
-            res.send(result.toString());
+            if(result === null){
+                res.send(null);
+            }else{
+                res.send(result.toString());
+            }
         });
 };
 
