@@ -6,6 +6,7 @@ let mysql = require('mysql');
 let Text = require('./text');
 let database = require('./database');
 
+
 /* GET users listing. */
 let TEST_DATABASE = 'boardgames';
 let USE_SCHEMA = 'use boardgames';
@@ -30,17 +31,13 @@ router.get('/', function (req, res, next) {
     res.send('respond with a resource');
 });
 
-module.exports = router;
-
-
-
-let createButton=function(req, res, next) {
+let createImage=function(req, res, next) {
     let text = new Text();
     let params = URL.parse(req.url, true).query;
 
     client.query("use " + TEST_DATABASE);
-    let modSql = 'INSERT INTO raw_button_table (button_text,button_from_page_id,guide_id) values ("DFLT_BTTN",?,?)';
-    let modSqlParams = [params.page_id, params.guide_id];
+    let modSql = 'INSERT INTO raw_image_table (button_text,button_from_page_id,guide_id) values ("DFLT_BTTN",?,?)';
+    let modSqlParams = [params.page_id, params.img_url];
     client.query(modSql, modSqlParams);
 
     modSql = 'SELECT LAST_INSERT_ID();';
@@ -55,14 +52,33 @@ let createButton=function(req, res, next) {
                 result = results[0]['LAST_INSERT_ID()'];
                 console.log(result);
             }
-            //res.setHeader("Access-Control-Allow-Origin", "*");
-            res.locals.buttonid = result;
-            res.locals.attribute_name = 'button'+result+'_id';
+
+            res.locals.imageid = result;
+            res.locals.attribute_name = 'image1_id';
             res.locals.attribute_value = result;
             res.locals.key_name = 'page_id';
             res.locals.key_value = params.page_id;
             res.locals.table_name = 'raw_control_table';
             next();
+        });
+};
+
+let saveButtonToPage=function (req, res, next) {
+    let text = new Text();
+    let params = URL.parse(req.url, true).query;
+
+    //client.connect();
+    client.query("use " + TEST_DATABASE);
+    let modSql = 'Update raw_control_table set '+params.button_db_name+'=? where page_id =?';
+    let modSqlParams = [res.locals.buttonid, params.page_id];
+
+    client.query(modSql, modSqlParams,
+        function selectCb(err, results, fields) {
+            if (err) {
+                throw err;
+            }
+            res.setHeader("Access-Control-Allow-Origin", "*");
+            res.send(res.locals.buttonid.toString());
         });
 };
 
@@ -153,4 +169,6 @@ let saveButtonInfo=function (req, res, next) {
 router.get('/saveButtonAttribute', [saveButtonAttribute]);
 router.get('/getPreviousPageId', [getPreviousPageId]);
 router.get('/getGuideId', [getGuideId]);
-router.get('/writeButtonDB', [createButton, database.updateAttributeInner]);
+router.get('/writeImageDB', [createImage, database.updateAttributeInner]);
+
+module.exports = router;

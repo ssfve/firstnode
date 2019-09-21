@@ -29,9 +29,6 @@ router.get('/', function (req, res, next) {
     res.send('respond with a resource');
 });
 
-module.exports = router;
-
-
 router.get('/getGameInfo', function (req, res, next) {
 
     let game = new Game();
@@ -185,6 +182,26 @@ let updateAttribute=function(req, res, next) {
                 throw err;
             }
             res.setHeader("Access-Control-Allow-Origin", "*");
+            res.send("Success");
+        });
+};
+
+let updateAttributeInner=function(req, res, next) {
+    let params = URL.parse(req.url, true).query;
+    client.query("use " + TEST_DATABASE);
+    // create a default new page record with default background image of id 0
+    let modSql = 'update '+res.locals.table_name+' set '+res.locals.attribute_name+'=? where '+res.locals.key_name+'=?';
+    let modSqlParams = [res.locals.attribute_value, res.locals.key_value];
+    if(res.locals.attribute_value === ''){
+        modSql = 'update '+res.locals.table_name+' set '+res.locals.attribute_name+'=NULL where '+res.locals.key_name+'=?';
+        modSqlParams = [res.locals.key_value];
+    }
+
+    client.query(modSql, modSqlParams,
+        function selectCb(err, results, fields) {
+            if (err) {
+                throw err;
+            }
             res.send("Success");
         });
 };
@@ -470,3 +487,8 @@ router.get('/checkRootPage', [checkRootPage, writePageDB]);
 router.get('/writePageDB', [writePageDB]);
 router.get('/saveRootPageId', [saveRootPageId]);
 router.get('/savePageId', [getPageList, appendPageId, savePageList]);
+
+module.exports = {
+    router,
+    updateAttributeInner
+};

@@ -151,11 +151,30 @@ let getButtonInfoFromPage=function(req, res, next) {
         });
 };
 
+let saveButtonToPage=function (req, res, next) {
+    let text = new Text();
+    let params = URL.parse(req.url, true).query;
+
+    //client.connect();
+    client.query("use " + TEST_DATABASE);
+    let modSql = 'Update raw_control_table set '+params.button_db_name+'=? where page_id =?';
+    let modSqlParams = [res.locals.buttonid, params.page_id];
+
+    client.query(modSql, modSqlParams,
+        function selectCb(err, results, fields) {
+            if (err) {
+                throw err;
+            }
+            res.setHeader("Access-Control-Allow-Origin", "*");
+            res.send(res.locals.buttonid.toString());
+        });
+};
+
 router.get('/getButtonInfo', [getButtonInfoFromPage]);
 router.get('/getPageAttribute', [getPageAttribute]);
 router.get('/createBranchPage', [writePageDB]);
 
 module.exports = {
     router,
-    writePageDB
+    writePageDB,
 };
