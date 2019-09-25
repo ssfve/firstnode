@@ -32,12 +32,11 @@ router.get('/', function (req, res, next) {
 });
 
 let createImage=function(req, res, next) {
-    let text = new Text();
     let params = URL.parse(req.url, true).query;
 
     client.query("use " + TEST_DATABASE);
-    let modSql = 'INSERT INTO raw_image_table (button_text,button_from_page_id,guide_id) values ("DFLT_BTTN",?,?)';
-    let modSqlParams = [params.page_id, params.img_url];
+    let modSql = 'INSERT INTO raw_image_table (image_path) values ("fakepath")';
+    let modSqlParams = [];
     client.query(modSql, modSqlParams);
 
     modSql = 'SELECT LAST_INSERT_ID();';
@@ -161,7 +160,6 @@ let saveButtonInfo=function (req, res, next) {
             if (err) {
                 throw err;
             }
-            res.setHeader("Access-Control-Allow-Origin", "*");
             res.send(res.locals.buttonid.toString());
         });
 };

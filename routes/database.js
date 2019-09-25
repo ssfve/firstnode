@@ -181,8 +181,7 @@ let updateAttribute=function(req, res, next) {
             if (err) {
                 throw err;
             }
-            res.setHeader("Access-Control-Allow-Origin", "*");
-            res.send("Success");
+            res.send(params.attribute_value.toString());
         });
 };
 
