@@ -146,33 +146,30 @@ let getButtonInfoFromPage=function(req, res, next) {
                 result = results[0];
                 console.log(result);
             }
-            res.setHeader("Access-Control-Allow-Origin", "*");
             res.send(JSON.stringify(result));
         });
 };
 
-let saveButtonToPage=function (req, res, next) {
-    let text = new Text();
+let getValidGuides=function (req, res, next) {
     let params = URL.parse(req.url, true).query;
 
-    //client.connect();
     client.query("use " + TEST_DATABASE);
-    let modSql = 'Update raw_control_table set '+params.button_db_name+'=? where page_id =?';
-    let modSqlParams = [res.locals.buttonid, params.page_id];
+    let modSql = 'select guide_id from raw_control_table where image1_id != 0 limit 4';
+    let modSqlParams = [];
 
     client.query(modSql, modSqlParams,
         function selectCb(err, results, fields) {
             if (err) {
                 throw err;
             }
-            res.setHeader("Access-Control-Allow-Origin", "*");
-            res.send(res.locals.buttonid.toString());
+            res.send(JSON.stringify(results));
         });
 };
 
 router.get('/getButtonInfo', [getButtonInfoFromPage]);
 router.get('/getPageAttribute', [getPageAttribute]);
 router.get('/createBranchPage', [writePageDB]);
+router.get('/getValidGuides', [getValidGuides]);
 
 module.exports = {
     router,
