@@ -215,6 +215,7 @@ router.post('/saveTranslatePDF', function (req, res) {
 router.post('/saveBackgroundImage', function (req, res) {
     console.log("upload started");
     let form = new formidable.IncomingForm();
+    let params = URL.parse(req.url, true).query;
     form.uploadDir = "/var/tmp/img";
     form.keepExtensions = true;
     form.parse(req, function (err, fields, files) {
@@ -227,7 +228,10 @@ router.post('/saveBackgroundImage', function (req, res) {
 
     form.on('file', function (field, file) {
         console.log(file.path);
-        fs.rename(file.path, form.uploadDir + "/" + file.name);
+        console.log(params.file_name);
+        //params.file_name
+        //fs.rename(file.path, form.uploadDir + "/" + file.name);
+        fs.rename(file.path, form.uploadDir + "/" + params.file_name);
         let command = 'python3 /home/ssfve/upload-linux/autoBlur.py ' + file.name;
         console.log(command);
         exec(command,
