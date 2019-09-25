@@ -51,7 +51,7 @@ app.use('/button', db_button_api);
 app.use('/guide', db_guide_api.router);
 app.use('/page', db_page_api.router);
 app.use('/text', db_text_api.router);
-app.use('/text', db_image_api.router);
+app.use('/image', db_image_api.router);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

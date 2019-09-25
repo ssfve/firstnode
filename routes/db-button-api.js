@@ -30,9 +30,6 @@ router.get('/', function (req, res, next) {
     res.send('respond with a resource');
 });
 
-module.exports = router;
-
-
 
 let createButton=function(req, res, next) {
     let text = new Text();
@@ -154,3 +151,5 @@ router.get('/saveButtonAttribute', [saveButtonAttribute]);
 router.get('/getPreviousPageId', [getPreviousPageId]);
 router.get('/getGuideId', [getGuideId]);
 router.get('/writeButtonDB', [createButton, database.updateAttributeInner]);
+
+module.exports = router;

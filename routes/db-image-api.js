@@ -169,4 +169,6 @@ router.get('/getPreviousPageId', [getPreviousPageId]);
 router.get('/getGuideId', [getGuideId]);
 router.get('/writeImageDB', [createImage, database.updateAttributeInner]);
 
-module.exports = router;
+module.exports = {
+    router
+};
