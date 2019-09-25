@@ -232,7 +232,8 @@ router.post('/saveBackgroundImage', function (req, res) {
         //params.file_name
         //fs.rename(file.path, form.uploadDir + "/" + file.name);
         fs.rename(file.path, form.uploadDir + "/" + params.file_name);
-        let command = 'python3 /home/ssfve/upload-linux/autoBlur.py ' + file.name;
+        // going to do blur
+        let command = 'python3 /home/ssfve/upload-linux/autoBlur.py ' + params.file_name;
         console.log(command);
         exec(command,
             function (error, stdout, stderr) {

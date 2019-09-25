@@ -68,8 +68,12 @@ let getTextAttribute=function(req, res, next) {
                 throw err;
             }
             if (results) {
-                result = results[0][params.attribute_name];
-                console.log(result);
+                if(results[0] !== undefined){
+                    result = results[0][params.attribute_name];
+                    console.log(result);
+                }else{
+                    result = ''
+                }
             }
             res.send(result.toString());
         });
