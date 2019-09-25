@@ -153,10 +153,13 @@ let getAttribute=function(req, res, next) {
                 throw err;
             }
             if (results) {
-                result = results[0][params.attribute_name];
+                if(results[0] !== undefined){
+                    result = results[0][params.attribute_name];
+                }else{
+                    result = ''
+                }
                 console.log(result);
             }
-            res.setHeader("Access-Control-Allow-Origin", "*");
             if(result === null){
                 res.send(null);
             }else{
