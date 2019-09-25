@@ -204,7 +204,7 @@ let updateAttributeInner=function(req, res, next) {
             if (err) {
                 throw err;
             }
-            res.send(params.attribute_value.toString());
+            res.send(res.locals.attribute_value.toString());
         });
 };
 
