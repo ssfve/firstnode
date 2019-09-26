@@ -49,8 +49,7 @@ let createUser=function(req, res, next) {
                 result = results[0]['LAST_INSERT_ID()'];
                 console.log(result);
             }
-            res.locals.textid = result;
-            next();
+            res.send(result.toString());
         });
 };
 
@@ -84,7 +83,7 @@ let checkUserInfo=function (req, res, next) {
     client.query("use " + TEST_DATABASE);
     let modSql = 'select user_name,user_id from user_table where user_name =?';
     let modSqlParams = [params.user_name];
-
+    console.log(params.user_name);
     client.query(modSql, modSqlParams,
         function selectCb(err, results, fields) {
             if (err) {
