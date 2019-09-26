@@ -154,7 +154,7 @@ let getValidGuides=function (req, res, next) {
     let params = URL.parse(req.url, true).query;
 
     client.query("use " + TEST_DATABASE);
-    let modSql = 'select guide_id from raw_control_table where image1_id != 0 limit 4';
+    let modSql = 'select guide_id,guide_name from raw_control_table where image1_id != 0 limit 4';
     let modSqlParams = [];
 
     client.query(modSql, modSqlParams,
