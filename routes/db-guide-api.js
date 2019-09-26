@@ -143,7 +143,7 @@ let getUserGuideList = function (req, res, next) {
 
     //client.connect();
     client.query("use " + TEST_DATABASE);
-    let modSql = 'select guide_id from guide_table where creator=? and guide_name like \'%'+params.search_word+'%\' limit 4';
+    let modSql = 'select guide_id,guide_name from guide_table where creator=? and guide_name like \'%'+params.search_word+'%\' limit 4';
     let modSqlParams = [params.user_id];
 
     client.query(modSql, modSqlParams,
