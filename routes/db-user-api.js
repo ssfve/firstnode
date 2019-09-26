@@ -81,7 +81,7 @@ let getTextAttribute=function(req, res, next) {
 let checkUserInfo=function (req, res, next) {
     let params = URL.parse(req.url, true).query;
     client.query("use " + TEST_DATABASE);
-    let modSql = 'select user_name,user_id from user_table where user_name =?';
+    let modSql = 'select user_id from user_table where user_name =?';
     let modSqlParams = [params.user_name];
     console.log(params.user_name);
     client.query(modSql, modSqlParams,
@@ -90,8 +90,8 @@ let checkUserInfo=function (req, res, next) {
                 throw err;
             }
             if(results[0] !== undefined){
-                result = results[0];
-                res.send(JSON.stringify(result));
+                result = results[0]['user_id'];
+                res.send(result.toString());
             }else{
                 next()
             }
