@@ -151,10 +151,9 @@ let getUserGuideList = function (req, res, next) {
             if (err) {
                 throw err;
             }
-            if (results[0] !== undefined) {
-                result = results[0]['guide_id']
+            if(results){
+                res.send(JSON.stringify(results));
             }
-            res.send(JSON.stringify(result));
         });
 
 };
