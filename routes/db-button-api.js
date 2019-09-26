@@ -54,7 +54,7 @@ let createButton=function(req, res, next) {
             }
             //res.setHeader("Access-Control-Allow-Origin", "*");
             res.locals.buttonid = result;
-            res.locals.attribute_name = 'button'+result+'_id';
+            res.locals.attribute_name = params.button_db_name;
             res.locals.attribute_value = result;
             res.locals.key_name = 'page_id';
             res.locals.key_value = params.page_id;
