@@ -138,10 +138,32 @@ let returnAnyResult = function (req, res, next) {
     res.send(JSON.stringify(result));
 };
 
+let getUserGuideList = function (req, res, next) {
+    let params = URL.parse(req.url, true).query;
+
+    //client.connect();
+    client.query("use " + TEST_DATABASE);
+    let modSql = 'select guide_id from guide_table where creator=? and guide_name=\'%'+params.search_word+'%\' limit 4';
+    let modSqlParams = [params.user_id];
+
+    client.query(modSql, modSqlParams,
+        function selectCb(err, results, fields) {
+            if (err) {
+                throw err;
+            }
+            if (results[0] !== undefined) {
+                result = results[0]['guide_id']
+            }
+            res.send(JSON.stringify(result));
+        });
+
+};
+
 router.get('/checkRootPage', [checkRootPage, db_page_api.writePageDB]);
 router.get('/saveRootPageId', [saveRootPageId]);
 router.get('/savePageId', [getPageList, appendPageId, savePageListToGuide]);
 router.get('/getPageList', [getPageList, returnAnyResult]);
+router.get('/getUserGuideList', [getUserGuideList]);
 
 module.exports = {
     router
