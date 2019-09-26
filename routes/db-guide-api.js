@@ -158,6 +158,35 @@ let getUserGuideList = function (req, res, next) {
 
 };
 
+
+let writeGuideDB = function (req, res, next) {
+    let params = URL.parse(req.url, true).query;
+
+    client.query("use " + TEST_DATABASE);
+    let modSql = 'INSERT INTO guide_table (guide_name,creator) values (?,?)';
+    // TODO: get guide name from user
+    let guide_name = Date.now();
+    let modSqlParams = [guide_name,params.user_id];
+    client.query(modSql, modSqlParams);
+
+    modSql = 'SELECT LAST_INSERT_ID();';
+    modSqlParams = [];
+    //return autoincrement
+    client.query(modSql, modSqlParams,
+        function selectCb(err, results, fields) {
+            if (err) {
+                throw err;
+            }
+            if (results) {
+                result = results[0]['LAST_INSERT_ID()'];
+                console.log(result);
+            }
+            res.send(result.toString());
+        });
+
+};
+
+router.get('/writeGuideDB', [writeGuideDB]);
 router.get('/checkRootPage', [checkRootPage, db_page_api.writePageDB]);
 router.get('/saveRootPageId', [saveRootPageId]);
 router.get('/savePageId', [getPageList, appendPageId, savePageListToGuide]);
