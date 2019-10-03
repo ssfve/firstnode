@@ -5,6 +5,7 @@ let mysql = require('mysql');
 //let Game = require('./game');
 let Text = require('./text');
 let db_page_api = require('./db-page-api');
+const urlencode = require('urlencode');
 
 /* GET users listing. */
 let TEST_DATABASE = 'boardgames';
@@ -141,7 +142,8 @@ let getUserGuideList = function (req, res, next) {
 
     //client.connect();
     client.query("use " + TEST_DATABASE);
-    let modSql = 'select guide_id,guide_name from guide_table where is_archived = 0 and creator=? and guide_name like \'%'+params.search_word+'%\' limit 4';
+    let local_search_word = urlencode.decode(params.search_word);
+    let modSql = 'select guide_id,guide_name from guide_table where is_archived = 0 and creator=? and guide_name like \'%'+local_search_word+'%\' limit 4';
     let modSqlParams = [params.user_id];
 
     client.query(modSql, modSqlParams,
@@ -191,7 +193,9 @@ let getGuideList = function (req, res, next) {
     //strip this search_word
     //let local_search_word = params.search_word.toString().replace('\'','');
     //console.log('search word is '+local_search_word);
-    let modSql = 'select guide_id,guide_name from guide_table where is_archived = 0 and guide_name like \'%'+params.search_word.toString()+'%\' limit 4';
+    let local_search_word = urlencode.decode(params.search_word);
+    console.log('search word='+local_search_word);
+    let modSql = 'select guide_id,guide_name from guide_table where is_archived = 0 and guide_name like \'%'+local_search_word+'%\' limit 4';
     let modSqlParams = [];
 
     client.query(modSql, modSqlParams,
