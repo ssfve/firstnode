@@ -188,7 +188,10 @@ let getGuideList = function (req, res, next) {
     let params = URL.parse(req.url, true).query;
 
     client.query("use " + TEST_DATABASE);
-    let modSql = 'select guide_id,guide_name from guide_table where is_archived = 0 and guide_name like \'%'+params.search_word+'%\' limit 4';
+    //strip this search_word
+    let local_search_word = params.search_word.toString().replace('\'','');
+    console.log('search word is '+local_search_word);
+    let modSql = 'select guide_id,guide_name from guide_table where is_archived = 0 and guide_name like \'%'+local_search_word+'%\' limit 4';
     let modSqlParams = [];
 
     client.query(modSql, modSqlParams,
