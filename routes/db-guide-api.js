@@ -214,6 +214,8 @@ let unlinkPageId = function (req, res, next) {
             pageList = pageList.substr(0,pageList.length-2)
         }
         console.log('page list is now ' + pageList);
+        // save back new page list
+        res.locals.pageList = pageList;
     } else {
         console.log('fatal error: page_list shall not be null in this situation');
     }
