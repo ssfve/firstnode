@@ -142,7 +142,7 @@ let getUserGuideList = function (req, res, next) {
 
     //client.connect();
     client.query("use " + TEST_DATABASE);
-    let local_search_word = urlencode.decode(params.search_word).replace("\'","\\\'");
+    let local_search_word = urlencode.decode(params.search_word);
     local_search_word = local_search_word.replace(new RegExp("\'","gm"),"\\\'");
     console.log('search word='+local_search_word);
     let modSql = 'select guide_id,guide_name from guide_table where is_archived = 0 and creator=? and guide_name like \'%'+local_search_word+'%\' limit 4';
