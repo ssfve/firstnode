@@ -92,7 +92,6 @@ let getPageList = function (req, res, next) {
             if (err) {
                 throw err;
             }
-            res.setHeader("Access-Control-Allow-Origin", "*");
             res.locals.pageList = results[0]['page_list'];
             res.locals.result = results[0]['page_list'];
             //console.log('page_list is '+res.locals.pageList);
@@ -126,7 +125,6 @@ let savePageListToGuide = function (req, res, next) {
             if (err) {
                 throw err;
             }
-            res.setHeader("Access-Control-Allow-Origin", "*");
             res.send("Success");
         });
 
@@ -205,6 +203,23 @@ let getGuideList = function (req, res, next) {
 
 };
 
+let unlinkPageId = function (req, res, next) {
+    let params = URL.parse(req.url, true).query;
+    let pageList = res.locals.pageList;
+    if (pageList != null) {
+        pageList += ',';
+        pageList = pageList.replace(params.page_id.toString(),'');
+        let length = pageList.length;
+        if (pageList.substr(pageList.length-1, 1) === ','){
+            pageList = pageList.substr(0,pageList.length-2)
+        }
+        console.log('page list is now ' + pageList);
+    } else {
+        console.log('fatal error: page_list shall not be null in this situation');
+    }
+    next();
+};
+
 router.get('/writeGuideDB', [writeGuideDB]);
 router.get('/checkRootPage', [checkRootPage, db_page_api.writePageDB]);
 router.get('/saveRootPageId', [saveRootPageId]);
@@ -212,6 +227,7 @@ router.get('/savePageId', [getPageList, appendPageId, savePageListToGuide]);
 router.get('/getPageList', [getPageList, returnAnyResult]);
 router.get('/getUserGuideList', [getUserGuideList]);
 router.get('/getGuideList', [getGuideList]);
+router.get('/unlinkPageId', [getPageList, unlinkPageId, savePageListToGuide]);
 
 module.exports = {
     router
