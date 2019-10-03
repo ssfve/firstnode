@@ -5,7 +5,7 @@ let mysql = require('mysql');
 //let Game = require('./game');
 let Text = require('./text');
 let database = require('./database');
-
+const fs = require('fs');
 
 /* GET users listing. */
 let TEST_DATABASE = 'boardgames';
@@ -164,10 +164,25 @@ let saveButtonInfo=function (req, res, next) {
         });
 };
 
+let getImageStream=function(req, res, next){
+    let params = URL.parse(req.url, true).query;
+    let filePath = '/var/tmp/img/'+params.file_name;
+    console.log('file path='+filePath);
+    let size = fs.statSync(filePath).size;
+    console.log('file size='+size);
+    res.setHeader("Content-Type", "application/octet-stream");
+    res.setHeader("Content-Disposition", 'attachment; filename=' + params.fileName);
+    res.setHeader("Content-Length", size);
+    res.setHeader("Accept-Ranges", 'bytes');
+    fs.createReadStream(filePath).pipe(res);
+};
+
 router.get('/saveButtonAttribute', [saveButtonAttribute]);
 router.get('/getPreviousPageId', [getPreviousPageId]);
 router.get('/getGuideId', [getGuideId]);
 router.get('/writeImageDB', [createImage, database.updateAttributeInner]);
+router.get('/getImageStream', [getImageStream]);
+
 
 module.exports = {
     router
