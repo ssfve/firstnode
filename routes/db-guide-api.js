@@ -93,8 +93,13 @@ let getPageList = function (req, res, next) {
             if (err) {
                 throw err;
             }
-            res.locals.pageList = results[0]['page_list'];
-            res.locals.result = results[0]['page_list'];
+            if(results[0] !== undefined){
+                res.locals.pageList = results[0]['page_list'];
+                res.locals.result = results[0]['page_list'];
+            }else{
+                let result = {};
+                res.send(JSON.stringify(result));
+            }
             //console.log('page_list is '+res.locals.pageList);
             next();
         });
