@@ -133,7 +133,6 @@ let savePageListToGuide = function (req, res, next) {
 
 let returnAnyResult = function (req, res, next) {
     result = res.locals.result;
-    res.setHeader("Access-Control-Allow-Origin", "*");
     res.send(JSON.stringify(result));
 };
 
