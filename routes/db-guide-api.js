@@ -194,7 +194,6 @@ let writeGuideDB = function (req, res, next) {
 
 let getGuideList = function (req, res, next) {
     let params = URL.parse(req.url, true).query;
-
     client.query("use " + TEST_DATABASE);
     //strip this search_word
     //let local_search_word = params.search_word.toString().replace('\'','');
@@ -204,6 +203,27 @@ let getGuideList = function (req, res, next) {
     local_search_word = local_search_word.replace(new RegExp("\'","gm"),"\\\'");
     console.log('search word='+local_search_word);
     let modSql = 'select guide_id,guide_name from guide_table where is_archived = 0 and guide_name like \'%'+local_search_word+'%\' limit 4';
+    console.log(modSql);
+    let modSqlParams = [];
+
+    client.query(modSql, modSqlParams,
+        function selectCb(err, results, fields) {
+            if (err) {
+                throw err;
+            }
+            if(results){
+                res.send(JSON.stringify(results));
+            }
+        });
+
+};
+
+let getGuideListById = function (req, res, next) {
+    let params = URL.parse(req.url, true).query;
+    client.query("use " + TEST_DATABASE);
+
+    // only id
+    let modSql = 'select guide_id,guide_name from guide_table where is_archived = 0 and guide_id='+params.search_word;
     console.log(modSql);
     let modSqlParams = [];
 
@@ -245,6 +265,7 @@ router.get('/savePageId', [getPageList, appendPageId, savePageListToGuide]);
 router.get('/getPageList', [getPageList, returnAnyResult]);
 router.get('/getUserGuideList', [getUserGuideList]);
 router.get('/getGuideList', [getGuideList]);
+router.get('/getGuideListById', [getGuideListById]);
 router.get('/unlinkPageId', [getPageList, unlinkPageId, savePageListToGuide]);
 
 module.exports = {
