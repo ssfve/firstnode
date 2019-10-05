@@ -231,7 +231,14 @@ let getGuideById = function (req, res, next) {
     client.query("use " + TEST_DATABASE);
 
     // only id
-    let modSql = 'select guide_id,guide_name from guide_table where is_archived = 0 and guide_id='+params.search_word;
+    let modSql = 'select a.guide_id,' +
+        'a.guide_name,' +
+        'a.root_page_id,' +
+        'b.image1_id ' +
+        'from guide_table as a,raw_control_table as b ' +
+        'where a.is_archived = 0 ' +
+        'and a.root_page_id = b.page_id ' +
+        'and a.guide_id='+params.search_word;
     console.log(modSql);
     let modSqlParams = [];
 
@@ -241,8 +248,8 @@ let getGuideById = function (req, res, next) {
                 throw err;
             }
             if(results){
-                next()
-                //res.send(JSON.stringify(results));
+                //next()
+                res.send(JSON.stringify(results));
             }
         });
 
