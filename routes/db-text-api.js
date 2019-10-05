@@ -102,8 +102,8 @@ let getPageTextContent=function(req, res, next) {
 
     client.query("use " + TEST_DATABASE);
     // create a default new page record with default background image of id 0
-    let modSql = 'select a.text_content ' +
-        'from raw_text_table as a,raw_control_table as b' +
+    let modSql = 'select a.textContent ' +
+        'from raw_text_table as a,raw_control_table as b ' +
         'where a.textID = b.text1_id ' +
         'and b.page_id='+params.page_id;
     console.log(modSql);
