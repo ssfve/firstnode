@@ -195,12 +195,59 @@ let getPageButtonList = function (req, res, next) {
 
 let getButtonText = function (req, res, next) {
     //var myJson = null;
-    //var buttonList = res.locals.result;
-    const BUTTON_NUM = 4;
-    let key_array = Object.keys(res.locals.result);
+    let buttonList = res.locals.result;
+    res.locals.index = 0;
+    res.locals.filtered = {};
+    let key_array = Object.keys(buttonList);
     for (let i = 0; i < key_array.length; i++) {
         let key = key_array[i];
-        let value = res.locals.result[key];
+        let value = buttonList[key];
+        //console.log(key);
+        if (value === null) {
+            console.log('null detected');
+            console.log('no customized button text');
+            console.log('button is not shown');
+            //myJson.push({"name": value, "text": '下一步'});
+        } else {
+            console.log('querying button text');
+            let modSql = 'Select button_text,to_page_id,image_id from raw_button_table where button_id=?';
+            let modSqlParams = [value];
+            let result = null;
+            client.query(modSql, modSqlParams,
+                function selectCb(err, results, fields) {
+                    if (err) {
+                        throw err;
+                    }
+                    let count_flag = res.locals.index + 1;
+                    // {} is an object
+                    let emptyObj = {};
+                    if (results[0] !== undefined) {
+                        let button_text_name = "button_text";
+                        let button_to_name = "button_to";
+                        let button_to_image_name = "button_to_image";
+                        emptyObj[button_text_name] = results[0]['button_text'];
+                        emptyObj[button_to_name] = results[0]['to_page_id'];
+                        emptyObj[button_to_image_name] = results[0]['image_id'];
+                        res.locals.filtered[count_flag]=emptyObj;
+                    } else {
+                        let button_text_name = "button_text";
+                        console.log(button_text_name);
+                        emptyObj[button_text_name] = '下一步';
+                    }
+                    res.locals.index = res.locals.index + 1;
+                });
+        }
+    }
+    res.send(JSON.stringify(res.locals.filtered));
+};
+
+let getCheckImageNewPage = function (req, res, next) {
+    //var myJson = null;
+    let buttonList = res.locals.result;
+    let key_array = Object.keys(buttonList);
+    for (let i = 0; i < key_array.length; i++) {
+        let key = key_array[i];
+        let value = buttonList[key];
         //console.log(key);
         res.locals.index = i;
         if (value === null) {
@@ -219,6 +266,7 @@ let getButtonText = function (req, res, next) {
                         throw err;
                     }
                     let count_flag = res.locals.index + 1;
+                    // {} is an object
                     let buttonList = res.locals.result;
                     if (results[0] !== undefined) {
                         let button_text_name = "button" + count_flag + "_text";
@@ -232,12 +280,10 @@ let getButtonText = function (req, res, next) {
                         buttonList[button_text_name] = '下一步';
                     }
                     res.locals.result = buttonList;
-                    if (count_flag === BUTTON_NUM) {
-                        res.send(JSON.stringify(res.locals.result));
-                    }
                 });
         }
     }
+    next()
 };
 
 router.get('/getButtonInfoFromPage', [getButtonInfoFromPage]);
