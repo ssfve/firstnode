@@ -211,7 +211,7 @@ let getButtonText = function (req, res, next) {
             //myJson.push({"name": value, "text": '下一步'});
         } else {
             console.log('querying button text');
-            let modSql = 'Select button_text,button_to_page_id,image_id from raw_button_table where button_id=?';
+            let modSql = 'Select button_id,button_text,button_to_page_id,image_id from raw_button_table where button_id=?';
             let modSqlParams = [value];
             let result = null;
             client.query(modSql, modSqlParams,
@@ -223,12 +223,10 @@ let getButtonText = function (req, res, next) {
                     // {} is an object
                     let emptyObj = {};
                     if (results[0] !== undefined) {
-                        let button_text_name = "button_text";
-                        let button_to_page_id_name = "button_to_page_id";
-                        let button_to_image_id_name = "button_to_image_id";
-                        emptyObj[button_text_name] = results[0]['button_text'];
-                        emptyObj[button_to_page_id_name] = results[0]['button_to_page_id'];
-                        emptyObj[button_to_image_id_name] = results[0]['image_id'];
+                        emptyObj['button_id'] = results[0]['button_id'];
+                        emptyObj['button_text'] = results[0]['button_text'];
+                        emptyObj['button_to_page_id'] = results[0]['button_to_page_id'];
+                        emptyObj['button_to_image_id'] = results[0]['image_id'];
                         res.locals.filtered[count_flag]=emptyObj;
                     } else {
                         let button_text_name = "button_text";
