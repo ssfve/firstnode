@@ -194,9 +194,10 @@ let getPageButtonList = function (req, res, next) {
 };
 
 let getButtonText = function (req, res, next) {
-    var myJson = {};
+    var myJson = [];
     var buttonList = res.locals.result;
     for(var key in buttonList) {
+        let index = buttonList.indexOf(key);
         let button_key = key.replace('id', 'text');
         if (buttonList[key] === null) {
             console.log('null detected');
@@ -212,13 +213,11 @@ let getButtonText = function (req, res, next) {
                     throw err;
                 }
                 if (results[0] !== undefined) {
-                    myJson[key]=buttonList[key];
-                    myJson[button_key]=results[0]['button_text'];
+                    myJson[index]={ "buttonInfo": [buttonList[key],results[0]['button_text']] };
                 } else {
                     console.log('no customized button text');
                     console.log('set default data');
-                    myJson[key]=buttonList[key];
-                    myJson[button_key]='下一步';
+                    myJson[index]={ "buttonInfo": [buttonList[key],'下一步'] };
                 }
             });
     }
