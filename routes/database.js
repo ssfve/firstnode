@@ -137,6 +137,34 @@ let getAttribute=function(req, res, next) {
         });
 };
 
+let getAttributeInner=function(req, res, next) {
+    let params = URL.parse(req.url, true).query;
+    client.query("use " + TEST_DATABASE);
+    // create a default new page record with default background image of id 0
+    let modSql = 'select '+res.locals.attribute_name+' from '+res.locals.table_name+' where '+res.locals.key_name+'=?';
+    let modSqlParams = [res.locals.key_value];
+    let result = null;
+    client.query(modSql, modSqlParams,
+        function selectCb(err, results, fields) {
+            if (err) {
+                throw err;
+            }
+            if (results) {
+                if(results[0] !== undefined){
+                    result = results[0][res.locals.attribute_name];
+                }else{
+                    result = ''
+                }
+                console.log(result);
+            }
+            if(result === null){
+                res.send(null);
+            }else{
+                res.send(result.toString());
+            }
+        });
+};
+
 let updateAttribute=function(req, res, next) {
     let params = URL.parse(req.url, true).query;
     client.query("use " + TEST_DATABASE);
@@ -463,5 +491,6 @@ router.get('/savePageId', [getPageList, appendPageId, savePageList]);
 
 module.exports = {
     router,
-    updateAttributeInner
+    updateAttributeInner,
+    getAttributeInner
 };

@@ -5,6 +5,7 @@ let mysql = require('mysql');
 //let Game = require('./game');
 let Text = require('./text');
 let db_page_api = require('./db-page-api');
+let database = require('./database');
 const urlencode = require('urlencode');
 
 /* GET users listing. */
@@ -202,7 +203,14 @@ let getGuideList = function (req, res, next) {
     // this is javascript replaceAll
     local_search_word = local_search_word.replace(new RegExp("\'","gm"),"\\\'");
     console.log('search word='+local_search_word);
-    let modSql = 'select guide_id,guide_name from guide_table where is_archived = 0 and guide_name like \'%'+local_search_word+'%\' limit 4';
+    let modSql = 'select a.guide_id,' +
+        'a.guide_name,' +
+        'a.root_page_id,' +
+        'b.image1_id from guide_table as a,raw_control_table as b ' +
+        'where a.is_archived = 0 ' +
+        'and a.root_page_id = b.page_id ' +
+        'and a.guide_name like \'%'+local_search_word+'%\' ' +
+        'limit 4';
     console.log(modSql);
     let modSqlParams = [];
 
@@ -233,7 +241,8 @@ let getGuideById = function (req, res, next) {
                 throw err;
             }
             if(results){
-                res.send(JSON.stringify(results));
+                next()
+                //res.send(JSON.stringify(results));
             }
         });
 
