@@ -224,11 +224,11 @@ let getButtonText = function (req, res, next) {
                     let emptyObj = {};
                     if (results[0] !== undefined) {
                         let button_text_name = "button_text";
-                        let button_to_name = "button_to";
-                        let button_to_image_name = "button_to_image";
+                        let button_to_page_id_name = "button_to_page_id";
+                        let button_to_image_id_name = "button_to_image_id";
                         emptyObj[button_text_name] = results[0]['button_text'];
-                        emptyObj[button_to_name] = results[0]['button_to_page_id'];
-                        emptyObj[button_to_image_name] = results[0]['image_id'];
+                        emptyObj[button_to_page_id_name] = results[0]['button_to_page_id'];
+                        emptyObj[button_to_image_id_name] = results[0]['image_id'];
                         res.locals.filtered[count_flag]=emptyObj;
                     } else {
                         let button_text_name = "button_text";
