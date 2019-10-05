@@ -237,8 +237,12 @@ let getButtonText = function (req, res, next) {
                     res.locals.index = res.locals.index + 1;
                 });
         }
+        if(i === key_array.length-1){
+            console.log("going to send");
+            res.send(JSON.stringify(res.locals.filtered));
+        }
     }
-    res.send(JSON.stringify(res.locals.filtered));
+    //res.send(JSON.stringify(res.locals.filtered));
 };
 
 let getCheckImageNewPage = function (req, res, next) {
