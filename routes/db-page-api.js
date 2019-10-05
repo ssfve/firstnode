@@ -194,17 +194,16 @@ let getPageButtonList = function (req, res, next) {
 };
 
 let getButtonText = function (req, res, next) {
-    var buttonList = res.locals.result;
-    for (var key in buttonList) {
-        let button_id = buttonList[key];
+    var buttonList = new Map(res.locals.result);
+    for (var [key, value] of buttonList) {
         let button_key = key.replace('id', 'text');
-        if(button_id === null){
+        if(value === null){
             console.log('null detected');
             continue;
         }
         console.log('querying button text');
         let modSql = 'Select button_text from raw_button_table where button_id=?';
-        let modSqlParams = [button_id];
+        let modSqlParams = [value];
         let result = null;
         client.query(modSql, modSqlParams,
             function selectCb(err, results, fields) {
@@ -212,12 +211,10 @@ let getButtonText = function (req, res, next) {
                     throw err;
                 }
                 if (results[0] !== undefined) {
-                    buttonList[button_key] = results[0]['button_text'];
                     buttonList.set(button_key, results[0]['button_text']);
                 }else{
                     console.log('no customized button text');
                     console.log('set default data');
-                    buttonList[button_key] = '下一步';
                     buttonList.set(button_key, '下一步');
                 }
             });
