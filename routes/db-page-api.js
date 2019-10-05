@@ -198,7 +198,7 @@ let getButtonText = function (req, res, next) {
     //var buttonList = res.locals.result;
     const BUTTON_NUM = 4;
     let key_array = Object.keys(res.locals.result);
-    for(let i = 0;i < key_array.length;i++) {
+    for (let i = 0; i < key_array.length; i++) {
         let key = key_array[i];
         let value = res.locals.result[key];
         //console.log(key);
@@ -221,27 +221,21 @@ let getButtonText = function (req, res, next) {
                     let count_flag = res.locals.index + 1;
                     let buttonList = res.locals.result;
                     if (results[0] !== undefined) {
-                        let button_text_name = "button"+count_flag+"_text";
+                        let button_text_name = "button" + count_flag + "_text";
                         console.log(button_text_name);
-                        buttonList[button_text_name]=results[0]['button_text'];
+                        buttonList[button_text_name] = results[0]['button_text'];
                     } else {
-                        let button_text_name = "button"+count_flag+"_text";
+                        let button_text_name = "button" + count_flag + "_text";
                         console.log(button_text_name);
-                        let buttonList = res.locals.result;
-                        res.locals.result[button_text_name]='下一步';
+                        buttonList[button_text_name] = '下一步';
                     }
-                    console.log(buttonList);
                     res.locals.result = buttonList;
-                    if(count_flag === BUTTON_NUM){
-                        console.log("going to send");
-                        console.log(res.locals.result);
+                    if (count_flag === BUTTON_NUM) {
                         res.send(JSON.stringify(res.locals.result));
                     }
                 });
         }
-        console.log('res.locals.result');
     }
-    //console.log(res.locals.result);
 };
 
 router.get('/getButtonInfoFromPage', [getButtonInfoFromPage]);
