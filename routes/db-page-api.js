@@ -194,12 +194,14 @@ let getPageButtonList = function (req, res, next) {
 };
 
 let getButtonText = function (req, res, next) {
-    let myJson = [];
+    var myJson = [];
     let buttonList = res.locals.result;
     let key_array = Object.keys(buttonList);
     for(let i = 0;i < key_array.length;i++) {
         let key = key_array[i];
         let value = buttonList.key;
+        console.log(key);
+        console.log(value);
         if (value === null) {
             console.log('null detected');
             console.log('no customized button text');
@@ -216,12 +218,16 @@ let getButtonText = function (req, res, next) {
                         throw err;
                     }
                     if (results[0] !== undefined) {
-                        myJson[i]={"name": value, "text":results[0]['button_text']};
+                        myJson[i]["name"]=value;
+                        myJson[i]["text"]=results[0]['button_text'];
                     } else {
-                        myJson[i]={"name": value, "text":'下一步'};
+                        myJson[i]["name"]=value;
+                        myJson[i]["text"]='下一步';
                     }
                 });
         }
+        console.log('in loop');
+        console.log(myJson);
     }
     console.log(myJson);
     res.send(JSON.stringify(myJson));
