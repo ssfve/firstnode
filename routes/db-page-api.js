@@ -210,7 +210,7 @@ let getButtonText = function (req, res, next) {
             //myJson.push({"name": value, "text": '下一步'});
         } else {
             console.log('querying button text');
-            let modSql = 'Select button_text from raw_button_table where button_id=?';
+            let modSql = 'Select button_text,to_page_id from raw_button_table where button_id=?';
             let modSqlParams = [value];
             let result = null;
             client.query(modSql, modSqlParams,
@@ -222,8 +222,10 @@ let getButtonText = function (req, res, next) {
                     let buttonList = res.locals.result;
                     if (results[0] !== undefined) {
                         let button_text_name = "button" + count_flag + "_text";
+                        let button_to_page_id_name = "button" + count_flag + "_to_page_id";
                         console.log(button_text_name);
                         buttonList[button_text_name] = results[0]['button_text'];
+                        buttonList[button_to_page_id_name] = results[0]['to_page_id'];
                     } else {
                         let button_text_name = "button" + count_flag + "_text";
                         console.log(button_text_name);
