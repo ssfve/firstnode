@@ -224,10 +224,12 @@ let getButtonText = function (req, res, next) {
                     }
                 });
         }
-        console.log('in loop');
+        console.log('res.locals.result');
+        if(i === key_array.length-1){
+            res.send(JSON.stringify(res.locals.result));
+        }
     }
-    console.log(res.locals.result);
-    res.send(JSON.stringify(res.locals.result));
+    //console.log(res.locals.result);
 };
 
 router.get('/getButtonInfoFromPage', [getButtonInfoFromPage]);
