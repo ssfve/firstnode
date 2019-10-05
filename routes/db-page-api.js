@@ -198,7 +198,12 @@ let getButtonText = function (req, res, next) {
     for (let i in buttonList) {
         let buttonName = 'button' + i + '_id';
         let button_id = buttonList.buttonName;
-        let modSql = 'Select buttonText from raw_button_table where button_id=?';
+        console.log(buttonName);
+        if(button_id === null){
+            continue;
+        }
+        console.log('querying button text');
+        let modSql = 'Select button_text from raw_button_table where button_id=?';
         let modSqlParams = [button_id];
         let result = null;
         client.query(modSql, modSqlParams,
