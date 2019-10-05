@@ -199,6 +199,7 @@ let getButtonText = function (req, res, next) {
         let button_id = buttonList.key;
         console.log(key);
         if(button_id === null){
+            console.log('null detected');
             continue;
         }
         console.log('querying button text');
@@ -210,10 +211,15 @@ let getButtonText = function (req, res, next) {
                 if (err) {
                     throw err;
                 }
-                if (results) {
+                if (results[0] !== undefined) {
                     let button_key = key.replace('id', 'text');
                     buttonList.button_key = results[0]['button_text'];
                     console.log(results[0]['button_text']);
+                    console.log(buttonList);
+                }else{
+                    console.log('no customized button text');
+                    console.log('set default data');
+                    buttonList.button_key = '下一步';
                     console.log(buttonList);
                 }
             });
