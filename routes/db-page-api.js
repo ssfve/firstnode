@@ -196,6 +196,7 @@ let getPageButtonList = function (req, res, next) {
 let getButtonText = function (req, res, next) {
     //var myJson = null;
     //var buttonList = res.locals.result;
+    const BUTTON_NUM = 4;
     let key_array = Object.keys(res.locals.result);
     for(let i = 0;i < key_array.length;i++) {
         let key = key_array[i];
@@ -231,7 +232,7 @@ let getButtonText = function (req, res, next) {
                     }
                     console.log(buttonList);
                     res.locals.result = buttonList;
-                    if(count_flag === key_array.length){
+                    if(count_flag === BUTTON_NUM){
                         console.log("going to send");
                         console.log(res.locals.result);
                         res.send(JSON.stringify(res.locals.result));
