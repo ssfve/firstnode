@@ -194,7 +194,7 @@ let getPageButtonList = function (req, res, next) {
 };
 
 let getButtonText = function (req, res, next) {
-    //var myJson = null;
+    const button_limit = 4;
     let buttonList = res.locals.result;
     res.locals.index = 0;
     res.locals.filtered = {};
@@ -235,12 +235,16 @@ let getButtonText = function (req, res, next) {
                         emptyObj[button_text_name] = '下一步';
                     }
                     res.locals.index = res.locals.index + 1;
+                    if(count_flag === button_limit){
+                        console.log("going to send");
+                        res.send(JSON.stringify(res.locals.filtered));
+                    }
                 });
         }
-        if(i === key_array.length-1){
-            console.log("going to send");
-            res.send(JSON.stringify(res.locals.filtered));
-        }
+        // if(i === key_array.length-1){
+        //     console.log("going to send");
+        //     res.send(JSON.stringify(res.locals.filtered));
+        // }
     }
     //res.send(JSON.stringify(res.locals.filtered));
 };
