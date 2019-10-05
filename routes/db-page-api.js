@@ -217,17 +217,26 @@ let getButtonText = function (req, res, next) {
                     if (err) {
                         throw err;
                     }
+                    let count_flag = res.locals.index + 1;
+                    let buttonList = res.locals.result;
                     if (results[0] !== undefined) {
-                        res.locals.result["button"+(res.locals.index+1)+"_text"]=results[0]['button_text'];
+                        let button_text_name = "button"+count_flag+"_text";
+                        console.log(button_text_name);
+                        buttonList[button_text_name]=results[0]['button_text'];
                     } else {
-                        res.locals.result["button"+(res.locals.index+1)+"_text"]='下一步';
+                        let button_text_name = "button"+count_flag+"_text";
+                        console.log(button_text_name);
+                        let buttonList = res.locals.result;
+                        res.locals.result[button_text_name]='下一步';
+                    }
+                    console.log(buttonList);
+                    res.locals.result = buttonList;
+                    if(count_flag === key_array.length-1){
+                        res.send(JSON.stringify(res.locals.result));
                     }
                 });
         }
         console.log('res.locals.result');
-        if(i === key_array.length-1){
-            res.send(JSON.stringify(res.locals.result));
-        }
     }
     //console.log(res.locals.result);
 };
