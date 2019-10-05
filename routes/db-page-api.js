@@ -212,16 +212,16 @@ let getButtonText = function (req, res, next) {
                     throw err;
                 }
                 if (results[0] !== undefined) {
-                    buttonList[button_key] = results[0]['button_text'];
+                    res.locals.result[button_key] = results[0]['button_text'];
                 }else{
                     console.log('no customized button text');
                     console.log('set default data');
-                    buttonList[button_key] = '下一步';
+                    res.locals.result[button_key] = '下一步';
                 }
             });
     }
-    console.log(buttonList);
-    res.send(JSON.stringify(buttonList));
+    console.log(res.locals.result);
+    res.send(JSON.stringify(res.locals.result));
 };
 
 router.get('/getButtonInfoFromPage', [getButtonInfoFromPage]);
