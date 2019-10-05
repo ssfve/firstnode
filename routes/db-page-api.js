@@ -196,6 +196,7 @@ let getPageButtonList = function (req, res, next) {
 let getButtonText = function (req, res, next) {
     var buttonList = new Map(res.locals.result);
     for (var [key, value] of buttonList) {
+        console.log(key);
         let button_key = key.replace('id', 'text');
         if(value === null){
             console.log('null detected');
