@@ -195,10 +195,9 @@ let getPageButtonList = function (req, res, next) {
 
 let getButtonText = function (req, res, next) {
     let buttonList = res.locals.result;
-    for (let i in buttonList) {
-        let buttonName = 'button' + i + '_id';
-        let button_id = buttonList.buttonName;
-        console.log(buttonName);
+    for (let key in buttonList) {
+        let button_id = buttonList.key;
+        console.log(key);
         if(button_id === null){
             continue;
         }
@@ -212,9 +211,9 @@ let getButtonText = function (req, res, next) {
                     throw err;
                 }
                 if (results) {
-                    let button_key = 'button' + i + '_text';
-                    result = results[0]['button_text'];
-                    buttonList.button_key = result;
+                    let button_key = key.replace('id', 'text');
+                    buttonList.button_key = results[0]['button_text'];
+                    console.log(results[0]['button_text']);
                     console.log(buttonList);
                 }
             });
