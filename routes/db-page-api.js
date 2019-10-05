@@ -195,31 +195,32 @@ let getPageButtonList = function (req, res, next) {
 
 let getButtonText = function (req, res, next) {
     var myJson = [];
-    var buttonList = res.locals.result;
-    for(var key in buttonList) {
+    let buttonList = res.locals.result;
+    for(let [key, value] in buttonList) {
         let index = buttonList.indexOf(key);
         let button_key = key.replace('id', 'text');
-        if (buttonList[key] === null) {
+        if (value === null) {
             console.log('null detected');
-            continue;
+            console.log('no customized button text');
+            console.log('button is not shown');
+            //myJson.push({"name": value, "text": '下一步'});
+        } else {
+            console.log('querying button text');
+            let modSql = 'Select button_text from raw_button_table where button_id=?';
+            let modSqlParams = [value];
+            let result = null;
+            client.query(modSql, modSqlParams,
+                function selectCb(err, results, fields) {
+                    if (err) {
+                        throw err;
+                    }
+                    if (results[0] !== undefined) {
+                        myJson.push({"name": value, "text":results[0]['button_text']});
+                    } else {
+                        myJson.push({"name": value, "text":'下一步'});
+                    }
+                });
         }
-        console.log('querying button text');
-        let modSql = 'Select button_text from raw_button_table where button_id=?';
-        let modSqlParams = [buttonList[key]];
-        let result = null;
-        client.query(modSql, modSqlParams,
-            function selectCb(err, results, fields) {
-                if (err) {
-                    throw err;
-                }
-                if (results[0] !== undefined) {
-                    myJson[index]={ "buttonInfo": [buttonList[key],results[0]['button_text']] };
-                } else {
-                    console.log('no customized button text');
-                    console.log('set default data');
-                    myJson[index]={ "buttonInfo": [buttonList[key],'下一步'] };
-                }
-            });
     }
     console.log(myJson);
     res.send(JSON.stringify(myJson));
