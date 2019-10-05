@@ -207,6 +207,7 @@ let getButtonText = function (req, res, next) {
             console.log('null detected');
             console.log('no customized button text');
             console.log('button is not shown');
+            res.locals.index = res.locals.index + 1;
             //myJson.push({"name": value, "text": '下一步'});
         } else {
             console.log('querying button text');
