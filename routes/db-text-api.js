@@ -106,6 +106,8 @@ let getPageTextContent=function(req, res, next) {
         'from raw_text_table as a,raw_control_table as b' +
         'where a.textID = b.text1_id ' +
         'and b.page_id = ? ';
+    console.log(params.page_id);
+    console.log(modSql);
     let modSqlParams = [params.page_id];
     let result = null;
     client.query(modSql, modSqlParams,
