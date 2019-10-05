@@ -190,7 +190,6 @@ let getPageButtonList = function (req, res, next) {
                 res.locals.result = result;
                 next();
             }
-            res.send(JSON.stringify(result));
         });
 };
 
