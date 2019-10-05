@@ -196,7 +196,7 @@ let getPageButtonList = function (req, res, next) {
 let getButtonText = function (req, res, next) {
     console.log(typeof res.locals.result);
     let buttonList = res.locals.result;
-    buttonList.forEach(function(item,index,buttonList){
+    Array.forEach(function(item,index,buttonList){
         console.log(item);
         console.log(buttonList[index]);
         let button_key = item.replace('id', 'text');
