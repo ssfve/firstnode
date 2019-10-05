@@ -232,6 +232,8 @@ let getButtonText = function (req, res, next) {
                     console.log(buttonList);
                     res.locals.result = buttonList;
                     if(count_flag === key_array.length){
+                        console.log("going to send");
+                        console.log(res.locals.result);
                         res.send(JSON.stringify(res.locals.result));
                     }
                 });
