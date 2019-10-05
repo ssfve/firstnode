@@ -197,8 +197,6 @@ let getButtonText = function (req, res, next) {
     var myJson = [];
     let buttonList = res.locals.result;
     for(let [key, value] in buttonList) {
-        let index = buttonList.indexOf(key);
-        let button_key = key.replace('id', 'text');
         if (value === null) {
             console.log('null detected');
             console.log('no customized button text');
