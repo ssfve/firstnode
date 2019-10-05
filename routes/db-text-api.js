@@ -116,7 +116,7 @@ let getPageTextContent=function(req, res, next) {
             }
             if (results) {
                 if(results[0] !== undefined){
-                    result = results[0]['text_content'];
+                    result = results[0]['textContent'];
                     console.log(result);
                 }else{
                     result = ''
