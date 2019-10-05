@@ -222,10 +222,10 @@ let getButtonText = function (req, res, next) {
                     let buttonList = res.locals.result;
                     if (results[0] !== undefined) {
                         let button_text_name = "button" + count_flag + "_text";
-                        let button_to_page_id_name = "button" + count_flag + "_to_page_id";
+                        let button_to_name = "button" + count_flag + "_to";
                         console.log(button_text_name);
                         buttonList[button_text_name] = results[0]['button_text'];
-                        buttonList[button_to_page_id_name] = results[0]['to_page_id'];
+                        buttonList[button_to_name] = results[0]['to_page_id'];
                     } else {
                         let button_text_name = "button" + count_flag + "_text";
                         console.log(button_text_name);
