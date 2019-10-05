@@ -218,7 +218,7 @@ let getGuideList = function (req, res, next) {
 
 };
 
-let getGuideListById = function (req, res, next) {
+let getGuideById = function (req, res, next) {
     let params = URL.parse(req.url, true).query;
     client.query("use " + TEST_DATABASE);
 
@@ -265,7 +265,7 @@ router.get('/savePageId', [getPageList, appendPageId, savePageListToGuide]);
 router.get('/getPageList', [getPageList, returnAnyResult]);
 router.get('/getUserGuideList', [getUserGuideList]);
 router.get('/getGuideList', [getGuideList]);
-router.get('/getGuideListById', [getGuideListById]);
+router.get('/getGuideById', [getGuideById]);
 router.get('/unlinkPageId', [getPageList, unlinkPageId, savePageListToGuide]);
 
 module.exports = {
