@@ -198,7 +198,7 @@ let getButtonInfoList = function(o){
         let button_key = item.replace('id', 'text');
         if (o[item] === null) {
             console.log('null detected');
-            return;
+            continue;
         }
         console.log('querying button text');
         let modSql = 'Select button_text from raw_button_table where button_id=?';
