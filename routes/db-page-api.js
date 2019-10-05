@@ -194,14 +194,14 @@ let getPageButtonList = function (req, res, next) {
 };
 
 let getButtonText = function (req, res, next) {
-    let myJson = null;
-    let buttonList = res.locals.result;
-    let key_array = Object.keys(buttonList);
-    for(let i = 0;i < key_array.length;i++) {
-        let key = key_array[i];
-        let value = buttonList[key];
-        console.log(key);
-        console.log(value);
+    var myJson = null;
+    var buttonList = res.locals.result;
+    var key_array = Object.keys(buttonList);
+    for(var i = 0;i < key_array.length;i++) {
+        var key = key_array[i];
+        var value = buttonList[key];
+        //console.log(key);
+        //console.log(value);
         if (value === null) {
             console.log('null detected');
             console.log('no customized button text');
@@ -211,6 +211,7 @@ let getButtonText = function (req, res, next) {
             console.log('querying button text');
             let modSql = 'Select button_text from raw_button_table where button_id=?';
             let modSqlParams = [value];
+            myJson["button"+(i+1)+"_name"]=value;
             let result = null;
             client.query(modSql, modSqlParams,
                 function selectCb(err, results, fields) {
@@ -218,10 +219,8 @@ let getButtonText = function (req, res, next) {
                         throw err;
                     }
                     if (results[0] !== undefined) {
-                        myJson["button"+(i+1)+"_name"]=value;
                         myJson["button"+(i+1)+"_text"]=results[0]['button_text'];
                     } else {
-                        myJson["button"+(i+1)+"_name"]=value;
                         myJson["button"+(i+1)+"_text"]='下一步';
                     }
                 });
