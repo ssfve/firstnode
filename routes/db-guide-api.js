@@ -141,7 +141,7 @@ let returnPageList = function (req, res, next) {
     // result = res.locals.result;
     let page_array = res.locals.result.split(',');
     const page_number = page_array.length;
-    res.locals.index = 1;
+    res.locals.index = 0;
     res.locals.list = {};
     let tempObj = {};
 
@@ -163,8 +163,8 @@ let returnPageList = function (req, res, next) {
 
     for(let key in page_array){
         let params = URL.parse(req.url, true).query;
+        console.log(key);
 
-        //client.connect();
         client.query("use " + TEST_DATABASE);
         let modSql = 'select a.page_id,' +
             'a.image1_id,' +
@@ -189,7 +189,6 @@ let returnPageList = function (req, res, next) {
                     res.locals.list[counter_flag] = tempObj;
                 }
                 res.locals.index = res.locals.index + 1;
-
                 let pageList = res.locals.list;
                 if (page_number === counter_flag-2){
                     console.log('going to send page list');
