@@ -147,7 +147,7 @@ let returnPageList = function (req, res, next) {
     // for the create new page item
     tempObj['page_id'] = 0;
     tempObj['image_id'] = 0;
-    tempObj['text_content'] = '跳转至新页面';
+    tempObj['text_content'] = '下一步';
     let counter_flag = res.locals.index;
     res.locals.list[counter_flag] = tempObj;
     res.locals.index = res.locals.index + 1;
@@ -155,7 +155,7 @@ let returnPageList = function (req, res, next) {
     // for the delete switch item
     tempObj['page_id'] = 0;
     tempObj['image_id'] = 1;
-    tempObj['text_content'] = '删除步骤';
+    tempObj['text_content'] = '按钮将被删除';
     counter_flag = res.locals.index;
     res.locals.list[counter_flag] = tempObj;
     res.locals.index = res.locals.index + 1;
