@@ -237,8 +237,10 @@ let writeGuideDB = function (req, res, next) {
     client.query("use " + TEST_DATABASE);
     let modSql = 'INSERT INTO guide_table (guide_name,creator) values (?,?)';
     // TODO: get guide name from user
-    let guide_name = Date.now();
-    let modSqlParams = [guide_name,params.user_id];
+    //let guide_name = Date.now();
+    // user related feature later on
+    let user_id = 0;
+    let modSqlParams = [params.guide_name,user_id];
     client.query(modSql, modSqlParams);
 
     modSql = 'SELECT LAST_INSERT_ID();';
