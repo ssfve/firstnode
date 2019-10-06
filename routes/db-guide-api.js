@@ -339,11 +339,64 @@ let unlinkPageId = function (req, res, next) {
     next();
 };
 
+let returnPageListFiltered = function (req, res, next) {
+    // result = res.locals.result;
+    let page_array = res.locals.result.split(',');
+    const page_number = page_array.length;
+    res.locals.index = 0;
+    res.locals.list = {};
+
+    for(let key in page_array){
+        let params = URL.parse(req.url, true).query;
+        console.log(key);
+        // key is just index
+        console.log(page_array[key]);
+        client.query("use " + TEST_DATABASE);
+        let modSql = 'select a.page_id,' +
+            'a.image1_id,' +
+            'b.textContent ' +
+            'from raw_control_table as a,' +
+            'raw_text_table as b ' +
+            'where a.text1_id=b.textID ' +
+            'and a.page_id =?';
+        let modSqlParams = [page_array[key]];
+
+        client.query(modSql, modSqlParams,
+            function selectCb(err, results, fields) {
+                if (err) {
+                    throw err;
+                }
+                let counter_flag = res.locals.index;
+                console.log('counter_flag='+counter_flag);
+                let tempObj = {};
+                if(results[0] !== undefined){
+                    tempObj['page_id'] = results[0]['page_id'];
+                    tempObj['image_id']=results[0]['image1_id'];
+                    tempObj['text_content']=results[0]['textContent'];
+                    res.locals.list[counter_flag] = tempObj;
+                }else{
+                    tempObj['page_id'] = results[0]['page_id'];
+                    tempObj['image_id']= results[0]['image1_id'];
+                    tempObj['text_content']='请输入步骤描述';
+                    res.locals.list[counter_flag] = tempObj;
+                }
+                res.locals.index = res.locals.index + 1;
+                let pageList = res.locals.list;
+                if (page_number === counter_flag-1){
+                    console.log('going to send page list');
+                    console.log(pageList);
+                    res.send(JSON.stringify(pageList));
+                }
+            });
+    }
+};
+
 router.get('/writeGuideDB', [writeGuideDB]);
 router.get('/checkRootPage', [checkRootPage, db_page_api.writePageDB]);
 router.get('/saveRootPageId', [saveRootPageId]);
 router.get('/savePageId', [getPageList, appendPageId, savePageListToGuide]);
 router.get('/getPageList', [getPageList, returnPageList]);
+router.get('/getPageListFiltered', [getPageList, returnPageListFiltered]);
 router.get('/getUserGuideList', [getUserGuideList]);
 router.get('/getGuideList', [getGuideList]);
 router.get('/getGuideById', [getGuideById]);
