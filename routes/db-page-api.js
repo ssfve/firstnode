@@ -6,7 +6,6 @@ let mysql = require('mysql');
 let Text = require('./text');
 let db_text_api = require('./db-text-api');
 let db_guide_api = require('./db-guide-api');
-let db_page_api = require('./db-page-api');
 
 /* GET users listing. */
 let TEST_DATABASE = 'boardgames';
@@ -53,7 +52,7 @@ let writePageDB = function (req, res, next) {
             }
             if (results[0] !== undefined) {
                 res.locals.pageid = results[0]['LAST_INSERT_ID()'];
-                next()
+                next();
             }else {
                 res.send('Error');
             }
@@ -359,11 +358,9 @@ router.get('/getButtonInfoFromPage', [getButtonInfoFromPage]);
 router.get('/getPageButtonList', [getPageButtonList, getButtonTextFiltered]);
 router.get('/getPageButtonCreateList', [getPageButtonList, getButtonText]);
 router.get('/getPageAttribute', [getPageAttribute]);
-router.get('/createBranchPage', [db_page_api.writePageDB, db_guide_api.getPageList, db_guide_api.appendPageId, db_guide_api.savePageListToGuide]);
-router.get('/createRootPage', [db_page_api.writePageDB, db_guide_api.saveRootPageId, db_guide_api.getPageList, db_guide_api.appendPageId, db_guide_api.savePageListToGuide]);
+router.get('/createBranchPage', [writePageDB, db_guide_api.getPageList, db_guide_api.appendPageId, db_guide_api.savePageListToGuide]);
+router.get('/createRootPage', [writePageDB, db_guide_api.saveRootPageId, db_guide_api.getPageList, db_guide_api.appendPageId, db_guide_api.savePageListToGuide]);
 router.get('/getValidGuides', [getValidGuides]);
 
-module.exports = {
-    router,
-    writePageDB
-};
+exports.router = router;
+exports.writePageDB = writePageDB;
