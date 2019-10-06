@@ -137,9 +137,57 @@ let savePageListToGuide = function (req, res, next) {
 
 };
 
-let returnAnyResult = function (req, res, next) {
-    result = res.locals.result;
-    res.send(JSON.stringify(result));
+let returnPageList = function (req, res, next) {
+    // result = res.locals.result;
+    let page_array = res.locals.result.split(',');
+    const page_number = page_array.length;
+    res.locals.index = 1;
+    let tempObj = {};
+
+    // for the create new page item
+    tempObj['page_id'] = 0;
+    tempObj['image_id'] = 0;
+    let counter_flag = res.locals.index;
+    res.locals.list[counter_flag] = tempObj;
+    res.locals.index = res.locals.index + 1;
+
+    // for the delete switch item
+    tempObj['page_id'] = 0;
+    tempObj['image_id'] = 1;
+    counter_flag = res.locals.index;
+    res.locals.list[counter_flag] = tempObj;
+    res.locals.index = res.locals.index + 1;
+
+    for(let key in page_array){
+        let params = URL.parse(req.url, true).query;
+
+        //client.connect();
+        client.query("use " + TEST_DATABASE);
+        let modSql = 'select page_id,image1_id from raw_control_table where page_id =?';
+        let modSqlParams = [key];
+
+        client.query(modSql, modSqlParams,
+            function selectCb(err, results, fields) {
+                if (err) {
+                    throw err;
+                }
+                let counter_flag = res.locals.index;
+                let tempObj = {};
+                if(results[0] !== undefined){
+                    tempObj['page_id'] = results[0]['page_id'];
+                    tempObj['image_id']=results[0]['image1_id'];
+                    res.locals.list[counter_flag] = tempObj;
+                }
+                res.locals.index = res.locals.index + 1;
+
+                let pageList = res.locals.list;
+                if (page_number === counter_flag-2){
+                    console.log('going to send pagelist');
+                    console.log(pageList);
+                    res.send(JSON.stringify(pageList));
+                }
+            });
+    }
 };
 
 let getUserGuideList = function (req, res, next) {
@@ -278,7 +326,7 @@ router.get('/writeGuideDB', [writeGuideDB]);
 router.get('/checkRootPage', [checkRootPage, db_page_api.writePageDB]);
 router.get('/saveRootPageId', [saveRootPageId]);
 router.get('/savePageId', [getPageList, appendPageId, savePageListToGuide]);
-router.get('/getPageList', [getPageList, returnAnyResult]);
+router.get('/getPageList', [getPageList, returnPageList]);
 router.get('/getUserGuideList', [getUserGuideList]);
 router.get('/getGuideList', [getGuideList]);
 router.get('/getGuideById', [getGuideById]);
