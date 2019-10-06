@@ -192,7 +192,7 @@ let returnPageList = function (req, res, next) {
                     res.locals.list[counter_flag] = tempObj;
                 }else{
                     tempObj['page_id'] = results[0]['page_id'];
-                    tempObj['image_id']=results[0]['image1_id'];
+                    tempObj['image_id']= results[0]['image1_id'];
                     tempObj['text_content']='请输入步骤描述';
                     res.locals.list[counter_flag] = tempObj;
                 }

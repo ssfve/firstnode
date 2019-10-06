@@ -49,10 +49,9 @@ let writePageDB = function (req, res, next) {
             if (err) {
                 throw err;
             }
-            if (results) {
+            if (results[0] !== undefined) {
                 result = results[0]['LAST_INSERT_ID()']
             }
-            res.setHeader("Access-Control-Allow-Origin", "*");
             res.send(result.toString());
         });
 };
