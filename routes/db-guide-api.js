@@ -168,7 +168,7 @@ let returnPageList = function (req, res, next) {
         client.query("use " + TEST_DATABASE);
         let modSql = 'select a.page_id,' +
             'a.image1_id,' +
-            'b.text_content ' +
+            'b.textContent ' +
             'from raw_control_table as a,' +
             'raw_text_table as b ' +
             'where a.text1_id=b.textID ' +
