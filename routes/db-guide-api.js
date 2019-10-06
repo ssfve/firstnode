@@ -163,8 +163,9 @@ let returnPageList = function (req, res, next) {
 
     for(let key in page_array){
         let params = URL.parse(req.url, true).query;
-        //console.log(key);
+        console.log(key);
         // key is just index
+        console.log(page_array[key]);
         client.query("use " + TEST_DATABASE);
         let modSql = 'select a.page_id,' +
             'a.image1_id,' +
@@ -181,6 +182,7 @@ let returnPageList = function (req, res, next) {
                     throw err;
                 }
                 let counter_flag = res.locals.index;
+                console.log('counter_flag='+counter_flag);
                 let tempObj = {};
                 if(results[0] !== undefined){
                     tempObj['page_id'] = results[0]['page_id'];
