@@ -142,6 +142,7 @@ let returnPageList = function (req, res, next) {
     let page_array = res.locals.result.split(',');
     const page_number = page_array.length;
     res.locals.index = 1;
+    res.locals.list = {};
     let tempObj = {};
 
     // for the create new page item
