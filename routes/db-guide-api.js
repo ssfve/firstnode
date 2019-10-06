@@ -147,6 +147,7 @@ let returnPageList = function (req, res, next) {
     // for the create new page item
     tempObj['page_id'] = 0;
     tempObj['image_id'] = 0;
+    tempObj['text_content'] = '跳转至新页面';
     let counter_flag = res.locals.index;
     res.locals.list[counter_flag] = tempObj;
     res.locals.index = res.locals.index + 1;
@@ -154,6 +155,7 @@ let returnPageList = function (req, res, next) {
     // for the delete switch item
     tempObj['page_id'] = 0;
     tempObj['image_id'] = 1;
+    tempObj['text_content'] = '删除步骤';
     counter_flag = res.locals.index;
     res.locals.list[counter_flag] = tempObj;
     res.locals.index = res.locals.index + 1;
@@ -163,7 +165,13 @@ let returnPageList = function (req, res, next) {
 
         //client.connect();
         client.query("use " + TEST_DATABASE);
-        let modSql = 'select page_id,image1_id from raw_control_table where page_id =?';
+        let modSql = 'select a.page_id,' +
+            'a,image1_id,' +
+            'b.text_content ' +
+            'from raw_control_table as a,' +
+            'raw_text_table as b ' +
+            'where a.text1_id=b.textID ' +
+            'and a.page_id =?';
         let modSqlParams = [key];
 
         client.query(modSql, modSqlParams,
@@ -176,13 +184,14 @@ let returnPageList = function (req, res, next) {
                 if(results[0] !== undefined){
                     tempObj['page_id'] = results[0]['page_id'];
                     tempObj['image_id']=results[0]['image1_id'];
+                    tempObj['text_content']=results[0]['textContent'];
                     res.locals.list[counter_flag] = tempObj;
                 }
                 res.locals.index = res.locals.index + 1;
 
                 let pageList = res.locals.list;
                 if (page_number === counter_flag-2){
-                    console.log('going to send pagelist');
+                    console.log('going to send page list');
                     console.log(pageList);
                     res.send(JSON.stringify(pageList));
                 }
