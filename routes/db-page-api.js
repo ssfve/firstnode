@@ -176,7 +176,11 @@ let getPageButtonList = function (req, res, next) {
     let modSql = 'Select button1_id,' +
         'button2_id,' +
         'button3_id,' +
-        'button4_id from raw_control_table where page_id=?';
+        'button4_id,' +
+        'button5_id,' +
+        'button6_id,' +
+        'button7_id,' +
+        'button8_id from raw_control_table where page_id=?';
     let modSqlParams = [params.page_id];
     let result = null;
     client.query(modSql, modSqlParams,
@@ -194,8 +198,8 @@ let getPageButtonList = function (req, res, next) {
         });
 };
 
-let getButtonText = function (req, res, next) {
-    const button_limit = 4;
+let getButtonTextFiltered = function (req, res, next) {
+    const button_limit = 8;
     let buttonList = res.locals.result;
     res.locals.index = 0;
     res.locals.filtered = {};
@@ -294,8 +298,65 @@ let getCheckImageNewPage = function (req, res, next) {
     next()
 };
 
+let getButtonText = function (req, res, next) {
+    const button_limit = 8;
+    let buttonList = res.locals.result;
+    res.locals.index = 0;
+    res.locals.filtered = {};
+    let key_array = Object.keys(buttonList);
+    for (let i = 0; i < key_array.length; i++) {
+        let key = key_array[i];
+        let value = buttonList[key];
+        //console.log(key);
+        if (value === null) {
+            console.log('null detected');
+            console.log('no customized button text');
+            console.log('button is not shown');
+            let count_flag = res.locals.index + 1;
+            let emptyObj = {};
+            emptyObj['button_id'] = 0;
+            emptyObj['button_text'] = '';
+            emptyObj['button_to_page_id'] = 0;
+            emptyObj['button_to_image_id'] = 0;
+            res.locals.filtered[count_flag]=emptyObj;
+            res.locals.index = res.locals.index + 1;
+        } else {
+            console.log('querying button text');
+            let modSql = 'Select button_id,button_text,button_to_page_id,image_id from raw_button_table where button_id=?';
+            let modSqlParams = [value];
+            let result = null;
+            client.query(modSql, modSqlParams,
+                function selectCb(err, results, fields) {
+                    if (err) {
+                        throw err;
+                    }
+                    let count_flag = res.locals.index + 1;
+                    // {} is an object
+                    let emptyObj = {};
+                    if (results[0] !== undefined) {
+                        emptyObj['button_id'] = results[0]['button_id'];
+                        emptyObj['button_text'] = results[0]['button_text'];
+                        emptyObj['button_to_page_id'] = results[0]['button_to_page_id'];
+                        emptyObj['button_to_image_id'] = results[0]['image_id'];
+                        res.locals.filtered[count_flag]=emptyObj;
+                    } else {
+                        let button_text_name = "button_text";
+                        console.log(button_text_name);
+                        emptyObj[button_text_name] = '下一步';
+                    }
+                    res.locals.index = res.locals.index + 1;
+                    if(count_flag === button_limit){
+                        console.log("going to send");
+                        res.send(JSON.stringify(res.locals.filtered));
+                    }
+                });
+        }
+    }
+};
+
 router.get('/getButtonInfoFromPage', [getButtonInfoFromPage]);
-router.get('/getPageButtonList', [getPageButtonList, getButtonText]);
+router.get('/getPageButtonList', [getPageButtonList, getButtonTextFiltered]);
+router.get('/getPageButtonCreateList', [getPageButtonList, getButtonText]);
 router.get('/getPageAttribute', [getPageAttribute]);
 router.get('/createBranchPage', [writePageDB]);
 router.get('/getValidGuides', [getValidGuides]);
