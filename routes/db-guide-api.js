@@ -67,15 +67,14 @@ let saveRootPageId = function (req, res, next) {
     //client.connect();
     client.query("use " + TEST_DATABASE);
     let modSql = 'Update guide_table set root_page_id=? where guide_id =?';
-    let modSqlParams = [params.page_id, params.guide_id];
+    let modSqlParams = [res.locals.pageid, params.guide_id];
 
     client.query(modSql, modSqlParams,
         function selectCb(err, results, fields) {
             if (err) {
                 throw err;
             }
-            res.setHeader("Access-Control-Allow-Origin", "*");
-            res.send("Success");
+            res.send(res.locals.pageid);
         });
 
 };
@@ -110,9 +109,9 @@ let getPageList = function (req, res, next) {
 let appendPageId = function (req, res, next) {
     let params = URL.parse(req.url, true).query;
     if (res.locals.pageList != null) {
-        res.locals.pageList += ',' + params.page_id;
+        res.locals.pageList += ',' + res.locals.page_id;
     } else {
-        res.locals.pageList = params.page_id.toString();
+        res.locals.pageList = res.locals.page_id.toString();
     }
     console.log('page list is now ' + res.locals.pageList);
     next();
@@ -413,5 +412,7 @@ router.get('/getGuideById', [getGuideById]);
 router.get('/unlinkPageId', [getPageList, unlinkPageId, savePageListToGuide]);
 
 module.exports = {
-    router
+    router: router,
+    saveRootPageId: saveRootPageId,
+    savePageId: savePageId
 };

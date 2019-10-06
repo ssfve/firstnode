@@ -5,6 +5,7 @@ let mysql = require('mysql');
 //let Game = require('./game');
 let Text = require('./text');
 let db_text_api = require('./db-text-api');
+let db_guide_api = require('./db-guide-api');
 
 /* GET users listing. */
 let TEST_DATABASE = 'boardgames';
@@ -50,9 +51,11 @@ let writePageDB = function (req, res, next) {
                 throw err;
             }
             if (results[0] !== undefined) {
-                result = results[0]['LAST_INSERT_ID()']
+                res.locals.pageid = results[0]['LAST_INSERT_ID()'];
+                next()
+            }else {
+                res.send('Error');
             }
-            res.send(result.toString());
         });
 };
 
@@ -355,7 +358,8 @@ router.get('/getButtonInfoFromPage', [getButtonInfoFromPage]);
 router.get('/getPageButtonList', [getPageButtonList, getButtonTextFiltered]);
 router.get('/getPageButtonCreateList', [getPageButtonList, getButtonText]);
 router.get('/getPageAttribute', [getPageAttribute]);
-router.get('/createBranchPage', [writePageDB]);
+router.get('/createBranchPage', [writePageDB, db_guide_api.savePageId]);
+router.get('/createRootPage', [writePageDB, db_guide_api.saveRootPageId, db_guide_api.savePageId]);
 router.get('/getValidGuides', [getValidGuides]);
 
 module.exports = {
