@@ -109,9 +109,9 @@ let getPageList = function (req, res, next) {
 let appendPageId = function (req, res, next) {
     let params = URL.parse(req.url, true).query;
     if (res.locals.pageList != null) {
-        res.locals.pageList += ',' + res.locals.page_id;
+        res.locals.pageList += ',' + res.locals.pageid;
     } else {
-        res.locals.pageList = res.locals.page_id.toString();
+        res.locals.pageList = res.locals.pageid.toString();
     }
     console.log('page list is now ' + res.locals.pageList);
     next();
