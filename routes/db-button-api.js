@@ -118,7 +118,8 @@ let saveButtonAttribute=function (req, res, next) {
     client.query("use " + TEST_DATABASE);
     let modSql = 'update raw_button_table set '+params.attribute_name+'=? where button_id =?';
     let modSqlParams = [params.attribute_value, params.button_id];
-
+    console.log(params.attribute_value);
+    console.log(modSql);
     client.query(modSql, modSqlParams,
         function selectCb(err, results, fields) {
             if (err) {
