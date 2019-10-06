@@ -36,8 +36,8 @@ let createButton=function(req, res, next) {
     let params = URL.parse(req.url, true).query;
 
     client.query("use " + TEST_DATABASE);
-    let modSql = 'INSERT INTO raw_button_table (button_text,button_from_page_id,guide_id) values ("DFLT_BTTN",?,?)';
-    let modSqlParams = [params.page_id, params.guide_id];
+    let modSql = 'INSERT INTO raw_button_table (button_text,button_from_page_id,guide_id) values (?,?,?)';
+    let modSqlParams = [params.input_value, params.page_id, params.guide_id];
     client.query(modSql, modSqlParams);
 
     modSql = 'SELECT LAST_INSERT_ID();';
