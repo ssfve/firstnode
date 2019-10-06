@@ -1,10 +1,11 @@
-import {appendPageId, getPageList, savePageListToGuide, saveRootPageId} from "./db-guide-api";
+
 let express = require('express');
 let router = express.Router();
 let URL = require('url');
 let mysql = require('mysql');
 //let Game = require('./game');
 let Text = require('./text');
+let db_guide_api = require('./db-guide-api');
 
 /* GET users listing. */
 let TEST_DATABASE = 'boardgames';
@@ -29,34 +30,6 @@ let client = mysql.createConnection({
 router.get('/', function (req, res, next) {
     res.send('respond with a resource');
 });
-
-let writePageDB = function (req, res, next) {
-    let text = new Text();
-    let params = URL.parse(req.url, true).query;
-    //client.connect();
-    client.query("use " + TEST_DATABASE);
-    // create a default new page record with default background image of id 0
-    let modSql = 'INSERT INTO raw_control_table (image1_id,guide_id) values (0,?);';
-    let modSqlParams = [params.guide_id];
-    client.query(modSql, modSqlParams);
-
-    // if there are multiple processes inserting , this will still be thread-safe
-    modSql = 'SELECT LAST_INSERT_ID();';
-    modSqlParams = [];
-    //return autoincrement
-    client.query(modSql, modSqlParams,
-        function selectCb(err, results, fields) {
-            if (err) {
-                throw err;
-            }
-            if (results[0] !== undefined) {
-                res.locals.pageid = results[0]['LAST_INSERT_ID()'];
-                next();
-            }else {
-                res.send('Error');
-            }
-        });
-};
 
 let getGuideId = function (req, res, next) {
     let text = new Text();
@@ -357,8 +330,6 @@ router.get('/getButtonInfoFromPage', [getButtonInfoFromPage]);
 router.get('/getPageButtonList', [getPageButtonList, getButtonTextFiltered]);
 router.get('/getPageButtonCreateList', [getPageButtonList, getButtonText]);
 router.get('/getPageAttribute', [getPageAttribute]);
-router.get('/createBranchPage', [writePageDB, getPageList, appendPageId, savePageListToGuide]);
-router.get('/createRootPage', [writePageDB, saveRootPageId, getPageList, appendPageId, savePageListToGuide]);
 router.get('/getValidGuides', [getValidGuides]);
 
 module.exports={
