@@ -192,7 +192,7 @@ let returnPageList = function (req, res, next) {
                 }
                 res.locals.index = res.locals.index + 1;
                 let pageList = res.locals.list;
-                if (page_number === counter_flag-2){
+                if (page_number === counter_flag-1){
                     console.log('going to send page list');
                     console.log(pageList);
                     res.send(JSON.stringify(pageList));
