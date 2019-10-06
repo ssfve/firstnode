@@ -1,10 +1,10 @@
+import {appendPageId, getPageList, savePageListToGuide, saveRootPageId} from "./db-guide-api";
 let express = require('express');
 let router = express.Router();
 let URL = require('url');
 let mysql = require('mysql');
 //let Game = require('./game');
 let Text = require('./text');
-let db_guide_api = require('./db-guide-api');
 
 /* GET users listing. */
 let TEST_DATABASE = 'boardgames';
@@ -357,8 +357,8 @@ router.get('/getButtonInfoFromPage', [getButtonInfoFromPage]);
 router.get('/getPageButtonList', [getPageButtonList, getButtonTextFiltered]);
 router.get('/getPageButtonCreateList', [getPageButtonList, getButtonText]);
 router.get('/getPageAttribute', [getPageAttribute]);
-router.get('/createBranchPage', [writePageDB, db_guide_api.getPageList, db_guide_api.appendPageId, db_guide_api.savePageListToGuide]);
-router.get('/createRootPage', [writePageDB, db_guide_api.saveRootPageId, db_guide_api.getPageList, db_guide_api.appendPageId, db_guide_api.savePageListToGuide]);
+router.get('/createBranchPage', [writePageDB, getPageList, appendPageId, savePageListToGuide]);
+router.get('/createRootPage', [writePageDB, saveRootPageId, getPageList, appendPageId, savePageListToGuide]);
 router.get('/getValidGuides', [getValidGuides]);
 
 module.exports={
