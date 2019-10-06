@@ -73,7 +73,8 @@ let saveRootPageId = function (req, res, next) {
             if (err) {
                 throw err;
             }
-            res.send(res.locals.pageid);
+            // res.send(res.locals.pageid.toString());
+            next();
         });
 
 };
@@ -117,10 +118,8 @@ let appendPageId = function (req, res, next) {
 };
 
 let savePageListToGuide = function (req, res, next) {
-    let text = new Text();
     let params = URL.parse(req.url, true).query;
 
-    //client.connect();
     client.query("use " + TEST_DATABASE);
     let modSql = 'Update guide_table set page_list=? where guide_id =?';
     let modSqlParams = [res.locals.pageList, params.guide_id];
@@ -130,7 +129,7 @@ let savePageListToGuide = function (req, res, next) {
             if (err) {
                 throw err;
             }
-            res.send("Success");
+            res.send(res.locals.pageid.toString());
         });
 
 };
