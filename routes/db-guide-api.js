@@ -257,8 +257,13 @@ let writeGuideDB = function (req, res, next) {
                 myObj['guide_name'] = '我的最新一个流';
                 myObj['root_page_id'] = 0;
                 myObj['image1_id'] = 0;
+                let guideObj = {};
+                guideObj[0] = myObj;
+                res.send(JSON.stringify(myObj));
+            }else{
+                res.send(JSON.stringify(myObj));
             }
-            res.send(JSON.stringify(myObj));
+
         });
 
 };
