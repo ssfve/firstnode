@@ -412,7 +412,7 @@ router.get('/getGuideById', [getGuideById]);
 router.get('/unlinkPageId', [getPageList, unlinkPageId, savePageListToGuide]);
 
 module.exports = {
-    router: router,
-    saveRootPageId: saveRootPageId,
-    savePageId: savePageId
+    router,
+    saveRootPageId
 };
+exports.savePageId = savePageId;
