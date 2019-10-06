@@ -184,11 +184,12 @@ let getPageButtonList = function (req, res, next) {
             if (err) {
                 throw err;
             }
-            if (results) {
-                result = results[0];
-                console.log(result);
-                res.locals.result = result;
+            if (results[0] !== undefined) {
+                console.log(results[0]);
+                res.locals.result = results[0];
                 next();
+            }else{
+                res.send(JSON.stringify({}))
             }
         });
 };
