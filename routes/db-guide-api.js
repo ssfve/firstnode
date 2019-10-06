@@ -154,11 +154,12 @@ let returnPageList = function (req, res, next) {
     res.locals.index = res.locals.index + 1;
 
     // for the delete switch item
-    tempObj['page_id'] = 0;
-    tempObj['image_id'] = 1;
-    tempObj['text_content'] = '按钮将被删除';
+    let myObj = {};
+    myObj['page_id'] = 0;
+    myObj['image_id'] = 1;
+    myObj['text_content'] = '按钮将被删除';
     counter_flag = res.locals.index;
-    res.locals.list[counter_flag] = tempObj;
+    res.locals.list[counter_flag] = myObj;
     res.locals.index = res.locals.index + 1;
 
     for(let key in page_array){
@@ -188,6 +189,11 @@ let returnPageList = function (req, res, next) {
                     tempObj['page_id'] = results[0]['page_id'];
                     tempObj['image_id']=results[0]['image1_id'];
                     tempObj['text_content']=results[0]['textContent'];
+                    res.locals.list[counter_flag] = tempObj;
+                }else{
+                    tempObj['page_id'] = results[0]['page_id'];
+                    tempObj['image_id']=results[0]['image1_id'];
+                    tempObj['text_content']='请输入步骤描述';
                     res.locals.list[counter_flag] = tempObj;
                 }
                 res.locals.index = res.locals.index + 1;
