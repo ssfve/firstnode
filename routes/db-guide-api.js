@@ -163,8 +163,8 @@ let returnPageList = function (req, res, next) {
 
     for(let key in page_array){
         let params = URL.parse(req.url, true).query;
-        console.log(key);
-
+        //console.log(key);
+        // key is just index
         client.query("use " + TEST_DATABASE);
         let modSql = 'select a.page_id,' +
             'a.image1_id,' +
@@ -173,7 +173,7 @@ let returnPageList = function (req, res, next) {
             'raw_text_table as b ' +
             'where a.text1_id=b.textID ' +
             'and a.page_id =?';
-        let modSqlParams = [key];
+        let modSqlParams = [page_array[key]];
 
         client.query(modSql, modSqlParams,
             function selectCb(err, results, fields) {
