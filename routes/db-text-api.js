@@ -29,7 +29,7 @@ router.get('/', function (req, res, next) {
     res.send('respond with a resource');
 });
 
-let createText=function(req, res, next) {
+let createText = function (req, res, next) {
     let params = URL.parse(req.url, true).query;
 
     client.query("use " + TEST_DATABASE);
@@ -54,12 +54,12 @@ let createText=function(req, res, next) {
         });
 };
 
-let getTextAttribute=function(req, res, next) {
+let getTextAttribute = function (req, res, next) {
     let params = URL.parse(req.url, true).query;
 
     client.query("use " + TEST_DATABASE);
     // create a default new page record with default background image of id 0
-    let modSql = 'select '+params.attribute_name+' from raw_text_table where textID=?';
+    let modSql = 'select ' + params.attribute_name + ' from raw_text_table where textID=?';
     let modSqlParams = [params.text_id];
     let result = null;
     client.query(modSql, modSqlParams,
@@ -68,10 +68,10 @@ let getTextAttribute=function(req, res, next) {
                 throw err;
             }
             if (results) {
-                if(results[0] !== undefined){
+                if (results[0] !== undefined) {
                     result = results[0][params.attribute_name];
                     console.log(result);
-                }else{
+                } else {
                     result = ''
                 }
             }
@@ -79,7 +79,7 @@ let getTextAttribute=function(req, res, next) {
         });
 };
 
-let saveTextToPage=function (req, res, next) {
+let saveTextToPage = function (req, res, next) {
     let text = new Text();
     let params = URL.parse(req.url, true).query;
 
@@ -97,37 +97,38 @@ let saveTextToPage=function (req, res, next) {
         });
 };
 
-let getPageTextContent=function(req, res, next) {
+let getPageTextContent = function (req, res, next) {
     let params = URL.parse(req.url, true).query;
 
     client.query("use " + TEST_DATABASE);
     // create a default new page record with default background image of id 0
-    if (params.page_id === ''|| params.page_id === undefined|| params.page_id === null){
+    if (params.page_id === '' || params.page_id === undefined || params.page_id === null) {
         console.log('page_id not found returning empty string');
         res.send("");
-    }
-    let modSql = 'select a.textContent ' +
-        'from raw_text_table as a,raw_control_table as b ' +
-        'where a.textID = b.text1_id ' +
-        'and b.page_id='+params.page_id;
-    console.log(modSql);
-    let modSqlParams = [];
-    let result = null;
-    client.query(modSql, modSqlParams,
-        function selectCb(err, results, fields) {
-            if (err) {
-                throw err;
-            }
-            if (results) {
-                if(results[0] !== undefined){
-                    result = results[0]['textContent'];
-                    console.log(result);
-                }else{
-                    result = ''
+    } else {
+        let modSql = 'select a.textContent ' +
+            'from raw_text_table as a,raw_control_table as b ' +
+            'where a.textID = b.text1_id ' +
+            'and b.page_id=' + params.page_id;
+        console.log(modSql);
+        let modSqlParams = [];
+        let result = null;
+        client.query(modSql, modSqlParams,
+            function selectCb(err, results, fields) {
+                if (err) {
+                    throw err;
                 }
-            }
-            res.send(result.toString());
-        });
+                if (results) {
+                    if (results[0] !== undefined) {
+                        result = results[0]['textContent'];
+                        console.log(result);
+                    } else {
+                        result = ''
+                    }
+                }
+                res.send(result.toString());
+            });
+    }
 };
 
 router.get('/getTextAttribute', [getTextAttribute]);
