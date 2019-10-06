@@ -401,7 +401,7 @@ let returnPageListFiltered = function (req, res, next) {
 };
 
 router.get('/writeGuideDB', [writeGuideDB]);
-router.get('/checkRootPage', [checkRootPage, db_page_api.writePageDB]);
+// router.get('/checkRootPage', [checkRootPage, db_page_api.writePageDB]);
 router.get('/saveRootPageId', [saveRootPageId]);
 router.get('/savePageId', [getPageList, appendPageId, savePageListToGuide]);
 router.get('/getPageList', [getPageList, returnPageList]);
@@ -411,8 +411,10 @@ router.get('/getGuideList', [getGuideList]);
 router.get('/getGuideById', [getGuideById]);
 router.get('/unlinkPageId', [getPageList, unlinkPageId, savePageListToGuide]);
 
-export {router}
-export {saveRootPageId}
-export {getPageList}
-export {appendPageId}
-export {savePageListToGuide}
+module.exports={
+    router,
+    saveRootPageId,
+    getPageList,
+    appendPageId,
+    savePageListToGuide
+};

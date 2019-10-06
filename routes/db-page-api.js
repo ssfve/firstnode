@@ -4,7 +4,6 @@ let URL = require('url');
 let mysql = require('mysql');
 //let Game = require('./game');
 let Text = require('./text');
-let db_text_api = require('./db-text-api');
 let db_guide_api = require('./db-guide-api');
 
 /* GET users listing. */
@@ -362,5 +361,6 @@ router.get('/createBranchPage', [writePageDB, db_guide_api.getPageList, db_guide
 router.get('/createRootPage', [writePageDB, db_guide_api.saveRootPageId, db_guide_api.getPageList, db_guide_api.appendPageId, db_guide_api.savePageListToGuide]);
 router.get('/getValidGuides', [getValidGuides]);
 
-export {router}
-export {writePageDB}
+module.exports={
+    router
+};
