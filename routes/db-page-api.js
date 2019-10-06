@@ -231,25 +231,21 @@ let getButtonTextFiltered = function (req, res, next) {
                         emptyObj['button_text'] = results[0]['button_text'];
                         emptyObj['button_to_page_id'] = results[0]['button_to_page_id'];
                         emptyObj['button_to_image_id'] = results[0]['image_id'];
-                        res.locals.filtered[count_flag]=emptyObj;
+                        res.locals.filtered[count_flag] = emptyObj;
                     } else {
                         let button_text_name = "button_text";
                         console.log(button_text_name);
                         emptyObj[button_text_name] = '下一步';
                     }
                     res.locals.index = res.locals.index + 1;
-                    if(count_flag === button_limit){
+                    if (count_flag === button_limit) {
                         console.log("going to send");
                         res.send(JSON.stringify(res.locals.filtered));
                     }
                 });
         }
-        // if(i === key_array.length-1){
-        //     console.log("going to send");
-        //     res.send(JSON.stringify(res.locals.filtered));
-        // }
     }
-    //res.send(JSON.stringify(res.locals.filtered));
+    res.send(JSON.stringify(res.locals.filtered));
 };
 
 let getCheckImageNewPage = function (req, res, next) {
