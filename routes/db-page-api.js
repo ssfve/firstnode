@@ -212,7 +212,10 @@ let getButtonTextFiltered = function (req, res, next) {
             console.log('no customized button text');
             console.log('button is not shown');
             res.locals.index = res.locals.index + 1;
-            //myJson.push({"name": value, "text": '下一步'});
+            if (res.locals.index === button_limit) {
+                console.log("going to send");
+                res.send(JSON.stringify(res.locals.filtered));
+            }
         } else {
             console.log('querying button text');
             let modSql = 'Select button_id,button_text,button_to_page_id,image_id from raw_button_table where button_id=?';
@@ -245,7 +248,6 @@ let getButtonTextFiltered = function (req, res, next) {
                 });
         }
     }
-    res.send(JSON.stringify(res.locals.filtered));
 };
 
 let getCheckImageNewPage = function (req, res, next) {
