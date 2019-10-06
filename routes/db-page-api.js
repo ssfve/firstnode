@@ -358,11 +358,11 @@ router.get('/getButtonInfoFromPage', [getButtonInfoFromPage]);
 router.get('/getPageButtonList', [getPageButtonList, getButtonTextFiltered]);
 router.get('/getPageButtonCreateList', [getPageButtonList, getButtonText]);
 router.get('/getPageAttribute', [getPageAttribute]);
-router.get('/createBranchPage', [writePageDB,  db_guide_api.getPageList, db_guide_api.appendPageId, db_guide_api.savePageListToGuide]);
+router.get('/createBranchPage', [writePageDB, db_guide_api.getPageList, db_guide_api.appendPageId, db_guide_api.savePageListToGuide]);
 router.get('/createRootPage', [writePageDB, db_guide_api.saveRootPageId, db_guide_api.getPageList, db_guide_api.appendPageId, db_guide_api.savePageListToGuide]);
 router.get('/getValidGuides', [getValidGuides]);
 
 module.exports = {
     router,
-    writePageDB,
+    writePageDB
 };
