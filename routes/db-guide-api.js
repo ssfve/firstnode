@@ -411,8 +411,8 @@ router.get('/getGuideList', [getGuideList]);
 router.get('/getGuideById', [getGuideById]);
 router.get('/unlinkPageId', [getPageList, unlinkPageId, savePageListToGuide]);
 
-exports.router = router;
-exports.saveRootPageId = saveRootPageId;
-exports.getPageList = getPageList;
-exports.appendPageId = appendPageId;
-exports.savePageListToGuide = savePageListToGuide;
+export {router}
+export {saveRootPageId}
+export {getPageList}
+export {appendPageId}
+export {savePageListToGuide}
