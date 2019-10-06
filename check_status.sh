@@ -1,10 +1,10 @@
 while true; do
     {
-	netstat -antp|grep 3000|grep -v grep
+	netstat -antp|grep 3000|grep -v grep|grep node
 	if [ $? -ne 0 ]
 	then
 	echo "npm not running restarting..."
-	bash restart_nodejs.sh
+	bash restart_nodejs.sh &
 	else
 	echo "running....."
 	fi
