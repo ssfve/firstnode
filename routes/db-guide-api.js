@@ -249,11 +249,14 @@ let writeGuideDB = function (req, res, next) {
             if (err) {
                 throw err;
             }
-            if (results) {
-                result = results[0]['LAST_INSERT_ID()'];
-                console.log(result);
+            let myObj = {};
+            if (results[0] !== undefined) {
+                myObj['guide_id'] = results[0]['LAST_INSERT_ID()'];
+                myObj['guide_name'] = '我的最新一个流';
+                myObj['root_page_id'] = 0;
+                myObj['image1_id'] = 0;
             }
-            res.send(result.toString());
+            res.send(JSON.stringify(myObj));
         });
 
 };
