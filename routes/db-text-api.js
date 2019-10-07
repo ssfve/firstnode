@@ -31,8 +31,6 @@ router.get('/', function (req, res, next) {
 
 let createText = function (req, res, next) {
     let params = URL.parse(req.url, true).query;
-
-    client.query("use " + TEST_DATABASE);
     let modSql = 'INSERT INTO raw_text_table (textContent,pageID) values (?,?)';
     let modSqlParams = [params.text_value, params.page_id];
     client.query(modSql, modSqlParams);
@@ -45,12 +43,20 @@ let createText = function (req, res, next) {
             if (err) {
                 throw err;
             }
-            if (results) {
-                result = results[0]['LAST_INSERT_ID()'];
+            if (results[0] !== undefined) {
                 console.log(result);
+                res.locals.textid = results[0]['LAST_INSERT_ID()'];
+                //res.setHeader("Access-Control-Allow-Origin", "*");
+                res.locals.textid = result;
+                res.locals.attribute_name = 'text1_id';
+                res.locals.attribute_value = result;
+                res.locals.key_name = 'page_id';
+                res.locals.key_value = params.page_id;
+                res.locals.table_name = 'raw_control_table';
+                next();
+            }else{
+                res.send({})
             }
-            res.locals.textid = result;
-            next();
         });
 };
 
