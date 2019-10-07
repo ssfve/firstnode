@@ -170,7 +170,7 @@ let returnPageList = function (req, res, next) {
             'b.textContent ' +
             'from raw_control_table as a,' +
             'raw_text_table as b ' +
-            'where a.text1_id=b.textID ' +
+            'where (a.text1_id=b.textID or a.text1_id is null) ' +
             'and a.page_id =?';
         let modSqlParams = [page_array[key]];
 
@@ -188,7 +188,7 @@ let returnPageList = function (req, res, next) {
                     tempObj['text_content']=results[0]['textContent'];
                     res.locals.list[counter_flag] = tempObj;
                 }else{
-                    tempObj['page_id'] = results[0]['page_id'];
+                    tempObj['page_id'] = key;
                     tempObj['image_id']= results[0]['image1_id'];
                     tempObj['text_content']='请输入步骤描述';
                     res.locals.list[counter_flag] = tempObj;
