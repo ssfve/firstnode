@@ -38,8 +38,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(function(req, res, next) {
-    let reqOrigin = req.headrs.origin;
-    logger.info(req);
+    let reqOrigin = req.headers.origin;
+    logger.info(reqOrigin);
+    logger.info(req.method);
     if(req.method === "OPTIONS"){
         logger.info("req with options received");
         res.header('Access-Control-Allow-Origin', req.headers.origin);
