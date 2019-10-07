@@ -11,7 +11,7 @@ let USE_SCHEMA = 'use boardgames';
 let TEST_TABLE = 'bggdatacn';
 
 let getlogger = require('../log4js.js');
-let logger = getlogger('ruleFile');
+let logger = getlogger('text-table-api');
 //let client = mysql.createConnection({
 //    host: '127.0.0.1',
 //    user:'root',
@@ -45,7 +45,7 @@ let createText = function (req, res, next) {
             }
             if (results[0] !== undefined) {
                 res.locals.textid = results[0]['LAST_INSERT_ID()'];
-                console.log(res.locals.textid);
+                logger.info(res.locals.textid);
                 //res.setHeader("Access-Control-Allow-Origin", "*");
                 // res.locals.textid = result;
                 // res.locals.attribute_name = 'text1_id';
