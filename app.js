@@ -20,7 +20,8 @@ let folder = require('./routes/folder');
 
 // 3000 is default for nodejs
 //const PORT = process.env.PORT || 5000;
-
+let getlogger = require('./log4js.js');
+let logger = getlogger('appLog');
 
 let app = express();
 
@@ -37,10 +38,20 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(function(req, res, next) {
-    res.header('Access-Control-Allow-Origin', req.headers.origin);
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    res.header('Access-Control-Allow-Credentials', "true");
-    next();
+    let reqOrigin = req.header("origin");
+    if(req.method === "OPTIONS"){
+        logger.info("req with options received");
+        res.header('Access-Control-Allow-Origin', req.headers.origin);
+        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+        res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
+        res.header('Access-Control-Allow-Credentials', "true");
+        res.end();
+    }else {
+        res.header('Access-Control-Allow-Origin', req.headers.origin);
+        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+        res.header('Access-Control-Allow-Credentials', "true");
+        next();
+    }
 });
 
 app.use('/', index);
