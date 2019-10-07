@@ -38,7 +38,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(function(req, res, next) {
-    let reqOrigin = req.headers.origin;
+    let reqOrigin = req.origin;
     logger.info(reqOrigin);
     logger.info(req.method);
     if(req.method === "OPTIONS"){
