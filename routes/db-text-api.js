@@ -44,18 +44,18 @@ let createText = function (req, res, next) {
                 throw err;
             }
             if (results[0] !== undefined) {
-                console.log(result);
                 res.locals.textid = results[0]['LAST_INSERT_ID()'];
+                console.log(res.locals.textid);
                 //res.setHeader("Access-Control-Allow-Origin", "*");
-                res.locals.textid = result;
-                res.locals.attribute_name = 'text1_id';
-                res.locals.attribute_value = result;
-                res.locals.key_name = 'page_id';
-                res.locals.key_value = params.page_id;
-                res.locals.table_name = 'raw_control_table';
+                // res.locals.textid = result;
+                // res.locals.attribute_name = 'text1_id';
+                // res.locals.attribute_value = result;
+                // res.locals.key_name = 'page_id';
+                // res.locals.key_value = params.page_id;
+                // res.locals.table_name = 'raw_control_table';
                 next();
             }else{
-                res.send({})
+                res.send('');
             }
         });
 };
