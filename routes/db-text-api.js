@@ -31,6 +31,7 @@ router.get('/', function (req, res, next) {
 
 let createText = function (req, res, next) {
     let params = URL.parse(req.url, true).query;
+    client.query("use " + TEST_DATABASE);
     let modSql = 'INSERT INTO raw_text_table (textContent,pageID) values (?,?)';
     let modSqlParams = [params.text_value, params.page_id];
     client.query(modSql, modSqlParams);
