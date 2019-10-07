@@ -171,7 +171,7 @@ let returnPageList = function (req, res, next) {
             'from raw_control_table as a,' +
             'raw_text_table as b ' +
             'where (a.text1_id=b.textID or a.text1_id is null) ' +
-            'and a.page_id =?';
+            'and a.page_id =? limit 1';
         let modSqlParams = [page_array[key]];
 
         client.query(modSql, modSqlParams,
@@ -184,12 +184,12 @@ let returnPageList = function (req, res, next) {
                 let tempObj = {};
                 if(results[0] !== undefined){
                     tempObj['page_id'] = results[0]['page_id'];
-                    tempObj['image_id']=results[0]['image1_id'];
+                    tempObj['image_id']= results[0]['image1_id'];
                     tempObj['text_content']=results[0]['textContent'];
                     res.locals.list[counter_flag] = tempObj;
                 }else{
-                    tempObj['page_id'] = key;
-                    tempObj['image_id']= results[0]['image1_id'];
+                    tempObj['page_id'] = 0;
+                    tempObj['image_id'] = 0;
                     tempObj['text_content']='请输入步骤描述';
                     res.locals.list[counter_flag] = tempObj;
                 }
