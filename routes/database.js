@@ -430,7 +430,6 @@ router.get('/getEntryInProgress', function (req, res, next) {
             if (results) {
                 result = results
             }
-            res.setHeader("Access-Control-Allow-Origin", "*");
             res.send(result);
             logger.info(JSON.stringify(result));
         });
