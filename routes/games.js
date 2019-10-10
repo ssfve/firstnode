@@ -7,7 +7,6 @@ let Style = require('./style');
 let Image = require('./image');
 let Text = require('./text');
 let Control = require('./control');
-let formidable = require('formidable');
 let util = require('util');
 let fs = require('fs');
 const { exec } = require('child_process');

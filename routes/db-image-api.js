@@ -6,6 +6,7 @@ let mysql = require('mysql');
 let Text = require('./text');
 let database = require('./database');
 const fs = require('fs');
+let formidable = require('formidable');
 
 /* GET users listing. */
 let TEST_DATABASE = 'boardgames';
