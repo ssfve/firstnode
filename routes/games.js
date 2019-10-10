@@ -9,7 +9,7 @@ let Text = require('./text');
 let Control = require('./control');
 let util = require('util');
 let fs = require('fs');
-const { exec } = require('child_process');
+
 
 const config = require('../config.json');
 /* GET users listing. */
