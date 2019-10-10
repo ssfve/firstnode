@@ -49,16 +49,11 @@ let createImage=function(req, res, next) {
             }
             if (results) {
                 result = results[0]['LAST_INSERT_ID()'];
-                console.log(result);
+                console.log("generated image_id="+result);
+                res.send(result.toString())
+            }else{
+                res.send("0")
             }
-
-            res.locals.imageid = result;
-            res.locals.attribute_name = 'image1_id';
-            res.locals.attribute_value = result;
-            res.locals.key_name = 'page_id';
-            res.locals.key_value = params.page_id;
-            res.locals.table_name = 'raw_control_table';
-            next();
         });
 };
 
@@ -177,10 +172,52 @@ let getImageStream=function(req, res, next){
     fs.createReadStream(filePath).pipe(res);
 };
 
+let saveBackground= function (req, res, next) {
+    console.log("upload started");
+    let form = new formidable.IncomingForm();
+    let params = URL.parse(req.url, true).query;
+    form.uploadDir = "/var/tmp/img";
+    form.keepExtensions = true;
+    form.parse(req, function (err, fields, files) {
+        next()
+    });
+
+    form.on('fileBegin', function (field, file) {
+        console.log(file.path);
+    });
+
+    form.on('file', function (field, file) {
+        console.log(file.path);
+        console.log(params.file_name);
+        //params.file_name
+        //fs.rename(file.path, form.uploadDir + "/" + file.name);
+        fs.rename(file.path, form.uploadDir + "/" + params.file_name);
+        // going to do blur
+        let command = 'python3 /home/ssfve/upload-linux/autoBlur.py ' + params.file_name;
+        console.log(command);
+        exec(command,
+            function (error, stdout, stderr) {
+                console.log('stdout: ' + stdout);
+                console.log('stderr: ' + stderr);
+                if (error !== null) {
+                    console.log('exec error: ' + error);
+                }
+            });
+    });
+
+    form.on('progress', function (bytesReceived, bytesExpected) {
+        //console.log("progress started");
+        //console.log(bytesReceived + '/' + bytesExpected + ' bytes')
+    });
+
+    form.on('end',function() {});
+
+};
+router.post('/saveBackgroundImage', [saveBackground, createImage]);
 router.get('/saveButtonAttribute', [saveButtonAttribute]);
 router.get('/getPreviousPageId', [getPreviousPageId]);
 router.get('/getGuideId', [getGuideId]);
-router.get('/writeImageDB', [createImage, database.updateAttributeInner]);
+router.get('/writeImageDB', []);
 router.get('/getImageStream', [getImageStream]);
 
 

@@ -212,48 +212,6 @@ router.post('/saveTranslatePDF', function (req, res) {
     });
 });
 
-router.post('/saveBackgroundImage', function (req, res) {
-    console.log("upload started");
-    let form = new formidable.IncomingForm();
-    let params = URL.parse(req.url, true).query;
-    form.uploadDir = "/var/tmp/img";
-    form.keepExtensions = true;
-    form.parse(req, function (err, fields, files) {
-        res.send({status: "200", responseType: "String", response: "success"})
-    });
-
-    form.on('fileBegin', function (field, file) {
-        console.log(file.path);
-    });
-
-    form.on('file', function (field, file) {
-        console.log(file.path);
-        console.log(params.file_name);
-        //params.file_name
-        //fs.rename(file.path, form.uploadDir + "/" + file.name);
-        fs.rename(file.path, form.uploadDir + "/" + params.file_name);
-        // going to do blur
-        let command = 'python3 /home/ssfve/upload-linux/autoBlur.py ' + params.file_name;
-        console.log(command);
-        exec(command,
-            function (error, stdout, stderr) {
-                console.log('stdout: ' + stdout);
-                console.log('stderr: ' + stderr);
-                if (error !== null) {
-                    console.log('exec error: ' + error);
-                }
-            });
-    });
-
-    form.on('progress', function (bytesReceived, bytesExpected) {
-        //console.log("progress started");
-        //console.log(bytesReceived + '/' + bytesExpected + ' bytes')
-    });
-
-    form.on('end',function() {});
-
-});
-
 router.get('/loadPDF', function (req, res) {
     let params = URL.parse(req.url, true).query;
     console.log("request to download " + params.name);
