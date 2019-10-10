@@ -90,13 +90,10 @@ let getPageAttribute = function (req, res, next) {
             if (results[0] !== undefined) {
                 console.log(results);
                 result = results[0][params.attribute_name]
+                res.send(result.toString());
             } else {
                 console.log('there is no record of ' + params.attribute_name);
-            }
-            if (result === null) {
-                res.send(null);
-            } else {
-                res.send(result.toString());
+                res.send('');
             }
         });
 };
