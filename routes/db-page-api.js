@@ -88,12 +88,12 @@ let getPageAttribute = function (req, res, next) {
                 throw err;
             }
             if (results[0] !== undefined) {
-                console.log(results);
-                result = results[0][params.attribute_name]
+                result = results[0][params.attribute_name];
+                console.log(result);
                 res.send(result.toString());
             } else {
                 console.log('there is no record of ' + params.attribute_name);
-                res.send('');
+                res.send("0");
             }
         });
 };
