@@ -51,6 +51,7 @@ let createImage=function(req, res, next) {
             }
             if (results) {
                 let result = results[0]['LAST_INSERT_ID()'];
+                res.send(result.toString());
                 console.log("generated image_id="+result);
                 let file_name = result+".jpg";
                 fs.rename(res.locals.filepath, "/var/tmp/img/" + file_name);
@@ -65,7 +66,6 @@ let createImage=function(req, res, next) {
                             console.log('exec error: ' + error);
                         }
                     });
-                res.send(result.toString())
             }else{
                 res.send("0")
             }
