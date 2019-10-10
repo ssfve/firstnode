@@ -251,7 +251,7 @@ let writeGuideDB = function (req, res, next) {
             let myObj = {};
             if (results[0] !== undefined) {
                 myObj['guide_id'] = results[0]['LAST_INSERT_ID()'];
-                myObj['guide_name'] = '我的最新一个流';
+                myObj['guide_name'] = params.guide_name;
                 myObj['root_page_id'] = 0;
                 myObj['image1_id'] = 0;
                 let guideObj = [];
