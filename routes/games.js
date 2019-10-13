@@ -10,7 +10,8 @@ let Control = require('./control');
 let util = require('util');
 let fs = require('fs');
 
-
+let getlogger = require('../log4js.js');
+let logger = getlogger('ruleFile');
 const config = require('../config.json');
 /* GET users listing. */
 let TEST_DATABASE = 'boardgames';
@@ -174,8 +175,8 @@ router.get('/selectPDFInfo', function (req, res) {
         });
 });
 
-router.post('/savePDF', function (req, res) {
-    console.log("upload started");
+let savePDF = function (req, res) {
+    logger.info("upload started");
     let form = new formidable.IncomingForm();
     form.uploadDir = config.uploadDir;
     form.keepExtensions = true;
@@ -185,13 +186,17 @@ router.post('/savePDF', function (req, res) {
     });
 
     form.on('file', function (field, file) {
+        logger.info(file.path);
+        logger.info(form.uploadDir);
+        logger.info('Going to rename pdf');
         fs.rename(file.path, form.uploadDir + "/" + file.name)
     });
 
     form.on('progress', function (bytesReceived, bytesExpected) {
         //console.log(bytesReceived + '/' + bytesExpected + ' bytes')
     });
-});
+};
+
 
 router.post('/saveTranslatePDF', function (req, res) {
     console.log("translate pdf upload started");
@@ -287,3 +292,5 @@ router.get('/saveTranslateInfo', function (req, res) {
             res.send(JSON.stringify(control));
         });
 });
+
+router.post('/savePDF', savePDF);
