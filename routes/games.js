@@ -9,6 +9,7 @@ let Text = require('./text');
 let Control = require('./control');
 let util = require('util');
 let fs = require('fs');
+let formidable = require('formidable');
 
 let getlogger = require('../log4js.js');
 let logger = getlogger('ruleFile');
