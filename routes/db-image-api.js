@@ -8,6 +8,7 @@ let database = require('./database');
 const fs = require('fs');
 let formidable = require('formidable');
 const { exec } = require('child_process');
+const config = require('../config.json');
 
 /* GET users listing. */
 let TEST_DATABASE = 'boardgames';
@@ -54,7 +55,7 @@ let createImage=function(req, res, next) {
                 res.send(result.toString());
                 console.log("generated image_id="+result);
                 let file_name = result+".jpg";
-                fs.rename(res.locals.filepath, "/var/tmp/img/" + file_name);
+                fs.rename(res.locals.filepath, config.imgDir + file_name);
                 // going to do blur
                 let command = 'python3 /home/ssfve/upload-linux/autoBlur.py ' + file_name;
                 console.log(command);
@@ -86,7 +87,6 @@ let saveButtonToPage=function (req, res, next) {
             if (err) {
                 throw err;
             }
-            res.setHeader("Access-Control-Allow-Origin", "*");
             res.send(res.locals.buttonid.toString());
         });
 };
@@ -135,7 +135,6 @@ let getPreviousPageId=function(req, res, next) {
             } else {
                 console.log('there is no record of this page_id');
             }
-            res.setHeader("Access-Control-Allow-Origin", "*");
             res.send(result.toString());
         });
 
@@ -176,7 +175,7 @@ let saveButtonInfo=function (req, res, next) {
 
 let getImageStream=function(req, res, next){
     let params = URL.parse(req.url, true).query;
-    let filePath = '/var/tmp/img/'+params.file_name;
+    let filePath = config.imgDir + params.file_name;
     console.log('file path='+filePath);
     let size = fs.statSync(filePath).size;
     console.log('file size='+size);
