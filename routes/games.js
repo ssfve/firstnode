@@ -217,19 +217,6 @@ router.post('/saveTranslatePDF', function (req, res) {
     });
 });
 
-router.get('/loadPDF', function (req, res) {
-    let params = URL.parse(req.url, true).query;
-    console.log("request to download " + params.name);
-    res.download("/var/tmp/pdf/" + params.name);
-});
-
-router.delete('/deletePDF', function (req, res) {
-    let params = URL.parse(req.url, true).query;
-    console.log("request to delete " + params.name);
-    fs.unlink("/var/tmp/pdf/" + params.name, function () {
-        res.send({status: "200", responseType: "String", response: "success"})
-    })
-});
 
 router.get('/savePDFInfo', function (req, res) {
     let control = new Control();
