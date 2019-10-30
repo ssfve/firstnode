@@ -1,5 +1,5 @@
 {
   "uploadDir":"/opt/mount/pdf-upload",
   "translateDir": "/opt/mount/pdf-translate",
-  "imgDir": "/opt/mount/img"
+  "imgDir": "/opt/mount/img/"
 }
