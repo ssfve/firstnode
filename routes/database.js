@@ -481,12 +481,32 @@ router.get('/getIfHasSubPage', function (req, res, next) {
         });
 });
 
+let getSelectorRank=function (req, res, next) {
+    let modSql = 'select mode_no from upload_pdf_table group by mode_no order by count(mode_no) desc;';
+    logger.info("in getSelectorRank");
+    let params = URL.parse(req.url, true).query;
+    let modSqlParams = [];
+
+    client.query(USE_SCHEMA);
+    client.query(modSql, modSqlParams,
+        function selectCb(err, results, fields) {
+            if (err) {
+                throw err;
+            }
+            if (results) {
+                logger.info(results);
+                res.send(JSON.stringify(results));
+            }
+        });
+};
+
 router.get('/getAttribute', [getAttribute]);
 router.get('/updateAttribute', [updateAttribute]);
 router.get('/checkRootPage', [checkRootPage, writePageDB]);
 router.get('/writePageDB', [writePageDB]);
 router.get('/saveRootPageId', [saveRootPageId]);
 router.get('/savePageId', [getPageList, appendPageId, savePageList]);
+router.get('/getSelectorRank', [getSelectorRank]);
 
 module.exports = {
     router,
