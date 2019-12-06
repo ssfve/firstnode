@@ -217,15 +217,14 @@ router.post('/saveTranslatePDF', function (req, res) {
     });
 });
 
-
-router.get('/savePDFInfo', function (req, res) {
+let savePDFInfo=function (req, res) {
     let control = new Control();
     let params = URL.parse(req.url, true).query;
     client.query("use " + TEST_DATABASE);
     //console.log(params.gstone_id);
-    let modSql = 'INSERT INTO upload_pdf_table (mode_no,source_detail,gstone_id)' +
-        ' values (?,?,?)';
-    let modSqlParams = [params.mod_name, params.source_detail, params.gstone_id];
+    let modSql = 'INSERT INTO upload_pdf_table (mode_no,source_detail,gstone_id,cover_bit)' +
+        ' values (?,?,?,?)';
+    let modSqlParams = [params.mod_name, params.source_detail, params.gstone_id, params.cover_bit];
 
     client.query(modSql, modSqlParams,
         function selectCb(err, results) {
@@ -237,7 +236,7 @@ router.get('/savePDFInfo', function (req, res) {
             }
             res.send(JSON.stringify(control));
         });
-});
+};
 
 router.get('/approvePDFInfo', function (req, res) {
     let control = new Control();
@@ -281,4 +280,5 @@ router.get('/saveTranslateInfo', function (req, res) {
         });
 });
 
+router.get('/savePDFInfo', [savePDFInfo]);
 router.post('/savePDF', savePDF);
