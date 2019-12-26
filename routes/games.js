@@ -223,7 +223,7 @@ let savePDFInfo = function (req, res) {
     client.query("use " + TEST_DATABASE);
     //console.log(params.gstone_id);
     let modSql = 'INSERT INTO upload_pdf_table (mode_no,source_detail,gstone_id,cover_bit)' +
-        ' values (?,?,?)';
+        ' values (?,?,?,?)';
     let modSqlParams = [params.mod_name, params.source_detail, params.gstone_id, params.cover_bit];
 
     client.query(modSql, modSqlParams,
